@@ -1,0 +1,19 @@
+## Interface: 30402
+## Title: Safeguard
+## Notes: Provides functionality to help survive in Hardcore.
+## Author: Tollski
+## Version: 1.0.0
+## SavedVariables: SAFEGUARD_SETTINGS
+
+Enum.lua
+FlashFrame.lua
+HelperFunctions.lua
+IntervalManager.lua
+MessageManager.lua
+NotificationManager.lua
+Options.lua
+PlayerStates.lua
+RaidFramesManager.lua
+UnitHelperFunctions.lua
+
+Main.lua

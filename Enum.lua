@@ -1,0 +1,28 @@
+ThhEnum = {
+  AddonMessageType = {
+    AddonInfo = 0,
+    Heartbeat = 1,
+    PlayerConnectionCheck = 2,
+    EnteredCombat = 11,
+    ExitedCombat = 12,
+    LoggingOut = 13,
+    LogoutCancelled = 14,
+    HealthLow = 15,
+    HealthCriticallyLow = 16,
+    SpellCastStarted = 17,
+    SpellCastInterrupted = 18,
+  },
+  NotificationType = {
+    PlayerDisconnected = 1,
+    PlayerReconnected = 2,
+    PlayerOffline = 3,
+    EnteredCombat = 11,
+    LoggingOut = 13,
+    LogoutCancelled = 14,
+    HealthLow = 15,
+    HealthCriticallyLow = 16,
+    SpellCastStarted = 17,
+    SpellCastInterrupted = 18,
+    AuraApplied = 20,
+  },
+}
