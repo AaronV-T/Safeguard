@@ -9,7 +9,7 @@ if ($addonVersionVanilla -ne $addonVersionWotlk) {
 
 $outputDirectoryPath = ".\Deploys"
 $outputFileName = "Safeguard_$addonVersionVanilla"
-if ((git branch).IndexOf("* master") -lt 0 -or (git status --porcelain).length -ne 0) {
+if ((git branch).IndexOf("* main") -lt 0 -or (git status --porcelain).length -ne 0) {
   Write-Host "You are on a development branch or have uncommited changes."
   $currentDateTime = Get-Date -Format "yyyy-MM-dd-HH-mm-ss"
   $outputFileName = "$outputFileName-dev-$currentDateTime"
