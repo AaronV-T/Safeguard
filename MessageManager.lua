@@ -1,5 +1,5 @@
 Safeguard_MessageManager = {
-  AddonMessagePrefix = "TsHardcoreHelper",
+  AddonMessagePrefix = "Safeguard",
   SentMessageTimestamps = {},
 }
 

@@ -1,8 +1,8 @@
 ## Interface: 11404
 ## Title: Safeguard
-## Notes: Provides functionality to help survive in Hardcore.
+## Notes: Help players stay alive.
 ## Author: Tollski
-## Version: 1.0.0
+## Version: 1.0.1
 ## SavedVariables: SAFEGUARD_SETTINGS
 
 Enum.lua
