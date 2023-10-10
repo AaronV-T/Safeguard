@@ -27,12 +27,12 @@ function NM:ShowNotificationToPlayer(playerWhoNotified, notificationType, arg1)
   local g = 1.000
   local b = 1.000
   UIErrorsFrame:AddMessage(notification, r, g, b)
-  --print("[THH] " .. notification)
+  --print("[Safeguard] " .. notification)
   table.insert(Safeguard_EventManager.DebugLogs, string.format("%d - Notification: %s", time(), notification))
 end
 
 function NM:GetNotification(playerWhoNotified, notificationType, arg1)
-  if (notificationType == ThhEnum.NotificationType.PlayerDisconnected) then
+  if (notificationType == SgEnum.NotificationType.PlayerDisconnected) then
     local prefix
     if (arg1 == UnitGUID("player")) then
       if (not Safeguard_Settings.Options.EnableTextNotificationsConnectionSelf) then
@@ -51,7 +51,7 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     return string.format("%s disconnected.", prefix)
   end
 
-  if (notificationType == ThhEnum.NotificationType.PlayerReconnected) then
+  if (notificationType == SgEnum.NotificationType.PlayerReconnected) then
     local prefix
     if (arg1 == UnitGUID("player")) then
       if (not Safeguard_Settings.Options.EnableTextNotificationsConnectionSelf) then
@@ -70,7 +70,7 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     return string.format("%s reconnected.", prefix)
   end
 
-  if (notificationType == ThhEnum.NotificationType.PlayerOffline) then
+  if (notificationType == SgEnum.NotificationType.PlayerOffline) then
     if (not Safeguard_Settings.Options.EnableTextNotificationsConnectionGroup) then
       return nil
     end
@@ -78,7 +78,7 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     return string.format("%s has gone offline.", UnitHelperFunctions.FindUnitNameByUnitGuid(arg1))
   end
 
-  if (notificationType == ThhEnum.NotificationType.EnteredCombat) then
+  if (notificationType == SgEnum.NotificationType.EnteredCombat) then
     local prefix
     if (playerWhoNotified == UnitName("player")) then
       if (not Safeguard_Settings.Options.EnableTextNotificationsCombatSelf) then
@@ -95,7 +95,7 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     return string.format("%s entered combat.", prefix)
   end
 
-  if (notificationType == ThhEnum.NotificationType.LoggingOut) then
+  if (notificationType == SgEnum.NotificationType.LoggingOut) then
     if (not Safeguard_Settings.Options.EnableTextNotificationsLogout or UnitInRaid("player")) then
       return nil
     end
@@ -103,7 +103,7 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     return string.format("%s is logging out.", playerWhoNotified)
   end
 
-  if (notificationType == ThhEnum.NotificationType.LogoutCancelled) then
+  if (notificationType == SgEnum.NotificationType.LogoutCancelled) then
     if (not Safeguard_Settings.Options.EnableTextNotificationsLogout or UnitInRaid("player")) then
       return nil
     end
@@ -111,7 +111,7 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     return string.format("%s has stopped logging out.", playerWhoNotified)
   end
 
-  if (notificationType == ThhEnum.NotificationType.HealthLow) then
+  if (notificationType == SgEnum.NotificationType.HealthLow) then
     local prefix
     if (playerWhoNotified == UnitName("player")) then 
       if (not Safeguard_Settings.Options.EnableTextNotificationsLowHealthSelf) then
@@ -130,7 +130,7 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     return string.format("%s health is low.", prefix)
   end
 
-  if (notificationType == ThhEnum.NotificationType.HealthCriticallyLow) then
+  if (notificationType == SgEnum.NotificationType.HealthCriticallyLow) then
     local prefix
     if (playerWhoNotified == UnitName("player")) then
       if (not Safeguard_Settings.Options.EnableTextNotificationsLowHealthSelf) then
@@ -149,7 +149,7 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     return string.format("%s health is critically low.", prefix)
   end
 
-  if (notificationType == ThhEnum.NotificationType.SpellCastStarted) then
+  if (notificationType == SgEnum.NotificationType.SpellCastStarted) then
     if (not Safeguard_Settings.Options.EnableTextNotificationsSpellcasts or UnitInRaid("player")) then
       return nil
     end
@@ -157,7 +157,7 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     return string.format("%s is casting %s.", playerWhoNotified, arg1)
   end
 
-  if (notificationType == ThhEnum.NotificationType.SpellCastInterrupted) then
+  if (notificationType == SgEnum.NotificationType.SpellCastInterrupted) then
     if (not Safeguard_Settings.Options.EnableTextNotificationsSpellcasts or UnitInRaid("player")) then
       return nil
     end
@@ -165,7 +165,7 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     return string.format("%s's %s cast has been stopped.", playerWhoNotified, arg1)
   end
   
-  if (notificationType == ThhEnum.NotificationType.AuraApplied) then
+  if (notificationType == SgEnum.NotificationType.AuraApplied) then
     local prefix
     if (playerWhoNotified == UnitName("player")) then
       if (not Safeguard_Settings.Options.EnableTextNotificationsAurasSelf) then
@@ -182,34 +182,34 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     return string.format("%s affected by %s.", prefix, arg1)
   end
 
-  print("[THH] No notification for notification type " .. tostring(notificationType))
+  print("[Safeguard] No notification for notification type " .. tostring(notificationType))
   return nil
 end
 
 function NM:ConvertAddonMessageTypeToNotificationType(addonMessageType)
-  if (addonMessageType == ThhEnum.AddonMessageType.PlayerDisconnected) then
-    return ThhEnum.NotificationType.PlayerDisconnected
+  if (addonMessageType == SgEnum.AddonMessageType.PlayerDisconnected) then
+    return SgEnum.NotificationType.PlayerDisconnected
   end
-  if (addonMessageType == ThhEnum.AddonMessageType.EnteredCombat) then
-    return ThhEnum.NotificationType.EnteredCombat
+  if (addonMessageType == SgEnum.AddonMessageType.EnteredCombat) then
+    return SgEnum.NotificationType.EnteredCombat
   end
-  if (addonMessageType == ThhEnum.AddonMessageType.LoggingOut) then
-    return ThhEnum.NotificationType.LoggingOut
+  if (addonMessageType == SgEnum.AddonMessageType.LoggingOut) then
+    return SgEnum.NotificationType.LoggingOut
   end
-  if (addonMessageType == ThhEnum.AddonMessageType.LogoutCancelled) then
-    return ThhEnum.NotificationType.LogoutCancelled
+  if (addonMessageType == SgEnum.AddonMessageType.LogoutCancelled) then
+    return SgEnum.NotificationType.LogoutCancelled
   end
-  if (addonMessageType == ThhEnum.AddonMessageType.HealthLow) then
-    return ThhEnum.NotificationType.HealthLow
+  if (addonMessageType == SgEnum.AddonMessageType.HealthLow) then
+    return SgEnum.NotificationType.HealthLow
   end
-  if (addonMessageType == ThhEnum.AddonMessageType.HealthCriticallyLow) then
-    return ThhEnum.NotificationType.HealthCriticallyLow
+  if (addonMessageType == SgEnum.AddonMessageType.HealthCriticallyLow) then
+    return SgEnum.NotificationType.HealthCriticallyLow
   end
-  if (addonMessageType == ThhEnum.AddonMessageType.SpellCastStarted) then
-    return ThhEnum.NotificationType.SpellCastStarted
+  if (addonMessageType == SgEnum.AddonMessageType.SpellCastStarted) then
+    return SgEnum.NotificationType.SpellCastStarted
   end
-  if (addonMessageType == ThhEnum.AddonMessageType.SpellCastInterrupted) then
-    return ThhEnum.NotificationType.SpellCastInterrupted
+  if (addonMessageType == SgEnum.AddonMessageType.SpellCastInterrupted) then
+    return SgEnum.NotificationType.SpellCastInterrupted
   end
 
   return nil

@@ -36,51 +36,51 @@ function RFM:UpdateRaidFrame(frame)
   local guid = UnitGUID(frame.unit)
   if (not guid) then return end
 
-  if (not frame.ThhIconsContainerFrame) then RFM:SetupRaidFrameIcons(frame) end
+  if (not frame.SgIconsContainerFrame) then RFM:SetupRaidFrameIcons(frame) end
 
   if (not Safeguard_PlayerStates[guid] or not Safeguard_Settings.Options.ShowIconsOnRaidFrames) then
-    if (frame.ThhIconsContainerFrame.ConnectedIcon:IsShown()) then frame.ThhIconsContainerFrame.ConnectedIcon:Hide() end
-    if (frame.ThhIconsContainerFrame.DisconnectedIcon:IsShown()) then frame.ThhIconsContainerFrame.DisconnectedIcon:Hide() end
-    if (frame.ThhIconsContainerFrame.InCombatIcon:IsShown()) then frame.ThhIconsContainerFrame.InCombatIcon:Hide() end
+    if (frame.SgIconsContainerFrame.ConnectedIcon:IsShown()) then frame.SgIconsContainerFrame.ConnectedIcon:Hide() end
+    if (frame.SgIconsContainerFrame.DisconnectedIcon:IsShown()) then frame.SgIconsContainerFrame.DisconnectedIcon:Hide() end
+    if (frame.SgIconsContainerFrame.InCombatIcon:IsShown()) then frame.SgIconsContainerFrame.InCombatIcon:Hide() end
 
     return
   end
 
-  if (not frame.ThhIconsContainerFrame:IsShown()) then frame.ThhIconsContainerFrame:Show() end
+  if (not frame.SgIconsContainerFrame:IsShown()) then frame.SgIconsContainerFrame:Show() end
 
   if (not Safeguard_PlayerStates[guid].ConnectionInfo) then
-    if (frame.ThhIconsContainerFrame.ConnectedIcon:IsShown()) then frame.ThhIconsContainerFrame.ConnectedIcon:Hide() end
-    if (frame.ThhIconsContainerFrame.DisconnectedIcon:IsShown()) then frame.ThhIconsContainerFrame.DisconnectedIcon:Hide() end
+    if (frame.SgIconsContainerFrame.ConnectedIcon:IsShown()) then frame.SgIconsContainerFrame.ConnectedIcon:Hide() end
+    if (frame.SgIconsContainerFrame.DisconnectedIcon:IsShown()) then frame.SgIconsContainerFrame.DisconnectedIcon:Hide() end
   else
     if (Safeguard_PlayerStates[guid].ConnectionInfo.IsConnected) then
-      if (not frame.ThhIconsContainerFrame.ConnectedIcon:IsShown()) then frame.ThhIconsContainerFrame.ConnectedIcon:Show() end
-      if (frame.ThhIconsContainerFrame.DisconnectedIcon:IsShown()) then frame.ThhIconsContainerFrame.DisconnectedIcon:Hide() end
+      if (not frame.SgIconsContainerFrame.ConnectedIcon:IsShown()) then frame.SgIconsContainerFrame.ConnectedIcon:Show() end
+      if (frame.SgIconsContainerFrame.DisconnectedIcon:IsShown()) then frame.SgIconsContainerFrame.DisconnectedIcon:Hide() end
     else
-      if (frame.ThhIconsContainerFrame.ConnectedIcon:IsShown()) then frame.ThhIconsContainerFrame.ConnectedIcon:Hide() end
-      if (not frame.ThhIconsContainerFrame.DisconnectedIcon:IsShown()) then frame.ThhIconsContainerFrame.DisconnectedIcon:Show() end
+      if (frame.SgIconsContainerFrame.ConnectedIcon:IsShown()) then frame.SgIconsContainerFrame.ConnectedIcon:Hide() end
+      if (not frame.SgIconsContainerFrame.DisconnectedIcon:IsShown()) then frame.SgIconsContainerFrame.DisconnectedIcon:Show() end
     end
   end
 
   if (Safeguard_PlayerStates[guid].IsInCombat) then
-    if (not frame.ThhIconsContainerFrame.InCombatIcon:IsShown()) then frame.ThhIconsContainerFrame.InCombatIcon:Show() end
+    if (not frame.SgIconsContainerFrame.InCombatIcon:IsShown()) then frame.SgIconsContainerFrame.InCombatIcon:Show() end
   else
-    if (frame.ThhIconsContainerFrame.InCombatIcon:IsShown()) then frame.ThhIconsContainerFrame.InCombatIcon:Hide() end
+    if (frame.SgIconsContainerFrame.InCombatIcon:IsShown()) then frame.SgIconsContainerFrame.InCombatIcon:Hide() end
   end
 end
 
 function RFM:SetupRaidFrameIcons(frame)
-  frame.ThhIconsContainerFrame = CreateFrame("Frame", nil, frame)
+  frame.SgIconsContainerFrame = CreateFrame("Frame", nil, frame)
 
   -- ConnectedIcon
-  frame.ThhIconsContainerFrame.ConnectedIcon = CreateFrame("Frame", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
-  frame.ThhIconsContainerFrame.ConnectedIcon:SetPoint("TOPLEFT", frame, 2, -2)
-  frame.ThhIconsContainerFrame.ConnectedIcon:SetSize(6, 6)
+  frame.SgIconsContainerFrame.ConnectedIcon = CreateFrame("Frame", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
+  frame.SgIconsContainerFrame.ConnectedIcon:SetPoint("TOPLEFT", frame, 2, -2)
+  frame.SgIconsContainerFrame.ConnectedIcon:SetSize(6, 6)
   
-  frame.ThhIconsContainerFrame.ConnectedIcon.Texture = frame.ThhIconsContainerFrame.ConnectedIcon:CreateTexture()
-  frame.ThhIconsContainerFrame.ConnectedIcon.Texture:SetAllPoints()
-  frame.ThhIconsContainerFrame.ConnectedIcon.Texture:SetColorTexture(0, 1, 0)
+  frame.SgIconsContainerFrame.ConnectedIcon.Texture = frame.SgIconsContainerFrame.ConnectedIcon:CreateTexture()
+  frame.SgIconsContainerFrame.ConnectedIcon.Texture:SetAllPoints()
+  frame.SgIconsContainerFrame.ConnectedIcon.Texture:SetColorTexture(0, 1, 0)
 
-  frame.ThhIconsContainerFrame.ConnectedIcon:SetScript("OnEnter", function(self, button)
+  frame.SgIconsContainerFrame.ConnectedIcon:SetScript("OnEnter", function(self, button)
     GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
     GameTooltip:ClearAllPoints();
     GameTooltip:SetPoint("TOPRIGHT", frame.ConnectedIcon, "BOTTOMRIGHT", 0, 0)
@@ -90,23 +90,23 @@ function RFM:SetupRaidFrameIcons(frame)
     GameTooltip:Show()
   end)
 
-  frame.ThhIconsContainerFrame.ConnectedIcon:SetScript("OnLeave", function(self, button)
+  frame.SgIconsContainerFrame.ConnectedIcon:SetScript("OnLeave", function(self, button)
     GameTooltip:Hide()
   end)
 
   --icon:SetFrameLevel(999)
-  frame.ThhIconsContainerFrame.ConnectedIcon:Hide()
+  frame.SgIconsContainerFrame.ConnectedIcon:Hide()
 
   -- DisconnectedIcon
-  frame.ThhIconsContainerFrame.DisconnectedIcon = CreateFrame("Frame", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
-  frame.ThhIconsContainerFrame.DisconnectedIcon:SetPoint("TOPLEFT", frame, 2, -2)
-  frame.ThhIconsContainerFrame.DisconnectedIcon:SetSize(6, 6)
+  frame.SgIconsContainerFrame.DisconnectedIcon = CreateFrame("Frame", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
+  frame.SgIconsContainerFrame.DisconnectedIcon:SetPoint("TOPLEFT", frame, 2, -2)
+  frame.SgIconsContainerFrame.DisconnectedIcon:SetSize(6, 6)
   
-  frame.ThhIconsContainerFrame.DisconnectedIcon.Texture = frame.ThhIconsContainerFrame.DisconnectedIcon:CreateTexture()
-  frame.ThhIconsContainerFrame.DisconnectedIcon.Texture:SetAllPoints()
-  frame.ThhIconsContainerFrame.DisconnectedIcon.Texture:SetColorTexture(1, 0, 0)
+  frame.SgIconsContainerFrame.DisconnectedIcon.Texture = frame.SgIconsContainerFrame.DisconnectedIcon:CreateTexture()
+  frame.SgIconsContainerFrame.DisconnectedIcon.Texture:SetAllPoints()
+  frame.SgIconsContainerFrame.DisconnectedIcon.Texture:SetColorTexture(1, 0, 0)
 
-  frame.ThhIconsContainerFrame.DisconnectedIcon:SetScript("OnEnter", function(self, button)
+  frame.SgIconsContainerFrame.DisconnectedIcon:SetScript("OnEnter", function(self, button)
     GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
     GameTooltip:ClearAllPoints();
     GameTooltip:SetPoint("TOPRIGHT", frame.DisconnectedIcon, "BOTTOMRIGHT", 0, 0)
@@ -116,20 +116,20 @@ function RFM:SetupRaidFrameIcons(frame)
     GameTooltip:Show()
   end)
 
-  frame.ThhIconsContainerFrame.DisconnectedIcon:SetScript("OnLeave", function(self, button)
+  frame.SgIconsContainerFrame.DisconnectedIcon:SetScript("OnLeave", function(self, button)
     GameTooltip:Hide()
   end)
 
   --icon:SetFrameLevel(999)
-  frame.ThhIconsContainerFrame.DisconnectedIcon:Hide()
+  frame.SgIconsContainerFrame.DisconnectedIcon:Hide()
 
   -- InCombatIcon
-  frame.ThhIconsContainerFrame.InCombatIcon = CreateFrame("Frame", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
-  frame.ThhIconsContainerFrame.InCombatIcon:SetPoint("TOPLEFT", frame, 8, -2)
-  frame.ThhIconsContainerFrame.InCombatIcon:SetSize(6, 6)
-  frame.ThhIconsContainerFrame.InCombatIcon:SetBackdrop({bgFile = "Interface\\Icons\\ability_warrior_challange"})
+  frame.SgIconsContainerFrame.InCombatIcon = CreateFrame("Frame", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
+  frame.SgIconsContainerFrame.InCombatIcon:SetPoint("TOPLEFT", frame, 8, -2)
+  frame.SgIconsContainerFrame.InCombatIcon:SetSize(6, 6)
+  frame.SgIconsContainerFrame.InCombatIcon:SetBackdrop({bgFile = "Interface\\Icons\\ability_warrior_challange"})
 
-  frame.ThhIconsContainerFrame.InCombatIcon:SetScript("OnEnter", function(self, button)
+  frame.SgIconsContainerFrame.InCombatIcon:SetScript("OnEnter", function(self, button)
     GameTooltip_SetDefaultAnchor(GameTooltip, UIParent)
     GameTooltip:ClearAllPoints();
     GameTooltip:SetPoint("TOPRIGHT", frame.InCombatIcon, "BOTTOMRIGHT", 0, 0)
@@ -139,12 +139,12 @@ function RFM:SetupRaidFrameIcons(frame)
     GameTooltip:Show()
   end)
 
-  frame.ThhIconsContainerFrame.InCombatIcon:SetScript("OnLeave", function(self, button)
+  frame.SgIconsContainerFrame.InCombatIcon:SetScript("OnLeave", function(self, button)
     GameTooltip:Hide()
   end)
 
   --icon:SetFrameLevel(999)
-  frame.ThhIconsContainerFrame.InCombatIcon:Hide()
+  frame.SgIconsContainerFrame.InCombatIcon:Hide()
 end
 
 

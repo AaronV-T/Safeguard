@@ -94,25 +94,25 @@ function EM.EventHandlers.COMBAT_LOG_EVENT_UNFILTERED(self)
   if (event == "SPELL_AURA_APPLIED") then
     local amount, auraType = select(12, CombatLogGetCurrentEventInfo())
     if (AurasToNotify[auraType]) then
-      Safeguard_NotificationManager:ShowNotificationToPlayer(destName, ThhEnum.NotificationType.AuraApplied, auraType)
+      Safeguard_NotificationManager:ShowNotificationToPlayer(destName, SgEnum.NotificationType.AuraApplied, auraType)
     end
   elseif (event == "SPELL_CAST_FAILED") then
     -- Note: SPELL_CAST_FAILED events are not triggered for other players' failed spell casts.
     local _, spellName = select(12, CombatLogGetCurrentEventInfo())
     if (SpellsToNotifyOnCastStart[spellName]) then
       if (sourceGuid == UnitGUID("player") and UnitInParty("player")) then
-        MessageManager:SendMessageToGroup(ThhEnum.AddonMessageType.SpellCastInterrupted, spellName)
+        MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.SpellCastInterrupted, spellName)
       end
     end
   elseif (event == "SPELL_CAST_START") then
     local _, spellName = select(12, CombatLogGetCurrentEventInfo())
     if (SpellsToNotifyOnCastStart[spellName]) then
       if (sourceGuid == UnitGUID("player") and UnitInParty("player")) then
-        MessageManager:SendMessageToGroup(ThhEnum.AddonMessageType.SpellCastStarted, spellName)
+        MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.SpellCastStarted, spellName)
       end
       
       if (sourceGuid ~= UnitGUID("player") and UnitHelperFunctions.IsUnitGuidInOurPartyOrRaid(sourceGuid)) then
-        Safeguard_NotificationManager:ShowNotificationToPlayer(sourceName, ThhEnum.NotificationType.SpellCastStarted, spellName)
+        Safeguard_NotificationManager:ShowNotificationToPlayer(sourceName, SgEnum.NotificationType.SpellCastStarted, spellName)
       end
     end
   end
@@ -125,10 +125,38 @@ function EM.EventHandlers.GROUP_ROSTER_UPDATE(self)
 
   local playerIsInParty = UnitInParty("player")
   if (playerIsInParty and playerIsInParty ~= playerWasInParty) then
-    MessageManager:SendMessageToGroup(ThhEnum.AddonMessageType.AddonInfo, GetAddOnMetadata("Safeguard", "Version"))
+    MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.AddonInfo, GetAddOnMetadata("Safeguard", "Version"))
   end
 
   playerWasInParty = playerIsInParty
+end
+
+function EM.EventHandlers.LOSS_OF_CONTROL_ADDED(self, unitId, effectIndex)
+  --print("LOSS_OF_CONTROL_ADDED." .. tostring(unitId) .. "," .. tostring(effectIndex))
+  local lossOfControlData = C_LossOfControl.GetActiveLossOfControlDataByUnit(unitId, effectIndex)
+  --Safeguard_HelperFunctions.PrintKeysAndValuesFromTable(lossOfControlData)
+
+  local locType = lossOfControlData.locType
+  if (lossOfControlData.locType == "CONFUSE") then
+    locType = "confused"
+  elseif (lossOfControlData.locType == "DISARM") then
+    locType = "disarmed"
+  elseif (lossOfControlData.locType == "ROOT") then
+    locType = "rooted"
+  elseif (lossOfControlData.locType == "SCHOOL_INTERRUPT") then
+    local school = GetSchoolString(lossOfControlData.lockoutSchool)
+    locType = string.format("%s-locked", school)
+  elseif (lossOfControlData.locType == "SILENCE") then
+    locType = "silenced"
+  elseif (lossOfControlData.locType == "STUN_MECHANIC") then
+    locType = "stunned"
+  end
+
+  if (lossOfControlData.timeRemaining ~= nil) then
+    print(string.format("You are %s for %ds.", locType, lossOfControlData.timeRemaining))
+  else
+    print(string.format("You are %s.", locType))
+  end
 end
 
 function EM.EventHandlers.PLAYER_ENTERING_WORLD(self, isLogin, isReload)
@@ -158,14 +186,14 @@ end
 function EM.EventHandlers.PLAYER_REGEN_DISABLED(self)
   --print("PLAYER_REGEN_DISABLED")
 
-  MessageManager:SendMessageToGroup(ThhEnum.AddonMessageType.EnteredCombat)
-  Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), ThhEnum.NotificationType.EnteredCombat)
+  MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.EnteredCombat)
+  Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), SgEnum.NotificationType.EnteredCombat)
 end
 
 function EM.EventHandlers.PLAYER_REGEN_ENABLED(self)
   --print("PLAYER_REGEN_ENABLED")
 
-  MessageManager:SendMessageToGroup(ThhEnum.AddonMessageType.ExitedCombat)
+  MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.ExitedCombat)
 end
 
 function EM.EventHandlers.UNIT_COMBAT(self, unitId, action, ind, dmg, dmgType)
@@ -206,7 +234,7 @@ function EM.EventHandlers.UNIT_HEALTH(self, unitId)
 
   if (newHealthStatus == 1 and health > 0) then
     if (Safeguard_Settings.Options.EnableLowHealthAlertTextNotifications) then
-      Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName(unitId), ThhEnum.NotificationType.HealthCriticallyLow, math.floor(healthPercentage * 100))
+      Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName(unitId), SgEnum.NotificationType.HealthCriticallyLow, math.floor(healthPercentage * 100))
     end
 
     if (updateIsForPlayer) then
@@ -214,7 +242,7 @@ function EM.EventHandlers.UNIT_HEALTH(self, unitId)
         self:PlaySound("alert2")
       end
 
-      MessageManager:SendMessageToGroup(ThhEnum.AddonMessageType.HealthCriticallyLow, math.floor(healthPercentage * 100))
+      MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.HealthCriticallyLow, math.floor(healthPercentage * 100))
 
       if (Safeguard_Settings.Options.EnableLowHealthAlertScreenFlashing) then
         Safeguard_FlashFrame:PlayAnimation(9999, 1.5, 1.0)
@@ -223,7 +251,7 @@ function EM.EventHandlers.UNIT_HEALTH(self, unitId)
   elseif (newHealthStatus == 2) then
     if (oldHealthStatus == nil or oldHealthStatus > newHealthStatus) then
       if (Safeguard_Settings.Options.EnableLowHealthAlertTextNotifications) then
-        Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName(unitId), ThhEnum.NotificationType.HealthLow, math.floor(healthPercentage * 100))
+        Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName(unitId), SgEnum.NotificationType.HealthLow, math.floor(healthPercentage * 100))
       end
       
       if (updateIsForPlayer) then
@@ -231,7 +259,7 @@ function EM.EventHandlers.UNIT_HEALTH(self, unitId)
           self:PlaySound("alert3")
         end
 
-        MessageManager:SendMessageToGroup(ThhEnum.AddonMessageType.HealthLow, math.floor(healthPercentage * 100))
+        MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.HealthLow, math.floor(healthPercentage * 100))
       end
     end
 
@@ -253,21 +281,21 @@ end
 hooksecurefunc("CancelLogout", function()
 	--print("CancelLogout")
 
-  MessageManager:SendMessageToGroup(ThhEnum.AddonMessageType.LogoutCancelled)
+  MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.LogoutCancelled)
 end)
 
 hooksecurefunc("Logout", function()
 	--print("Logout")
   if (UnitAffectingCombat("player")) then return end
 
-  MessageManager:SendMessageToGroup(ThhEnum.AddonMessageType.LoggingOut)
+  MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.LoggingOut)
 end)
 
 hooksecurefunc("Quit", function()
 	--print("Quit")
   if (UnitAffectingCombat("player")) then return end
 
-  MessageManager:SendMessageToGroup(ThhEnum.AddonMessageType.LoggingOut)
+  MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.LoggingOut)
 end)
 
 GameTooltip:HookScript("OnTooltipSetUnit", function(self)
@@ -286,14 +314,14 @@ EM.Frame:SetScript("OnEvent", function(_, event, ...) EM:OnEvent(_, event, ...) 
 
 -- function EM:GetPlayerRelationship(unitId)
 --   if (unitId == "player") then
---     return ThhEnum.PlayerRelationshipType.Player
+--     return SgEnum.PlayerRelationshipType.Player
 --   end
 
 --   if (unitId:match("party")) then
---     return ThhEnum.PlayerRelationshipType.Party
+--     return SgEnum.PlayerRelationshipType.Party
 --   end
 
---   return ThhEnum.PlayerRelationshipType.None
+--   return SgEnum.PlayerRelationshipType.None
 -- end
 
 function EM:PlaySound(soundFile)
@@ -345,7 +373,7 @@ end
 
 local testNum = 1
 function EM:Test()
-  print("[THH] Test")
+  print("[Safeguard] Test")
 
   -- print(UnitDetailedThreatSituation("player", "target"))
   -- local possibleEnemyUnitIds = UnitHelperFunctions.GetPossibleEnemyUnitIds()

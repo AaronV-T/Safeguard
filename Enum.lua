@@ -1,4 +1,4 @@
-ThhEnum = {
+SgEnum = {
   AddonMessageType = {
     AddonInfo = 0,
     Heartbeat = 1,

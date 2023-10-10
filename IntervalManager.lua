@@ -27,7 +27,7 @@ function IM:CheckCombatInterval()
           shouldUpdateRaidFrames = true
 
           if (isInCombat) then
-            Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName(groupUnitIds[i]), ThhEnum.NotificationType.EnteredCombat)
+            Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName(groupUnitIds[i]), SgEnum.NotificationType.EnteredCombat)
           end
         end
 
@@ -58,7 +58,7 @@ function IM:CheckGroupConnectionsInterval()
           Safeguard_PlayerStates[guid]) then
         Safeguard_PlayerStates[guid] = nil
         Safeguard_RaidFramesManager:UpdateRaidFrames()
-        Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), ThhEnum.NotificationType.PlayerOffline, guid)
+        Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), SgEnum.NotificationType.PlayerOffline, guid)
       end
 
       if (guid and
@@ -66,7 +66,7 @@ function IM:CheckGroupConnectionsInterval()
           Safeguard_PlayerStates[guid].ConnectionInfo and
           GetTime() - Safeguard_PlayerStates[guid].ConnectionInfo.LastMessageTimestamp > 13 and
           Safeguard_PlayerStates[guid].ConnectionInfo.IsConnected == true) then
-        Safeguard_MessageManager:SendMessageToGroup(ThhEnum.AddonMessageType.PlayerConnectionCheck, guid)
+        Safeguard_MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.PlayerConnectionCheck, guid)
 
         if (guid == playerGuid) then
           C_Timer.After(1, function()
@@ -89,7 +89,7 @@ function IM:CheckPlayerConnectionAndMarkIfDisconnected(guid)
       Safeguard_PlayerStates[guid].ConnectionInfo.IsConnected == true) then
     Safeguard_PlayerStates[guid].ConnectionInfo.IsConnected = false
     Safeguard_RaidFramesManager:UpdateRaidFrames()
-    Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), ThhEnum.NotificationType.PlayerDisconnected, guid)
+    Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), SgEnum.NotificationType.PlayerDisconnected, guid)
   end
 end
 

@@ -31,7 +31,7 @@ function MM:OnChatMessageAddonEvent(prefix, text, channel, sender, target, zoneC
     shouldUpdateRaidFrames = true
   else
     if (not Safeguard_PlayerStates[senderGuid].ConnectionInfo.IsConnected) then
-      Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), ThhEnum.NotificationType.PlayerReconnected, senderGuid)
+      Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), SgEnum.NotificationType.PlayerReconnected, senderGuid)
       shouldUpdateRaidFrames = true
 
       if (senderUnitId == "player") then -- If the player was disconnected, act like all other players in the group had been connected the whole time.
@@ -50,17 +50,17 @@ function MM:OnChatMessageAddonEvent(prefix, text, channel, sender, target, zoneC
   local addonMessageType, arg1 = strsplit("!", text, 2)
   addonMessageType = tonumber(addonMessageType)
 
-  if (addonMessageType == ThhEnum.AddonMessageType.Heartbeat) then
+  if (addonMessageType == SgEnum.AddonMessageType.Heartbeat) then
     local isInCombat = Safeguard_HelperFunctions.NumberToBool(tonumber(arg1))
     shouldUpdateRaidFrames = shouldUpdateRaidFrames or Safeguard_PlayerStates[senderGuid].IsInCombat ~= isInCombat
     Safeguard_PlayerStates[senderGuid].IsInCombat = isInCombat
-  elseif (addonMessageType == ThhEnum.AddonMessageType.EnteredCombat) then
+  elseif (addonMessageType == SgEnum.AddonMessageType.EnteredCombat) then
     shouldUpdateRaidFrames = shouldUpdateRaidFrames or Safeguard_PlayerStates[senderGuid].IsInCombat ~= true
     Safeguard_PlayerStates[senderGuid].IsInCombat = true
-  elseif (addonMessageType == ThhEnum.AddonMessageType.ExitedCombat) then
+  elseif (addonMessageType == SgEnum.AddonMessageType.ExitedCombat) then
     shouldUpdateRaidFrames = shouldUpdateRaidFrames or Safeguard_PlayerStates[senderGuid].IsInCombat ~= false
     Safeguard_PlayerStates[senderGuid].IsInCombat = false
-  elseif (addonMessageType == ThhEnum.AddonMessageType.PlayerConnectionCheck) then
+  elseif (addonMessageType == SgEnum.AddonMessageType.PlayerConnectionCheck) then
     if (arg1 == UnitGUID("player")) then
       self:SendHeartbeatMessage()
     end
@@ -96,7 +96,7 @@ function MM:SendMessageToGroup(addonMessageType, arg1)
   if (UnitInParty("player") or UnitInRaid("player")) then
     if (Safeguard_Settings.Options.EnableChatMessages) then
       local chatMessage = self:ConvertAddonMessageToChatMessage(addonMessageType, arg1)
-      if (chatMessage) then SendChatMessage("[THH] " .. chatMessage, "PARTY") end
+      if (chatMessage) then SendChatMessage("[Safeguard] " .. chatMessage, "PARTY") end
     end
 
     addonMessageChatType = "RAID"
@@ -116,19 +116,19 @@ end
 --
 
 function MM:ConvertAddonMessageToChatMessage(addonMessageType, arg1)
-  if (addonMessageType == ThhEnum.AddonMessageType.LoggingOut and Safeguard_Settings.Options.EnableChatMessagesLogout) then
+  if (addonMessageType == SgEnum.AddonMessageType.LoggingOut and Safeguard_Settings.Options.EnableChatMessagesLogout) then
     return "I am logging out."
   end
-  if (addonMessageType == ThhEnum.AddonMessageType.LogoutCancelled and Safeguard_Settings.Options.EnableChatMessagesLogout) then
+  if (addonMessageType == SgEnum.AddonMessageType.LogoutCancelled and Safeguard_Settings.Options.EnableChatMessagesLogout) then
     return "I have stopped logging out."
   end
-  if (addonMessageType == ThhEnum.AddonMessageType.HealthCriticallyLow and Safeguard_Settings.Options.EnableChatMessagesLowHealth) then
+  if (addonMessageType == SgEnum.AddonMessageType.HealthCriticallyLow and Safeguard_Settings.Options.EnableChatMessagesLowHealth) then
     return string.format("Help, my health is at %d%%!", arg1)
   end
-  if (addonMessageType == ThhEnum.AddonMessageType.SpellCastStarted and Safeguard_Settings.Options.EnableChatMessagesSpellCasts) then
+  if (addonMessageType == SgEnum.AddonMessageType.SpellCastStarted and Safeguard_Settings.Options.EnableChatMessagesSpellCasts) then
     return string.format("I am casting %s.", arg1)
   end
-  if (addonMessageType == ThhEnum.AddonMessageType.SpellCastInterrupted and Safeguard_Settings.Options.EnableChatMessagesSpellCasts) then
+  if (addonMessageType == SgEnum.AddonMessageType.SpellCastInterrupted and Safeguard_Settings.Options.EnableChatMessagesSpellCasts) then
     return string.format("My %s cast has been stopped.", arg1)
   end
 
@@ -136,5 +136,5 @@ function MM:ConvertAddonMessageToChatMessage(addonMessageType, arg1)
 end
 
 function MM:SendHeartbeatMessage()
-  self:SendMessageToGroup(ThhEnum.AddonMessageType.Heartbeat, Safeguard_HelperFunctions.BoolToNumber(UnitAffectingCombat("player")))
+  self:SendMessageToGroup(SgEnum.AddonMessageType.Heartbeat, Safeguard_HelperFunctions.BoolToNumber(UnitAffectingCombat("player")))
 end

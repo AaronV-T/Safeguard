@@ -1,3 +1,4 @@
+Configurable health alert percentages.
 Health notification bug for group members logging in.
 Alert other players with the addon if disconnecting, logging out, hearthing, or taunt fails, or using threat altering abilities (divine shield, aoe taunt, fd, vanish), or silenced/stunned.
   AoE Taunt
@@ -5,9 +6,11 @@ Alert other players with the addon if disconnecting, logging out, hearthing, or 
   Taunt Fail/Success
   Defensive Cooldowns
   AFK
+  Target Dummy
 Low rank combat skill reminders
 Alert when high level mobs are detected, targetted, or targetting player
-Alert if settings change.
+Alert if settings/keybinds change.
+Configurable auras/spells to trigger. https://www.reddit.com/r/classicwow/comments/1720x1w/greatest_mysteries_of_the_world/
 Show how many mobs are in combat with you, with your pet, and with other players. Alert when it is many (e.g. especially for accidental pet pulls).
 Show dangerous quests
 Show warnings when important buffs/items missing (Power Word: Fortitude, Healthstones, seals, auras)
