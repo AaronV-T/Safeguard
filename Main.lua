@@ -40,6 +40,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
       Options = {
         EnableChatMessages = true,
         EnableChatMessagesLogout = true,
+        EnableChatMessagesLossOfControl = true,
         EnableChatMessagesLowHealth = true,
         EnableChatMessagesSpellCasts = true,
         EnableLowHealthAlerts = true,
@@ -53,6 +54,8 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
         EnableTextNotificationsConnectionSelf = true,
         EnableTextNotificationsConnectionGroup = true,
         EnableTextNotificationsLogout = true,
+        EnableTextNotificationsLossOfControlSelf = true,
+        EnableTextNotificationsLossOfControlGroup = true,
         EnableTextNotificationsLowHealthSelf = true,
         EnableTextNotificationsLowHealthGroup = true,
         EnableTextNotificationsSpellcasts = true,
@@ -62,6 +65,10 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
 	end
   
   Safeguard_Settings = _G["SAFEGUARD_SETTINGS"]
+
+  if (Safeguard_Settings.Options.EnableChatMessagesLossOfControl == nil) then Safeguard_Settings.Options.EnableChatMessagesLossOfControl = true end
+  if (Safeguard_Settings.Options.EnableTextNotificationsLossOfControlSelf == nil) then Safeguard_Settings.Options.EnableTextNotificationsLossOfControlSelf = true end
+  if (Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup == nil) then Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup = true end
 
   Safeguard_OptionWindow:Initialize()
 end
@@ -133,30 +140,34 @@ end
 
 function EM.EventHandlers.LOSS_OF_CONTROL_ADDED(self, unitId, effectIndex)
   --print("LOSS_OF_CONTROL_ADDED." .. tostring(unitId) .. "," .. tostring(effectIndex))
+
+  if (unitId ~= "player") then return end -- From what I've seen, this event only fires for the player anyway.
+
   local lossOfControlData = C_LossOfControl.GetActiveLossOfControlDataByUnit(unitId, effectIndex)
   --Safeguard_HelperFunctions.PrintKeysAndValuesFromTable(lossOfControlData)
 
-  local locType = lossOfControlData.locType
+  local locType = SgEnum.LossOfControlType.Unknown
   if (lossOfControlData.locType == "CONFUSE") then
-    locType = "confused"
+    locType = SgEnum.LossOfControlType.Confuse
   elseif (lossOfControlData.locType == "DISARM") then
-    locType = "disarmed"
+    locType = SgEnum.LossOfControlType.Disarm
   elseif (lossOfControlData.locType == "ROOT") then
-    locType = "rooted"
+    locType = SgEnum.LossOfControlType.Root
   elseif (lossOfControlData.locType == "SCHOOL_INTERRUPT") then
-    local school = GetSchoolString(lossOfControlData.lockoutSchool)
-    locType = string.format("%s-locked", school)
+    locType = SgEnum.LossOfControlType.SchoolInterrupt
   elseif (lossOfControlData.locType == "SILENCE") then
-    locType = "silenced"
+    locType = SgEnum.LossOfControlType.Silence
+  elseif (lossOfControlData.locType == "STUN") then
+    locType = SgEnum.LossOfControlType.Stun
   elseif (lossOfControlData.locType == "STUN_MECHANIC") then
-    locType = "stunned"
+    locType = SgEnum.LossOfControlType.StunMechanic
   end
 
-  if (lossOfControlData.timeRemaining ~= nil) then
-    print(string.format("You are %s for %ds.", locType, lossOfControlData.timeRemaining))
-  else
-    print(string.format("You are %s.", locType))
-  end
+  local timeRemaining = lossOfControlData.timeRemaining
+  if (timeRemaining ~= nil) then timeRemaining = math.floor(timeRemaining + 0.5) end
+
+  Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), SgEnum.NotificationType.LossOfControl, locType, timeRemaining)
+  MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.LossOfControl, locType, timeRemaining)
 end
 
 function EM.EventHandlers.PLAYER_ENTERING_WORLD(self, isLogin, isReload)

@@ -4,16 +4,18 @@ Safeguard_NotificationManager = {
 
 local NM = Safeguard_NotificationManager
 
-function NM:ShowNotificationToPlayer(playerWhoNotified, notificationType, arg1)
+function NM:ShowNotificationToPlayer(playerWhoNotified, notificationType, arg1, arg2)
   if (not Safeguard_Settings.Options.EnableTextNotifications) then return end
 
-  local notification = self:GetNotification(playerWhoNotified, notificationType, arg1)
+  local notification = self:GetNotification(playerWhoNotified, notificationType, arg1, arg2)
   if (not notification) then
     return
   end
 
   local notificationKey = nil
-  if (arg1 ~= nil) then
+  if (arg2 ~= nil) then
+    notificationKey = string.format("%s!%d!%s!%s", playerWhoNotified, notificationType, arg1, arg2)
+  elseif (arg1 ~= nil) then
     notificationKey = string.format("%s!%d!%s", playerWhoNotified, notificationType, arg1)
   else
     notificationKey = string.format("%s!%d", playerWhoNotified, notificationType)
@@ -31,7 +33,7 @@ function NM:ShowNotificationToPlayer(playerWhoNotified, notificationType, arg1)
   table.insert(Safeguard_EventManager.DebugLogs, string.format("%d - Notification: %s", time(), notification))
 end
 
-function NM:GetNotification(playerWhoNotified, notificationType, arg1)
+function NM:GetNotification(playerWhoNotified, notificationType, arg1, arg2)
   if (notificationType == SgEnum.NotificationType.PlayerDisconnected) then
     local prefix
     if (arg1 == UnitGUID("player")) then
@@ -91,7 +93,9 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
         return nil
       end
 
-      prefix = string.format("%s", playerWhoNotified) end
+      prefix = string.format("%s", playerWhoNotified)
+    end
+
     return string.format("%s entered combat.", prefix)
   end
 
@@ -109,6 +113,30 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1)
     end
 
     return string.format("%s has stopped logging out.", playerWhoNotified)
+  end
+
+  if (notificationType == SgEnum.NotificationType.LossOfControl) then
+    local prefix
+    if (playerWhoNotified == UnitName("player")) then
+      if (not Safeguard_Settings.Options.EnableTextNotificationsLossOfControlSelf) then
+        return nil
+      end
+
+      prefix = "You are"
+    else
+      if (not Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup or UnitInRaid("player")) then
+        return nil
+      end
+
+      prefix = string.format("%s is", playerWhoNotified)
+    end
+
+    local locTypeText = self:ConvertLossOfControlTypeToText(tonumber(arg1))
+    if (arg2 ~= nil) then
+      return string.format("%s %s for %ds.", prefix, locTypeText, arg2)
+    else
+      return string.format("%s %s.", prefix, locTypeText)
+    end
   end
 
   if (notificationType == SgEnum.NotificationType.HealthLow) then
@@ -199,6 +227,9 @@ function NM:ConvertAddonMessageTypeToNotificationType(addonMessageType)
   if (addonMessageType == SgEnum.AddonMessageType.LogoutCancelled) then
     return SgEnum.NotificationType.LogoutCancelled
   end
+  if (addonMessageType == SgEnum.AddonMessageType.LossOfControl) then
+    return SgEnum.NotificationType.LossOfControl
+  end
   if (addonMessageType == SgEnum.AddonMessageType.HealthLow) then
     return SgEnum.NotificationType.HealthLow
   end
@@ -213,4 +244,24 @@ function NM:ConvertAddonMessageTypeToNotificationType(addonMessageType)
   end
 
   return nil
+end
+
+function NM:ConvertLossOfControlTypeToText(lossOfControlType)
+  if (lossOfControlType == SgEnum.LossOfControlType.Confuse) then
+    return "confused"
+  elseif (lossOfControlType == SgEnum.LossOfControlType.Disarm) then
+    return "disarmed"
+  elseif (lossOfControlType == SgEnum.LossOfControlType.Root) then
+    return "immobilized"
+  elseif (lossOfControlType == SgEnum.LossOfControlType.SchoolInterrupt) then
+    return "partially silenced"
+  elseif (lossOfControlType == SgEnum.LossOfControlType.Silence) then
+    return "silenced"
+  elseif (lossOfControlType == SgEnum.LossOfControlType.Stun) then
+    return "stunned"
+  elseif (lossOfControlType == SgEnum.LossOfControlType.StunMechanic) then
+    return "stunned"
+  end
+
+  return "crowd controlled"
 end

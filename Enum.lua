@@ -11,6 +11,17 @@ SgEnum = {
     HealthCriticallyLow = 16,
     SpellCastStarted = 17,
     SpellCastInterrupted = 18,
+    LossOfControl = 19,
+  },
+  LossOfControlType = {
+    Unknown = 0,
+    Confuse = 1,
+    Disarm = 2,
+    Root = 3,
+    SchoolInterrupt = 4,
+    Silence = 5,
+    Stun = 6,
+    StunMechanic = 7,
   },
   NotificationType = {
     PlayerDisconnected = 1,
@@ -23,6 +34,7 @@ SgEnum = {
     HealthCriticallyLow = 16,
     SpellCastStarted = 17,
     SpellCastInterrupted = 18,
+    LossOfControl = 19,
     AuraApplied = 20,
   },
 }

@@ -47,7 +47,7 @@ function MM:OnChatMessageAddonEvent(prefix, text, channel, sender, target, zoneC
     Safeguard_PlayerStates[senderGuid].ConnectionInfo.LastMessageTimestamp = GetTime()
   end
 
-  local addonMessageType, arg1 = strsplit("!", text, 2)
+  local addonMessageType, arg1, arg2 = strsplit("!", text, 3)
   addonMessageType = tonumber(addonMessageType)
 
   if (addonMessageType == SgEnum.AddonMessageType.Heartbeat) then
@@ -78,13 +78,15 @@ function MM:OnChatMessageAddonEvent(prefix, text, channel, sender, target, zoneC
 
   local notificationType = Safeguard_NotificationManager:ConvertAddonMessageTypeToNotificationType(addonMessageType)
   if (notificationType) then
-    Safeguard_NotificationManager:ShowNotificationToPlayer(senderPlayer, notificationType, arg1)
+    Safeguard_NotificationManager:ShowNotificationToPlayer(senderPlayer, notificationType, arg1, arg2)
   end
 end
 
-function MM:SendMessageToGroup(addonMessageType, arg1)
+function MM:SendMessageToGroup(addonMessageType, arg1, arg2)
   local addonMessage = tostring(addonMessageType)
-  if (arg1 ~= nil) then
+  if (arg2 ~= nil) then
+    addonMessage = string.format("%s!%s!%s", addonMessageType, arg1, arg2)
+  elseif (arg1 ~= nil) then
     addonMessage = string.format("%s!%s", addonMessageType, arg1)
   end
 
@@ -95,7 +97,7 @@ function MM:SendMessageToGroup(addonMessageType, arg1)
   local addonMessageChatType = "WHISPER"
   if (UnitInParty("player") or UnitInRaid("player")) then
     if (Safeguard_Settings.Options.EnableChatMessages) then
-      local chatMessage = self:ConvertAddonMessageToChatMessage(addonMessageType, arg1)
+      local chatMessage = self:ConvertAddonMessageToChatMessage(addonMessageType, arg1, arg2)
       if (chatMessage) then SendChatMessage("[Safeguard] " .. chatMessage, "PARTY") end
     end
 
@@ -115,19 +117,33 @@ end
 
 --
 
-function MM:ConvertAddonMessageToChatMessage(addonMessageType, arg1)
+function MM:ConvertAddonMessageToChatMessage(addonMessageType, arg1, arg2)
   if (addonMessageType == SgEnum.AddonMessageType.LoggingOut and Safeguard_Settings.Options.EnableChatMessagesLogout) then
     return "I am logging out."
   end
+
   if (addonMessageType == SgEnum.AddonMessageType.LogoutCancelled and Safeguard_Settings.Options.EnableChatMessagesLogout) then
     return "I have stopped logging out."
   end
+
+  if (addonMessageType == SgEnum.AddonMessageType.LossOfControl and Safeguard_Settings.Options.EnableChatMessagesLossOfControl) then
+    local locTypeText = Safeguard_NotificationManager:ConvertLossOfControlTypeToText(tonumber(arg1))
+    
+    if (arg2 ~= nil) then
+      return string.format("I am %s for %ds.", locTypeText, arg2)
+    else
+      return string.format("I am %s.", locTypeText)
+    end
+  end
+
   if (addonMessageType == SgEnum.AddonMessageType.HealthCriticallyLow and Safeguard_Settings.Options.EnableChatMessagesLowHealth) then
     return string.format("Help, my health is at %d%%!", arg1)
   end
+
   if (addonMessageType == SgEnum.AddonMessageType.SpellCastStarted and Safeguard_Settings.Options.EnableChatMessagesSpellCasts) then
     return string.format("I am casting %s.", arg1)
   end
+
   if (addonMessageType == SgEnum.AddonMessageType.SpellCastInterrupted and Safeguard_Settings.Options.EnableChatMessagesSpellCasts) then
     return string.format("My %s cast has been stopped.", arg1)
   end

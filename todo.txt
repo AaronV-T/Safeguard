@@ -3,7 +3,6 @@ Use last timestamp based off any addon message or combat log.
 Health notification bug for group members logging in.
 Alert other players with the addon if disconnecting, logging out, hearthing, or taunt fails, or using threat altering abilities (divine shield, aoe taunt, fd, vanish), or silenced/stunned.
   AoE Taunt
-  CC
   Taunt Fail/Success
   Defensive Cooldowns
   AFK
@@ -13,6 +12,7 @@ Show group member AFK status (maybe time since their last combat action)
 Low rank combat skill reminders
 Alert when high level mobs are detected, targetted, or targetting player
 Alert if settings/keybinds change.
+Fatal falls
 Configurable auras/spells to trigger. https://www.reddit.com/r/classicwow/comments/1720x1w/greatest_mysteries_of_the_world/
 Show how many mobs are in combat with you, with your pet, and with other players. Alert when it is many (e.g. especially for accidental pet pulls).
 Show dangerous quests

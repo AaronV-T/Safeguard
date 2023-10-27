@@ -2,7 +2,7 @@
 ## Title: Safeguard
 ## Notes: Help players stay alive.
 ## Author: Tollski
-## Version: 1.0.1
+## Version: 1.0.2
 ## SavedVariables: SAFEGUARD_SETTINGS
 
 Enum.lua
