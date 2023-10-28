@@ -14,12 +14,17 @@ local MessageManager = Safeguard_MessageManager
 
 SLASH_SAFEGUARD1, SLASH_SAFEGUARD2 = "/safeguard", "/sg"
 function SlashCmdList.SAFEGUARD()
-  EM:Test()
+  InterfaceOptionsFrame_OpenToCategory(Safeguard_OptionWindow)
 end
 
 SLASH_SAFEGUARDDEBUG1, SLASH_SAFEGUARDDEBUG2 = "/sasfeguarddebug", "/sgdebug"
 function SlashCmdList.SAFEGUARDDEBUG()
   EM:Debug()
+end
+
+SLASH_SAFEGUARDTEST1, SLASH_SAFEGUARDTEST2 = "/sasfeguardtest", "/sgtest"
+function SlashCmdList.SAFEGUARDTEST()
+  EM:Test()
 end
 
 -- *** Locals ***
@@ -60,6 +65,8 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
         EnableTextNotificationsLowHealthGroup = true,
         EnableTextNotificationsSpellcasts = true,
         ShowIconsOnRaidFrames = true,
+        ThresholdForCriticallyLowHealth = 0.30,
+        ThresholdForLowHealth = 0.50,
       },
     }
 	end
@@ -69,6 +76,8 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (Safeguard_Settings.Options.EnableChatMessagesLossOfControl == nil) then Safeguard_Settings.Options.EnableChatMessagesLossOfControl = true end
   if (Safeguard_Settings.Options.EnableTextNotificationsLossOfControlSelf == nil) then Safeguard_Settings.Options.EnableTextNotificationsLossOfControlSelf = true end
   if (Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup == nil) then Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup = true end
+  if (Safeguard_Settings.Options.ThresholdForCriticallyLowHealth == nil) then Safeguard_Settings.Options.ThresholdForCriticallyLowHealth = 0.30 end
+  if (Safeguard_Settings.Options.ThresholdForLowHealth == nil) then Safeguard_Settings.Options.ThresholdForLowHealth = 0.50 end
 
   Safeguard_OptionWindow:Initialize()
 end
@@ -230,23 +239,19 @@ function EM.EventHandlers.UNIT_HEALTH(self, unitId)
   local healthPercentage = health / maxHealth
 
   local newHealthStatus = nil
-  if (healthPercentage <= 0.30) then
-    newHealthStatus = 1 -- red
-  elseif (healthPercentage <= 0.50) then
-    newHealthStatus = 2 -- orange
-  elseif (healthPercentage <= 0.70) then
-    newHealthStatus = 3 -- yellow
+  if (healthPercentage <= Safeguard_Settings.Options.ThresholdForCriticallyLowHealth) then
+    newHealthStatus = 1
+  elseif (healthPercentage <= Safeguard_Settings.Options.ThresholdForLowHealth) then
+    newHealthStatus = 2
   else
-    newHealthStatus = 4 -- green
+    newHealthStatus = 3
   end
 
   local oldHealthStatus = healthStatus[unitId]
   if (newHealthStatus == oldHealthStatus) then return end
 
   if (newHealthStatus == 1 and health > 0) then
-    if (Safeguard_Settings.Options.EnableLowHealthAlertTextNotifications) then
-      Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName(unitId), SgEnum.NotificationType.HealthCriticallyLow, math.floor(healthPercentage * 100))
-    end
+    Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName(unitId), SgEnum.NotificationType.HealthCriticallyLow, math.floor(healthPercentage * 100))
 
     if (updateIsForPlayer) then
       if (Safeguard_Settings.Options.EnableLowHealthAlertSounds) then
@@ -261,9 +266,7 @@ function EM.EventHandlers.UNIT_HEALTH(self, unitId)
     end
   elseif (newHealthStatus == 2) then
     if (oldHealthStatus == nil or oldHealthStatus > newHealthStatus) then
-      if (Safeguard_Settings.Options.EnableLowHealthAlertTextNotifications) then
-        Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName(unitId), SgEnum.NotificationType.HealthLow, math.floor(healthPercentage * 100))
-      end
+      Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName(unitId), SgEnum.NotificationType.HealthLow, math.floor(healthPercentage * 100))
       
       if (updateIsForPlayer) then
         if (Safeguard_Settings.Options.EnableLowHealthAlertSounds) then

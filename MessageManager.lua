@@ -104,6 +104,12 @@ function MM:SendMessageToGroup(addonMessageType, arg1, arg2)
     addonMessageChatType = "RAID"
   end
 
+  if (addonMessageType == SgEnum.AddonMessageType.HealthCriticallyLow or
+      addonMessageType == SgEnum.AddonMessageType.HealthLow) then
+    -- Other players with the addon can detect these events independently.
+    return
+  end
+
   local target = nil
   if (addonMessageChatType == "WHISPER") then target = UnitName("player") end
 

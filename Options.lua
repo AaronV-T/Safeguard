@@ -49,6 +49,49 @@ function Safeguard_OptionWindow:Initialize()
   self.fsEnableLowHealthAlerts:SetText("Enable Low Health Alerts")
   yPos = yPos - 22
 
+  
+  self.ebLowHealthThreshold = CreateFrame("EditBox", nil, self, BackdropTemplateMixin and "BackdropTemplate");
+  self.ebLowHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 35, yPos)
+  self.ebLowHealthThreshold:SetSize(25, 20)
+  self.ebLowHealthThreshold:SetFontObject(ChatFontNormal)
+  self.ebLowHealthThreshold:SetBackdrop({
+    bgFile = "",
+    edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+    tile = "true",
+    tileSize = 32,
+    edgeSize = 10,
+    insets = {left = 3, right = 3, top = 3, bottom = 3}
+  })
+  self.ebLowHealthThreshold:SetAutoFocus(false)
+  self.ebLowHealthThreshold:SetMaxLetters(2)
+  self.ebLowHealthThreshold:SetMultiLine(false)
+  self.ebLowHealthThreshold:SetNumeric(true)
+  self.ebLowHealthThreshold:SetScript("OnEscapePressed", function() self.ebLowHealthThreshold:ClearFocus() end)
+  self.fsLowHealthThreshold = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsLowHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
+  self.fsLowHealthThreshold:SetText("Low Health %")
+  self.ebCriticalHealthThreshold = CreateFrame("EditBox", nil, self, BackdropTemplateMixin and "BackdropTemplate");
+  self.ebCriticalHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 200, yPos)
+  self.ebCriticalHealthThreshold:SetSize(25, 20)
+  self.ebCriticalHealthThreshold:SetFontObject(ChatFontNormal)
+  self.ebCriticalHealthThreshold:SetBackdrop({
+    bgFile = "",
+    edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+    tile = "true",
+    tileSize = 32,
+    edgeSize = 10,
+    insets = {left = 3, right = 3, top = 3, bottom = 3}
+  })
+  self.ebCriticalHealthThreshold:SetAutoFocus(false)
+  self.ebCriticalHealthThreshold:SetMaxLetters(2)
+  self.ebCriticalHealthThreshold:SetMultiLine(false)
+  self.ebCriticalHealthThreshold:SetNumeric(true)
+  self.ebCriticalHealthThreshold:SetScript("OnEscapePressed", function() self.ebCriticalHealthThreshold:ClearFocus() end)
+  self.fsCriticalHealthThreshold = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsCriticalHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 225, yPos)
+  self.fsCriticalHealthThreshold:SetText("Critically Low Health %")
+  yPos = yPos - 22
+
   self.cbEnableLowHealthAlertScreenFlashing = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
   self.cbEnableLowHealthAlertScreenFlashing:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
   self.fsEnableLowHealthAlertScreenFlashing = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
@@ -170,8 +213,6 @@ function Safeguard_OptionWindow:Initialize()
   self.fsPostNote:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
   self.fsPostNote:SetText("*: Requires other player to have Safeguard installed.")
   yPos = yPos - 22
-  
-  self:LoadOptions()
 end
 
 function Safeguard_OptionWindow:LoadOptions()
@@ -181,6 +222,8 @@ function Safeguard_OptionWindow:LoadOptions()
   self.cbEnableChatMessagesSpellCasts:SetChecked(Safeguard_Settings.Options.EnableChatMessagesSpellCasts)
   self.cbEnableChatMessagesLossOfControl:SetChecked(Safeguard_Settings.Options.EnableChatMessagesLossOfControl)
   self.cbEnableLowHealthAlerts:SetChecked(Safeguard_Settings.Options.EnableLowHealthAlerts)
+  self.ebLowHealthThreshold:SetNumber(Safeguard_Settings.Options.ThresholdForLowHealth * 100)
+  self.ebCriticalHealthThreshold:SetNumber(Safeguard_Settings.Options.ThresholdForCriticallyLowHealth * 100)
   self.cbEnableLowHealthAlertScreenFlashing:SetChecked(Safeguard_Settings.Options.EnableLowHealthAlertScreenFlashing)
   self.cbEnableLowHealthAlertSounds:SetChecked(Safeguard_Settings.Options.EnableLowHealthAlertSounds)
   self.cbEnableTextNotifications:SetChecked(Safeguard_Settings.Options.EnableTextNotifications)
@@ -206,6 +249,8 @@ function Safeguard_OptionWindow:SaveOptions()
   Safeguard_Settings.Options.EnableChatMessagesSpellCasts = self.cbEnableChatMessagesSpellCasts:GetChecked()
   Safeguard_Settings.Options.EnableChatMessagesLossOfControl = self.cbEnableChatMessagesLossOfControl:GetChecked()
   Safeguard_Settings.Options.EnableLowHealthAlerts = self.cbEnableLowHealthAlerts:GetChecked()
+  Safeguard_Settings.Options.ThresholdForLowHealth = self.ebLowHealthThreshold:GetNumber() / 100
+  Safeguard_Settings.Options.ThresholdForCriticallyLowHealth = self.ebCriticalHealthThreshold:GetNumber() / 100
   Safeguard_Settings.Options.EnableLowHealthAlertScreenFlashing = self.cbEnableLowHealthAlertScreenFlashing:GetChecked()
   Safeguard_Settings.Options.EnableLowHealthAlertSounds = self.cbEnableLowHealthAlertSounds:GetChecked()
   Safeguard_Settings.Options.EnableTextNotifications = self.cbEnableTextNotifications:GetChecked()
@@ -227,8 +272,12 @@ function Safeguard_OptionWindow:SaveOptions()
   if (shouldUpdateRaidFrames) then Safeguard_RaidFramesManager:UpdateRaidFrames() end
 end
 
+Safeguard_OptionWindow:SetScript("OnShow", function(self)
+  Safeguard_OptionWindow:LoadOptions()
+end)    
+
 Safeguard_OptionWindow.name = "Safeguard"
 Safeguard_OptionWindow.cancel = function() Safeguard_OptionWindow:LoadOptions() end
-Safeguard_OptionWindow.default = function() print("[AutoBiographer] Not implemented.") end
+Safeguard_OptionWindow.default = function() print("[Safeguard] Not implemented.") end
 Safeguard_OptionWindow.okay = function() Safeguard_OptionWindow:SaveOptions() end
 InterfaceOptions_AddCategory(Safeguard_OptionWindow)
