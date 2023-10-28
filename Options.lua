@@ -49,46 +49,34 @@ function Safeguard_OptionWindow:Initialize()
   self.fsEnableLowHealthAlerts:SetText("Enable Low Health Alerts")
   yPos = yPos - 22
 
-  
   self.ebLowHealthThreshold = CreateFrame("EditBox", nil, self, BackdropTemplateMixin and "BackdropTemplate");
-  self.ebLowHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 35, yPos)
-  self.ebLowHealthThreshold:SetSize(25, 20)
+  self.ebLowHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.ebLowHealthThreshold:SetSize(28, 20)
   self.ebLowHealthThreshold:SetFontObject(ChatFontNormal)
-  self.ebLowHealthThreshold:SetBackdrop({
-    bgFile = "",
-    edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-    tile = "true",
-    tileSize = 32,
-    edgeSize = 10,
-    insets = {left = 3, right = 3, top = 3, bottom = 3}
-  })
+  self.ebLowHealthThreshold:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 10 })
   self.ebLowHealthThreshold:SetAutoFocus(false)
   self.ebLowHealthThreshold:SetMaxLetters(2)
   self.ebLowHealthThreshold:SetMultiLine(false)
   self.ebLowHealthThreshold:SetNumeric(true)
   self.ebLowHealthThreshold:SetScript("OnEscapePressed", function() self.ebLowHealthThreshold:ClearFocus() end)
+  self.ebLowHealthThreshold:SetTextInsets(5, 5, 0, 0)
   self.fsLowHealthThreshold = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsLowHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
+  self.fsLowHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 65, yPos)
   self.fsLowHealthThreshold:SetText("Low Health %")
+
   self.ebCriticalHealthThreshold = CreateFrame("EditBox", nil, self, BackdropTemplateMixin and "BackdropTemplate");
   self.ebCriticalHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 200, yPos)
-  self.ebCriticalHealthThreshold:SetSize(25, 20)
+  self.ebCriticalHealthThreshold:SetSize(28, 20)
   self.ebCriticalHealthThreshold:SetFontObject(ChatFontNormal)
-  self.ebCriticalHealthThreshold:SetBackdrop({
-    bgFile = "",
-    edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-    tile = "true",
-    tileSize = 32,
-    edgeSize = 10,
-    insets = {left = 3, right = 3, top = 3, bottom = 3}
-  })
+  self.ebCriticalHealthThreshold:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 10 })
   self.ebCriticalHealthThreshold:SetAutoFocus(false)
   self.ebCriticalHealthThreshold:SetMaxLetters(2)
   self.ebCriticalHealthThreshold:SetMultiLine(false)
   self.ebCriticalHealthThreshold:SetNumeric(true)
   self.ebCriticalHealthThreshold:SetScript("OnEscapePressed", function() self.ebCriticalHealthThreshold:ClearFocus() end)
+  self.ebCriticalHealthThreshold:SetTextInsets(5, 5, 0, 0)
   self.fsCriticalHealthThreshold = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsCriticalHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 225, yPos)
+  self.fsCriticalHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 231, yPos)
   self.fsCriticalHealthThreshold:SetText("Critically Low Health %")
   yPos = yPos - 22
 
@@ -243,12 +231,23 @@ function Safeguard_OptionWindow:LoadOptions()
 end
 
 function Safeguard_OptionWindow:SaveOptions()
+  if (self.ebLowHealthThreshold:GetNumber() < 2) then
+    self.ebLowHealthThreshold:SetNumber(2)
+  end
+  
+  if (self.ebCriticalHealthThreshold:GetNumber() < 1) then
+    self.ebCriticalHealthThreshold:SetNumber(1)
+  end
+  if (self.ebCriticalHealthThreshold:GetNumber() >= self.ebLowHealthThreshold:GetNumber()) then
+    self.ebCriticalHealthThreshold:SetNumber(self.ebLowHealthThreshold:GetNumber() - 1)
+  end
+  
   Safeguard_Settings.Options.EnableChatMessages = self.cbEnableChatMessages:GetChecked()
   Safeguard_Settings.Options.EnableChatMessagesLogout = self.cbEnableChatMessagesLogout:GetChecked()
   Safeguard_Settings.Options.EnableChatMessagesLowHealth = self.cbEnableChatMessagesLowHealth:GetChecked()
   Safeguard_Settings.Options.EnableChatMessagesSpellCasts = self.cbEnableChatMessagesSpellCasts:GetChecked()
   Safeguard_Settings.Options.EnableChatMessagesLossOfControl = self.cbEnableChatMessagesLossOfControl:GetChecked()
-  Safeguard_Settings.Options.EnableLowHealthAlerts = self.cbEnableLowHealthAlerts:GetChecked()
+  Safeguard_Settings.Options.EnableLowHealthAlerts = self.cbEnableLowHealthAlerts:GetChecked()  
   Safeguard_Settings.Options.ThresholdForLowHealth = self.ebLowHealthThreshold:GetNumber() / 100
   Safeguard_Settings.Options.ThresholdForCriticallyLowHealth = self.ebCriticalHealthThreshold:GetNumber() / 100
   Safeguard_Settings.Options.EnableLowHealthAlertScreenFlashing = self.cbEnableLowHealthAlertScreenFlashing:GetChecked()
