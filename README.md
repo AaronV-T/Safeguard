@@ -11,6 +11,7 @@ Options to notify the player when:
   * The player or a group member enters combat.
   * The player or a group member has low health.
   * A group members casts certain spells (e.g. Hearthstone).
+  * A group member is crowd controlled (e.g. stunned, silenced)*.
   * A group member is logging out*.
   * A group member goes offline.
   
@@ -19,4 +20,5 @@ Options to notify the player when:
 Options to automatically send chat messages to the player's group when:
   * The player's has critically low health.
   * The player casts certain spells (e.g. Hearthstone).
+  * The player is crowd controlled (e.g. stunned, silenced)
   * The player is logging out.
