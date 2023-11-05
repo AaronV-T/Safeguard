@@ -65,7 +65,7 @@ function Safeguard_OptionWindow:Initialize()
   self.fsLowHealthThreshold:SetText("Low Health %")
 
   self.ebCriticalHealthThreshold = CreateFrame("EditBox", nil, self, BackdropTemplateMixin and "BackdropTemplate");
-  self.ebCriticalHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 200, yPos)
+  self.ebCriticalHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 204, yPos)
   self.ebCriticalHealthThreshold:SetSize(28, 20)
   self.ebCriticalHealthThreshold:SetFontObject(ChatFontNormal)
   self.ebCriticalHealthThreshold:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 10 })
@@ -76,7 +76,7 @@ function Safeguard_OptionWindow:Initialize()
   self.ebCriticalHealthThreshold:SetScript("OnEscapePressed", function() self.ebCriticalHealthThreshold:ClearFocus() end)
   self.ebCriticalHealthThreshold:SetTextInsets(5, 5, 0, 0)
   self.fsCriticalHealthThreshold = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsCriticalHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 231, yPos)
+  self.fsCriticalHealthThreshold:SetPoint("LEFT", self, "TOPLEFT", 235, yPos)
   self.fsCriticalHealthThreshold:SetText("Critically Low Health %")
   yPos = yPos - 22
 
@@ -84,14 +84,13 @@ function Safeguard_OptionWindow:Initialize()
   self.cbEnableLowHealthAlertScreenFlashing:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
   self.fsEnableLowHealthAlertScreenFlashing = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   self.fsEnableLowHealthAlertScreenFlashing:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableLowHealthAlertScreenFlashing:SetText("Enable screen flashing when your health is low.")
-  yPos = yPos - 22
+  self.fsEnableLowHealthAlertScreenFlashing:SetText("Enable screen flashing.")
 
   self.cbEnableLowHealthAlertSounds = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableLowHealthAlertSounds:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableLowHealthAlertSounds:SetPoint("LEFT", self, "TOPLEFT", 200, yPos)
   self.fsEnableLowHealthAlertSounds = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableLowHealthAlertSounds:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableLowHealthAlertSounds:SetText("Enable alert sounds when your health is low.")
+  self.fsEnableLowHealthAlertSounds:SetPoint("LEFT", self, "TOPLEFT", 230, yPos)
+  self.fsEnableLowHealthAlertSounds:SetText("Enable alert sounds.")
   yPos = yPos - 22
 
   self.fsLowHealthAlertNote = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
@@ -190,6 +189,13 @@ function Safeguard_OptionWindow:Initialize()
   self.fsEnableTextNotificationsLossOfControlGroup:SetText("Enable notifications when a party member is crowd controlled (e.g. stunned, silenced).*")
   yPos = yPos - 22
 
+  self.cbEnableTextNotificationsPvpFlagged = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
+  self.cbEnableTextNotificationsPvpFlagged:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.fsEnableTextNotificationsPvpFlagged = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsPvpFlagged:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
+  self.fsEnableTextNotificationsPvpFlagged:SetText("Enable notifications when you are flagged for PVP.")
+  yPos = yPos - 22
+
   self.cbShowIconsOnRaidFrames = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
   self.cbShowIconsOnRaidFrames:SetPoint("LEFT", self, "TOPLEFT", 10, yPos)
   self.fsShowIconsOnRaidFrames = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
@@ -227,6 +233,7 @@ function Safeguard_OptionWindow:LoadOptions()
   self.cbEnableTextNotificationsAurasGroup:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsAurasGroup)
   self.cbEnableTextNotificationsLossOfControlSelf:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsLossOfControlSelf)
   self.cbEnableTextNotificationsLossOfControlGroup:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup)
+  self.cbEnableTextNotificationsPvpFlagged:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged)
   self.cbShowIconsOnRaidFrames:SetChecked(Safeguard_Settings.Options.ShowIconsOnRaidFrames)
 end
 
@@ -265,6 +272,7 @@ function Safeguard_OptionWindow:SaveOptions()
   Safeguard_Settings.Options.EnableTextNotificationsAurasGroup = self.cbEnableTextNotificationsAurasGroup:GetChecked()
   Safeguard_Settings.Options.EnableTextNotificationsLossOfControlSelf = self.cbEnableTextNotificationsLossOfControlSelf:GetChecked()
   Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup = self.cbEnableTextNotificationsLossOfControlGroup:GetChecked()
+  Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged = self.cbEnableTextNotificationsPvpFlagged:GetChecked()
 
   local shouldUpdateRaidFrames = Safeguard_Settings.Options.ShowIconsOnRaidFrames ~= self.cbShowIconsOnRaidFrames:GetChecked()
   Safeguard_Settings.Options.ShowIconsOnRaidFrames = self.cbShowIconsOnRaidFrames:GetChecked()

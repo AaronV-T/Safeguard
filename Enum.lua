@@ -36,5 +36,7 @@ SgEnum = {
     SpellCastInterrupted = 18,
     LossOfControl = 19,
     AuraApplied = 20,
+    PvpFlagged = 21,
+    PvpUnflagged = 22,
   },
 }

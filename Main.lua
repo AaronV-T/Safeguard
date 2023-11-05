@@ -3,6 +3,9 @@ Safeguard_Settings = nil
 Safeguard_EventManager = {
   DebugLogs = {},
   EventHandlers = {},
+  PlayerFlags = {
+    Pvp = nil
+  },
 }
 
 local EM = Safeguard_EventManager
@@ -63,6 +66,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
         EnableTextNotificationsLossOfControlGroup = true,
         EnableTextNotificationsLowHealthSelf = true,
         EnableTextNotificationsLowHealthGroup = true,
+        EnableTextNotificationsPvpFlagged = true,
         EnableTextNotificationsSpellcasts = true,
         ShowIconsOnRaidFrames = true,
         ThresholdForCriticallyLowHealth = 0.30,
@@ -78,6 +82,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup == nil) then Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup = true end
   if (Safeguard_Settings.Options.ThresholdForCriticallyLowHealth == nil) then Safeguard_Settings.Options.ThresholdForCriticallyLowHealth = 0.30 end
   if (Safeguard_Settings.Options.ThresholdForLowHealth == nil) then Safeguard_Settings.Options.ThresholdForLowHealth = 0.50 end
+  if (Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged == nil) then Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged = true end
 
   Safeguard_OptionWindow:Initialize()
 end
@@ -183,6 +188,7 @@ function EM.EventHandlers.PLAYER_ENTERING_WORLD(self, isLogin, isReload)
   --print("PLAYER_ENTERING_WORLD. " .. tostring(isLogin) ..  ", " .. tostring(isReload))
 
   self:UpdateGroupMemberInfo()
+  self.PlayerFlags.Pvp = UnitIsPVP("player")
   
   if (isLogin or isReload) then
     C_ChatInfo.RegisterAddonMessagePrefix(MessageManager.AddonMessagePrefix)
@@ -194,6 +200,20 @@ function EM.EventHandlers.PLAYER_ENTERING_WORLD(self, isLogin, isReload)
     Safeguard_PlayerStates = {}
     MessageManager:SendHeartbeatMessage()
   end
+end
+
+function EM.EventHandlers.PLAYER_FLAGS_CHANGED(self, unitId)
+  if (unitId ~= "player" or UnitIsPVP("player") == self.PlayerFlags.Pvp) then return end
+
+  local playerHadPvpEnabled = self.PlayerFlags.Pvp
+  self.PlayerFlags.Pvp = UnitIsPVP("player")
+  if (playerHadPvpEnabled == nil) then return end
+
+  local notificationType = SgEnum.NotificationType.PvpFlagged
+  if (not self.PlayerFlags.Pvp) then notificationType = SgEnum.NotificationType.PvpUnflagged end
+  Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), notificationType)
+  
+  --print(GetPVPTimer())
 end
 
 function EM.EventHandlers.PLAYER_LEAVING_WORLD(self)
@@ -413,9 +433,7 @@ function EM:Test()
   -- print(nameplateMaxDistance)
   -- --SetCVar("nameplateMaxDistance", 40) -- max is 20 in vanilla
 
-  local r = C_ChatInfo.SendAddonMessage(MessageManager.AddonMessagePrefix, "TEST" .. testNum, "RAID", nil)
-  print("Send TEST" .. testNum .. ", " .. tostring(r))
-  testNum = testNum + 1
+
 end
 
 function EM:Debug()

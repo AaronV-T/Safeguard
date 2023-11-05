@@ -206,8 +206,26 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1, arg2)
         return nil
       end
 
-      prefix = string.format("%s is", playerWhoNotified) end
+      prefix = string.format("%s is", playerWhoNotified)
+    end
+
     return string.format("%s affected by %s.", prefix, arg1)
+  end
+
+  if (notificationType == SgEnum.NotificationType.PvpFlagged) then
+    if (not Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged) then
+      return nil
+    end
+
+    return string.format("You are now pvp-flagged.")
+  end
+
+  if (notificationType == SgEnum.NotificationType.PvpUnflagged) then
+    if (not Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged) then
+      return nil
+    end
+    
+    return string.format("You are no longer pvp-flagged.")
   end
 
   print("[Safeguard] No notification for notification type " .. tostring(notificationType))
