@@ -40,6 +40,15 @@ function EM:OnEvent(_, event, ...)
 	end
 end
 
+function EM.EventHandlers.ADDON_ACTION_FORBIDDEN(self, addonName, functionCalled)
+  --print("ADDON_ACTION_FORBIDDEN. " .. addonName .. ", " .. functionCalled)
+  if (addonName ~= "Safeguard") then return end
+
+  if (functionCalled == "TargetUnit()") then
+    IntervalManager.DangerousEnemiesVariables.TargetWasForbidden = true
+  end
+end
+
 function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (addonName ~= "Safeguard") then return end
 
@@ -194,6 +203,7 @@ function EM.EventHandlers.PLAYER_ENTERING_WORLD(self, isLogin, isReload)
     C_ChatInfo.RegisterAddonMessagePrefix(MessageManager.AddonMessagePrefix)
   
     IntervalManager:CheckCombatInterval()
+    IntervalManager:CheckDangerousEnemiesInterval()
     IntervalManager:CheckGroupConnectionsInterval()
     IntervalManager:SendHeartbeatInterval()
   else
@@ -433,7 +443,7 @@ function EM:Test()
   -- print(nameplateMaxDistance)
   -- --SetCVar("nameplateMaxDistance", 40) -- max is 20 in vanilla
 
-
+  
 end
 
 function EM:Debug()

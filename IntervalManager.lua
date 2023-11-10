@@ -1,4 +1,16 @@
-Safeguard_IntervalManager = {}
+Safeguard_IntervalManager = {
+  DangerousEnemiesVariables = {
+    DangerousNpcs = nil,
+    DangerousNpcsNearby = nil,
+    IntervalsSinceLastVariableUpdate = nil,
+    LastNpcIndexChecked = nil,
+    PlayerAreaId = nil,
+    PlayerFaction = nil,
+    PlayerLevel = nil,
+    PlayerOnTaxi = nil,
+    TargetActionWasForbidden = nil,
+  }
+}
 
 local IM = Safeguard_IntervalManager
 
@@ -43,6 +55,101 @@ function IM:CheckCombatInterval()
   C_Timer.After(5, function()
     IM:CheckCombatInterval()
   end)
+end
+
+function IM:CheckDangerousEnemiesInterval()
+  if (IM.DangerousEnemiesVariables.IntervalsSinceLastVariableUpdate == nil or IM.DangerousEnemiesVariables.IntervalsSinceLastVariableUpdate >= 100) then
+    IM:UpdateVariablesForCheckingDangerousEnemies()
+  end
+
+  if (not IM.DangerousEnemiesVariables.PlayerOnTaxi and IM.DangerousEnemiesVariables.DangerousNpcs and #IM.DangerousEnemiesVariables.DangerousNpcs > 0) then
+    local indexToCheck
+    if (IM.DangerousEnemiesVariables.LastNpcIndexChecked == nil or IM.DangerousEnemiesVariables.LastNpcIndexChecked >= #IM.DangerousEnemiesVariables.DangerousNpcs) then
+      indexToCheck = 1
+    else
+      indexToCheck = IM.DangerousEnemiesVariables.LastNpcIndexChecked + 1
+    end
+
+    local npc = IM.DangerousEnemiesVariables.DangerousNpcs[indexToCheck]
+
+    IM.DangerousEnemiesVariables.TargetWasForbidden = false
+    --TargetUnit(npc.name, true)
+    TargetUnit(npc.name)
+    if (IM.DangerousEnemiesVariables.TargetWasForbidden) then
+      --print("Dangerous enemy is nearby: " .. npc.name)
+      if (not IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name]) then
+        IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name] = true
+        print("Dangerous enemy came into range: " .. npc.name)
+      end
+    else
+      if (IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name]) then
+        IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name] = false
+        print("Dangerous enemy left range: " .. npc.name)
+      end
+    end
+
+    IM.DangerousEnemiesVariables.LastNpcIndexChecked = indexToCheck
+  end
+
+  IM.DangerousEnemiesVariables.IntervalsSinceLastVariableUpdate = IM.DangerousEnemiesVariables.IntervalsSinceLastVariableUpdate + 1
+
+  C_Timer.After(0.02, function()
+    IM:CheckDangerousEnemiesInterval()
+  end)
+end
+
+function IM:UpdateVariablesForCheckingDangerousEnemies()
+  IM.DangerousEnemiesVariables.IntervalsSinceLastVariableUpdate = 0
+
+  local playerUiMapID = C_Map.GetBestMapForUnit("player")
+  if (not Safeguard_ZoneDatabase[playerUiMapID] or (Safeguard_ZoneDatabase[playerUiMapID].MapId ~= 0 and Safeguard_ZoneDatabase[playerUiMapID].MapId ~= 1)) then
+    IM.DangerousEnemiesVariables.DangerousNpcs = nil
+    IM.DangerousEnemiesVariables.DangerousNpcsNearby = nil
+    IM.DangerousEnemiesVariables.PlayerAreaId = nil
+    IM.DangerousEnemiesVariables.PlayerLevel = nil
+    IM.DangerousEnemiesVariables.PlayerFaction = nil
+  else
+    local oldPlayerAreaId = IM.DangerousEnemiesVariables.PlayerAreaId
+    IM.DangerousEnemiesVariables.PlayerAreaId = Safeguard_ZoneDatabase[playerUiMapID].AreaId
+
+    local oldPlayerLevel = IM.DangerousEnemiesVariables.PlayerLevel
+    IM.DangerousEnemiesVariables.PlayerLevel = UnitLevel("player")
+
+    if (not IM.DangerousEnemiesVariables.PlayerFaction) then
+      IM.DangerousEnemiesVariables.PlayerFaction = UnitFactionGroup("player")
+    end
+
+    IM.DangerousEnemiesVariables.PlayerOnTaxi = UnitOnTaxi("player")
+
+    if (oldPlayerAreaId ~= IM.DangerousEnemiesVariables.PlayerAreaId or oldPlayerLevel ~= IM.DangerousEnemiesVariables.PlayerLevel) then
+      IM.DangerousEnemiesVariables.DangerousNpcs = {}
+      IM.DangerousEnemiesVariables.DangerousNpcsNearby = {}
+
+      for npcId, npc in pairs(Safeguard_NpcDatabase) do
+        if (npc.location and npc.react) then
+          local locationIsMatch = false
+          for _, npcAreaId in pairs(npc.location) do
+            if (IM.DangerousEnemiesVariables.PlayerAreaId == npcAreaId) then locationIsMatch = true end
+          end
+
+          if (locationIsMatch) then
+            local npcIsUnfriendly = false
+            if ((IM.DangerousEnemiesVariables.PlayerFaction == "Alliance" and (npc.react[1] == 0 or npc.react[1] == -1)) or 
+                (IM.DangerousEnemiesVariables.PlayerFaction == "Horde" and (npc.react[2] == 0 or npc.react[2] == -1))) then
+              npcIsUnfriendly = true
+            end
+
+            if (npcIsUnfriendly and npc.maxlevel and
+                (npc.maxlevel >= IM.DangerousEnemiesVariables.PlayerLevel + 5 or (npc.classification > 0 and npc.maxlevel >= IM.DangerousEnemiesVariables.PlayerLevel - 5))) then
+              table.insert(IM.DangerousEnemiesVariables.DangerousNpcs, npc)
+              --print(npcId .. ": " .. npc.name)
+            end
+          end
+        end
+      end
+      --print("Total: " .. #IM.DangerousEnemiesVariables.DangerousNpcs)
+    end
+  end
 end
 
 function IM:CheckGroupConnectionsInterval()
