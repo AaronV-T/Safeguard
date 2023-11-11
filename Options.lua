@@ -105,95 +105,136 @@ function Safeguard_OptionWindow:Initialize()
   self.fsEnableTextNotifications:SetText("Enable Onscreen Text Notifications")
   yPos = yPos - 22
 
+  self.fsEnableTextNotificationsCombatTitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsCombatTitle:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.fsEnableTextNotificationsCombatTitle:SetText("Enter Combat")
+
   self.cbEnableTextNotificationsCombatSelf = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsCombatSelf:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsCombatSelf:SetPoint("LEFT", self, "TOPLEFT", 280, yPos)
   self.fsEnableTextNotificationsCombatSelf = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsCombatSelf:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsCombatSelf:SetText("Enable notifications when you enter combat.")
-  yPos = yPos - 22
+  self.fsEnableTextNotificationsCombatSelf:SetPoint("LEFT", self, "TOPLEFT", 310, yPos)
+  self.fsEnableTextNotificationsCombatSelf:SetText("You")
 
   self.cbEnableTextNotificationsCombatGroup = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsCombatGroup:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsCombatGroup:SetPoint("LEFT", self, "TOPLEFT", 350, yPos)
   self.fsEnableTextNotificationsCombatGroup = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsCombatGroup:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsCombatGroup:SetText("Enable notifications when a party member enters combat.")
+  self.fsEnableTextNotificationsCombatGroup:SetPoint("LEFT", self, "TOPLEFT", 380, yPos)
+  self.fsEnableTextNotificationsCombatGroup:SetText("Party")
   yPos = yPos - 22
+
+  self.fsEnableTextNotificationsConnectionTitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsConnectionTitle:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.fsEnableTextNotificationsConnectionTitle:SetText("Disconnect or Go Offline")
 
   self.cbEnableTextNotificationsConnectionSelf = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsConnectionSelf:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsConnectionSelf:SetPoint("LEFT", self, "TOPLEFT", 280, yPos)
   self.fsEnableTextNotificationsConnectionSelf = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsConnectionSelf:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsConnectionSelf:SetText("Enable notifications when you disconnect.")
-  yPos = yPos - 22
+  self.fsEnableTextNotificationsConnectionSelf:SetPoint("LEFT", self, "TOPLEFT", 310, yPos)
+  self.fsEnableTextNotificationsConnectionSelf:SetText("You")
 
   self.cbEnableTextNotificationsConnectionGroup = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsConnectionGroup:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsConnectionGroup:SetPoint("LEFT", self, "TOPLEFT", 350, yPos)
   self.fsEnableTextNotificationsConnectionGroup = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsConnectionGroup:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsConnectionGroup:SetText("Enable notifications when a party member disconnects or goes offline.*")
+  self.fsEnableTextNotificationsConnectionGroup:SetPoint("LEFT", self, "TOPLEFT", 380, yPos)
+  self.fsEnableTextNotificationsConnectionGroup:SetText("Party*")
   yPos = yPos - 22
+
+  self.fsEnableTextNotificationsLogoutTitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsLogoutTitle:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.fsEnableTextNotificationsLogoutTitle:SetText("Logging Out")
 
   self.cbEnableTextNotificationsLogout = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsLogout:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsLogout:SetPoint("LEFT", self, "TOPLEFT", 350, yPos)
   self.fsEnableTextNotificationsLogout = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsLogout:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsLogout:SetText("Enable notifications when a party member is logging out.*")
+  self.fsEnableTextNotificationsLogout:SetPoint("LEFT", self, "TOPLEFT", 380, yPos)
+  self.fsEnableTextNotificationsLogout:SetText("Party*")
   yPos = yPos - 22
 
+  self.fsEnableTextNotificationsLowHealthTitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsLowHealthTitle:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.fsEnableTextNotificationsLowHealthTitle:SetText("Low Health")
+  self.fsEnableTextNotificationsLowHealthSubtitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+  self.fsEnableTextNotificationsLowHealthSubtitle:SetPoint("LEFT", self, "TOPLEFT", 105, yPos)
+  self.fsEnableTextNotificationsLowHealthSubtitle:SetText("(Requires Low Health Alerts)")
+  
   self.cbEnableTextNotificationsLowHealthSelf = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsLowHealthSelf:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsLowHealthSelf:SetPoint("LEFT", self, "TOPLEFT", 280, yPos)
   self.fsEnableTextNotificationsLowHealthSelf = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsLowHealthSelf:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsLowHealthSelf:SetText("Enable notifications when you have low health. (Requires low health alerts to be enabled.)")
-  yPos = yPos - 22
+  self.fsEnableTextNotificationsLowHealthSelf:SetPoint("LEFT", self, "TOPLEFT", 310, yPos)
+  self.fsEnableTextNotificationsLowHealthSelf:SetText("You")
 
   self.cbEnableTextNotificationsLowHealthGroup = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsLowHealthGroup:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsLowHealthGroup:SetPoint("LEFT", self, "TOPLEFT", 350, yPos)
   self.fsEnableTextNotificationsLowHealthGroup = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsLowHealthGroup:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsLowHealthGroup:SetText("Enable notifications when a party member has low health. (Requires low health alerts to be enabled.)")
+  self.fsEnableTextNotificationsLowHealthGroup:SetPoint("LEFT", self, "TOPLEFT", 380, yPos)
+  self.fsEnableTextNotificationsLowHealthGroup:SetText("Party")
   yPos = yPos - 22
+
+  self.fsEnableTextNotificationsSpellcastsTitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsSpellcastsTitle:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.fsEnableTextNotificationsSpellcastsTitle:SetText("Cast Certain Spells")
+  self.fsEnableTextNotificationsSpellcastsSubtitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+  self.fsEnableTextNotificationsSpellcastsSubtitle:SetPoint("LEFT", self, "TOPLEFT", 148, yPos)
+  self.fsEnableTextNotificationsSpellcastsSubtitle:SetText("(e.g. Hearthstone)")
 
   self.cbEnableTextNotificationsSpellcasts = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsSpellcasts:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsSpellcasts:SetPoint("LEFT", self, "TOPLEFT", 350, yPos)
   self.fsEnableTextNotificationsSpellcasts = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsSpellcasts:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsSpellcasts:SetText("Enable notifications when a party member casts certain spells (e.g. Hearthstone).")
+  self.fsEnableTextNotificationsSpellcasts:SetPoint("LEFT", self, "TOPLEFT", 380, yPos)
+  self.fsEnableTextNotificationsSpellcasts:SetText("Party")
   yPos = yPos - 22
+
+  self.fsEnableTextNotificationsAurasTitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsAurasTitle:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.fsEnableTextNotificationsAurasTitle:SetText("Affected by Certain Threat-Altering Buffs")
 
   self.cbEnableTextNotificationsAurasSelf = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsAurasSelf:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsAurasSelf:SetPoint("LEFT", self, "TOPLEFT", 280, yPos)
   self.fsEnableTextNotificationsAurasSelf = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsAurasSelf:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsAurasSelf:SetText("Enable notifications when you are affected by certain threat-altering effects.")
-  yPos = yPos - 22
+  self.fsEnableTextNotificationsAurasSelf:SetPoint("LEFT", self, "TOPLEFT", 310, yPos)
+  self.fsEnableTextNotificationsAurasSelf:SetText("You")
 
   self.cbEnableTextNotificationsAurasGroup = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsAurasGroup:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsAurasGroup:SetPoint("LEFT", self, "TOPLEFT", 420, yPos)
   self.fsEnableTextNotificationsAurasGroup = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsAurasGroup:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsAurasGroup:SetText("Enable notifications when nearby players are affected by certain threat-altering effects.")
+  self.fsEnableTextNotificationsAurasGroup:SetPoint("LEFT", self, "TOPLEFT", 450, yPos)
+  self.fsEnableTextNotificationsAurasGroup:SetText("Any Nearby Player")
   yPos = yPos - 22
+
+  self.fsEnableTextNotificationsLossOfControlTitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsLossOfControlTitle:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.fsEnableTextNotificationsLossOfControlTitle:SetText("Crowd Controlled")
+  self.fsEnableTextNotificationsLossOfControlSubtitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+  self.fsEnableTextNotificationsLossOfControlSubtitle:SetPoint("LEFT", self, "TOPLEFT", 143, yPos)
+  self.fsEnableTextNotificationsLossOfControlSubtitle:SetText("(e.g. stunned, silenced)")
 
   self.cbEnableTextNotificationsLossOfControlSelf = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsLossOfControlSelf:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsLossOfControlSelf:SetPoint("LEFT", self, "TOPLEFT", 280, yPos)
   self.fsEnableTextNotificationsLossOfControlSelf = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsLossOfControlSelf:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsLossOfControlSelf:SetText("Enable notifications when you are crowd controlled (e.g. stunned, silenced).")
-  yPos = yPos - 22
+  self.fsEnableTextNotificationsLossOfControlSelf:SetPoint("LEFT", self, "TOPLEFT", 310, yPos)
+  self.fsEnableTextNotificationsLossOfControlSelf:SetText("You")
 
   self.cbEnableTextNotificationsLossOfControlGroup = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsLossOfControlGroup:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.cbEnableTextNotificationsLossOfControlGroup:SetPoint("LEFT", self, "TOPLEFT", 350, yPos)
   self.fsEnableTextNotificationsLossOfControlGroup = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsLossOfControlGroup:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsLossOfControlGroup:SetText("Enable notifications when a party member is crowd controlled (e.g. stunned, silenced).*")
+  self.fsEnableTextNotificationsLossOfControlGroup:SetPoint("LEFT", self, "TOPLEFT", 380, yPos)
+  self.fsEnableTextNotificationsLossOfControlGroup:SetText("Party*")
   yPos = yPos - 22
 
-  self.cbEnableTextNotificationsPvpFlagged = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
-  self.cbEnableTextNotificationsPvpFlagged:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
   self.fsEnableTextNotificationsPvpFlagged = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsPvpFlagged:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
-  self.fsEnableTextNotificationsPvpFlagged:SetText("Enable notifications when you are flagged for PVP.")
+  self.fsEnableTextNotificationsPvpFlagged:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.fsEnableTextNotificationsPvpFlagged:SetText("Flagged for PvP")
+
+  self.cbEnableTextNotificationsPvpFlagged = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
+  self.cbEnableTextNotificationsPvpFlagged:SetPoint("LEFT", self, "TOPLEFT", 280, yPos)
+  self.fsEnableTextNotificationsPvpFlagged = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsPvpFlagged:SetPoint("LEFT", self, "TOPLEFT", 310, yPos)
+  self.fsEnableTextNotificationsPvpFlagged:SetText("You")
+  yPos = yPos - 22
+
+  self.fsNotificationsAsteriskNote = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsNotificationsAsteriskNote:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.fsNotificationsAsteriskNote:SetText("*: Requires other player to have Safeguard installed.")
   yPos = yPos - 22
 
   self.cbShowIconsOnRaidFrames = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
@@ -201,11 +242,6 @@ function Safeguard_OptionWindow:Initialize()
   self.fsShowIconsOnRaidFrames = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   self.fsShowIconsOnRaidFrames:SetPoint("LEFT", self, "TOPLEFT", 40, yPos)
   self.fsShowIconsOnRaidFrames:SetText("Show Icons on Raid Frames")
-  yPos = yPos - 22
-
-  self.fsPostNote = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsPostNote:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
-  self.fsPostNote:SetText("*: Requires other player to have Safeguard installed.")
   yPos = yPos - 22
 end
 
