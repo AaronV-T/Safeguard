@@ -93,6 +93,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (Safeguard_Settings.Options.ThresholdForLowHealth == nil) then Safeguard_Settings.Options.ThresholdForLowHealth = 0.50 end
   if (Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged == nil) then Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged = true end
 
+  Safeguard_DangerousNpcsWindow:Initialize()
   Safeguard_OptionWindow:Initialize()
 end
 
@@ -443,7 +444,6 @@ function EM:Test()
   -- print(nameplateMaxDistance)
   -- --SetCVar("nameplateMaxDistance", 40) -- max is 20 in vanilla
 
-  
 end
 
 function EM:Debug()

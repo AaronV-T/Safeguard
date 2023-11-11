@@ -5,6 +5,7 @@
 ## Version: 1.1.1
 ## SavedVariables: SAFEGUARD_SETTINGS
 
+DangerousNpcsWindow.lua
 Enum.lua
 FlashFrame.lua
 HelperFunctions.lua

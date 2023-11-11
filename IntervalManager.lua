@@ -9,6 +9,7 @@ Safeguard_IntervalManager = {
     PlayerLevel = nil,
     PlayerOnTaxi = nil,
     TargetActionWasForbidden = nil,
+    UIParentAddonActionForbiddenEventUnregistered = nil,
   }
 }
 
@@ -73,18 +74,19 @@ function IM:CheckDangerousEnemiesInterval()
     local npc = IM.DangerousEnemiesVariables.DangerousNpcs[indexToCheck]
 
     IM.DangerousEnemiesVariables.TargetWasForbidden = false
-    --TargetUnit(npc.name, true)
     TargetUnit(npc.name)
     if (IM.DangerousEnemiesVariables.TargetWasForbidden) then
       --print("Dangerous enemy is nearby: " .. npc.name)
       if (not IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name]) then
         IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name] = true
-        print("Dangerous enemy came into range: " .. npc.name)
+        --print("Dangerous enemy came into range: " .. npc.name)
+        Safeguard_DangerousNpcsWindow:Update(IM.DangerousEnemiesVariables.DangerousNpcsNearby)
       end
     else
       if (IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name]) then
         IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name] = false
-        print("Dangerous enemy left range: " .. npc.name)
+        --print("Dangerous enemy left range: " .. npc.name)
+        Safeguard_DangerousNpcsWindow:Update(IM.DangerousEnemiesVariables.DangerousNpcsNearby)
       end
     end
 
@@ -99,6 +101,11 @@ function IM:CheckDangerousEnemiesInterval()
 end
 
 function IM:UpdateVariablesForCheckingDangerousEnemies()
+  if (not IM.DangerousEnemiesVariables.UIParentAddonActionForbiddenEventUnregistered) then
+    UIParent:UnregisterEvent("ADDON_ACTION_FORBIDDEN")
+    IM.DangerousEnemiesVariables.UIParentAddonActionForbiddenEventUnregistered = true
+  end
+
   IM.DangerousEnemiesVariables.IntervalsSinceLastVariableUpdate = 0
 
   local playerUiMapID = C_Map.GetBestMapForUnit("player")
@@ -140,7 +147,7 @@ function IM:UpdateVariablesForCheckingDangerousEnemies()
             end
 
             if (npcIsUnfriendly and npc.maxlevel and
-                (npc.maxlevel >= IM.DangerousEnemiesVariables.PlayerLevel + 5 or (npc.classification > 0 and npc.maxlevel >= IM.DangerousEnemiesVariables.PlayerLevel - 5))) then
+                (npc.maxlevel >= IM.DangerousEnemiesVariables.PlayerLevel + 5 or (npc.classification > 0 and npc.maxlevel >= IM.DangerousEnemiesVariables.PlayerLevel - 8))) then
               table.insert(IM.DangerousEnemiesVariables.DangerousNpcs, npc)
               --print(npcId .. ": " .. npc.name)
             end
