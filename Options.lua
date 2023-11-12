@@ -42,6 +42,87 @@ function Safeguard_OptionWindow:Initialize()
   self.fsEnableChatMessagesLossOfControl:SetText("Send chat messages when you are crowd controlled (e.g. stunned, silenced).")
   yPos = yPos - 22
 
+  self.cbEnableDangerousNpcAlerts = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
+  self.cbEnableDangerousNpcAlerts:SetPoint("LEFT", self, "TOPLEFT", 10, yPos)
+  self.fsEnableDangerousNpcAlerts = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableDangerousNpcAlerts:SetPoint("LEFT", self, "TOPLEFT", 40, yPos)
+  self.fsEnableDangerousNpcAlerts:SetText("Enable Dangerous NPC Alerts")
+  yPos = yPos - 22
+
+  self.ebDangerousNpcNormalLevelOffset = CreateFrame("EditBox", nil, self, BackdropTemplateMixin and "BackdropTemplate");
+  self.ebDangerousNpcNormalLevelOffset.LastValidNumber = Safeguard_Settings.Options.DangerousNpcNormalLevelOffset
+  self.ebDangerousNpcNormalLevelOffset:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.ebDangerousNpcNormalLevelOffset:SetSize(35, 20)
+  self.ebDangerousNpcNormalLevelOffset:SetFontObject(ChatFontNormal)
+  self.ebDangerousNpcNormalLevelOffset:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 10 })
+  self.ebDangerousNpcNormalLevelOffset:SetAutoFocus(false)
+  self.ebDangerousNpcNormalLevelOffset:SetMaxLetters(3)
+  self.ebDangerousNpcNormalLevelOffset:SetMultiLine(false)
+  self.ebDangerousNpcNormalLevelOffset:SetNumeric(false)
+  self.ebDangerousNpcNormalLevelOffset:SetScript("OnEscapePressed", function() self.ebDangerousNpcNormalLevelOffset:ClearFocus() end)
+  C_Timer.After(1, function() -- This is set on a timer because if it runs immediately then the text will hidden to the leftof  the editbox for some reason.
+    self.ebDangerousNpcNormalLevelOffset:SetScript("OnTextChanged", function()
+      local number = tonumber(self.ebDangerousNpcNormalLevelOffset:GetText())
+      if (number == nil) then
+        if (self.ebDangerousNpcNormalLevelOffset:GetText() ~= "-" and self.ebDangerousNpcNormalLevelOffset:GetText() ~= "") then
+          self.ebDangerousNpcNormalLevelOffset:SetNumber(self.ebDangerousNpcNormalLevelOffset.LastValidNumber)
+        end
+
+        return
+      end
+      
+      self.ebDangerousNpcNormalLevelOffset.LastValidNumber = number
+    end)
+  end)
+  self.ebDangerousNpcNormalLevelOffset:SetTextInsets(5, 5, 0, 0)
+  self.fsDangerousNpcNormalLevelOffset = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsDangerousNpcNormalLevelOffset:SetPoint("LEFT", self, "TOPLEFT", 72, yPos)
+  self.fsDangerousNpcNormalLevelOffset:SetText("Normal Level Offset")
+
+  self.ebDangerousNpcSpecialLevelOffset = CreateFrame("EditBox", nil, self, BackdropTemplateMixin and "BackdropTemplate");
+  self.ebDangerousNpcSpecialLevelOffset.LastValidNumber = Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset
+  self.ebDangerousNpcSpecialLevelOffset:SetPoint("LEFT", self, "TOPLEFT", 204, yPos)
+  self.ebDangerousNpcSpecialLevelOffset:SetSize(35, 20)
+  self.ebDangerousNpcSpecialLevelOffset:SetFontObject(ChatFontNormal)
+  self.ebDangerousNpcSpecialLevelOffset:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 10 })
+  self.ebDangerousNpcSpecialLevelOffset:SetAutoFocus(false)
+  self.ebDangerousNpcSpecialLevelOffset:SetMaxLetters(3)
+  self.ebDangerousNpcSpecialLevelOffset:SetMultiLine(false)
+  self.ebDangerousNpcSpecialLevelOffset:SetNumeric(false)
+  self.ebDangerousNpcSpecialLevelOffset:SetScript("OnEscapePressed", function() self.ebDangerousNpcSpecialLevelOffset:ClearFocus() end)
+  C_Timer.After(1, function() -- This is set on a timer because if it runs immediately then the text will hidden to the leftof  the editbox for some reason.
+    self.ebDangerousNpcSpecialLevelOffset:SetScript("OnTextChanged", function()
+      local number = tonumber(self.ebDangerousNpcSpecialLevelOffset:GetText())
+      if (number == nil) then
+        if (self.ebDangerousNpcSpecialLevelOffset:GetText() ~= "-" and self.ebDangerousNpcSpecialLevelOffset:GetText() ~= "") then
+          self.ebDangerousNpcSpecialLevelOffset:SetNumber(self.ebDangerousNpcSpecialLevelOffset.LastValidNumber)
+        end
+
+        return
+      end
+      
+      self.ebDangerousNpcSpecialLevelOffset.LastValidNumber = number
+    end)
+  end)
+  self.ebDangerousNpcSpecialLevelOffset:SetTextInsets(5, 5, 0, 0)
+  self.fsDangerousNpcSpecialLevelOffset = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsDangerousNpcSpecialLevelOffset:SetPoint("LEFT", self, "TOPLEFT", 242, yPos)
+  self.fsDangerousNpcSpecialLevelOffset:SetText("Rare/Elite Level Offset")
+  yPos = yPos - 22
+
+  self.cbEnableDangerousNpcAlertWindow = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
+  self.cbEnableDangerousNpcAlertWindow:SetPoint("LEFT", self, "TOPLEFT", 30, yPos)
+  self.fsEnableDangerousNpcAlertWindow = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableDangerousNpcAlertWindow:SetPoint("LEFT", self, "TOPLEFT", 60, yPos)
+  self.fsEnableDangerousNpcAlertWindow:SetText("Show window.")
+
+  self.cbEnableDangerousNpcAlertSounds = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
+  self.cbEnableDangerousNpcAlertSounds:SetPoint("LEFT", self, "TOPLEFT", 200, yPos)
+  self.fsEnableDangerousNpcAlertSounds = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableDangerousNpcAlertSounds:SetPoint("LEFT", self, "TOPLEFT", 230, yPos)
+  self.fsEnableDangerousNpcAlertSounds:SetText("Enable alert sounds.")
+  yPos = yPos - 22
+
   self.cbEnableLowHealthAlerts = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
   self.cbEnableLowHealthAlerts:SetPoint("LEFT", self, "TOPLEFT", 10, yPos)
   self.fsEnableLowHealthAlerts = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
@@ -251,6 +332,11 @@ function Safeguard_OptionWindow:LoadOptions()
   self.cbEnableChatMessagesLowHealth:SetChecked(Safeguard_Settings.Options.EnableChatMessagesLowHealth)
   self.cbEnableChatMessagesSpellCasts:SetChecked(Safeguard_Settings.Options.EnableChatMessagesSpellCasts)
   self.cbEnableChatMessagesLossOfControl:SetChecked(Safeguard_Settings.Options.EnableChatMessagesLossOfControl)
+  self.cbEnableDangerousNpcAlerts:SetChecked(Safeguard_Settings.Options.EnableDangerousNpcAlerts)
+  self.ebDangerousNpcNormalLevelOffset:SetNumber(Safeguard_Settings.Options.DangerousNpcNormalLevelOffset)
+  self.ebDangerousNpcSpecialLevelOffset:SetNumber(Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset)
+  self.cbEnableDangerousNpcAlertWindow:SetChecked(Safeguard_Settings.Options.EnableDangerousNpcAlertWindow)
+  self.cbEnableDangerousNpcAlertSounds:SetChecked(Safeguard_Settings.Options.EnableDangerousNpcAlertSounds)
   self.cbEnableLowHealthAlerts:SetChecked(Safeguard_Settings.Options.EnableLowHealthAlerts)
   self.ebLowHealthThreshold:SetNumber(Safeguard_Settings.Options.ThresholdForLowHealth * 100)
   self.ebCriticalHealthThreshold:SetNumber(Safeguard_Settings.Options.ThresholdForCriticallyLowHealth * 100)
@@ -284,12 +370,24 @@ function Safeguard_OptionWindow:SaveOptions()
   if (self.ebCriticalHealthThreshold:GetNumber() >= self.ebLowHealthThreshold:GetNumber()) then
     self.ebCriticalHealthThreshold:SetNumber(self.ebLowHealthThreshold:GetNumber() - 1)
   end
+
+  local shouldStartDangerousNpcCheckInterval = not Safeguard_Settings.Options.EnableDangerousNpcAlerts and self.cbEnableDangerousNpcAlerts:GetChecked()
+  local shouldUpdateDangerousNpcsWindow = Safeguard_Settings.Options.EnableDangerousNpcAlerts ~= self.cbEnableDangerousNpcAlerts:GetChecked() or
+    Safeguard_Settings.Options.DangerousNpcNormalLevelOffset ~= self.ebDangerousNpcNormalLevelOffset:GetNumber() or
+    Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset ~= self.ebDangerousNpcSpecialLevelOffset:GetNumber() or
+    Safeguard_Settings.Options.EnableDangerousNpcAlertWindow ~= self.cbEnableDangerousNpcAlertWindow:GetChecked()
+  local shouldUpdateRaidFrames = Safeguard_Settings.Options.ShowIconsOnRaidFrames ~= self.cbShowIconsOnRaidFrames:GetChecked()
   
   Safeguard_Settings.Options.EnableChatMessages = self.cbEnableChatMessages:GetChecked()
   Safeguard_Settings.Options.EnableChatMessagesLogout = self.cbEnableChatMessagesLogout:GetChecked()
   Safeguard_Settings.Options.EnableChatMessagesLowHealth = self.cbEnableChatMessagesLowHealth:GetChecked()
   Safeguard_Settings.Options.EnableChatMessagesSpellCasts = self.cbEnableChatMessagesSpellCasts:GetChecked()
   Safeguard_Settings.Options.EnableChatMessagesLossOfControl = self.cbEnableChatMessagesLossOfControl:GetChecked()
+  Safeguard_Settings.Options.EnableDangerousNpcAlerts = self.cbEnableDangerousNpcAlerts:GetChecked()
+  Safeguard_Settings.Options.DangerousNpcNormalLevelOffset = self.ebDangerousNpcNormalLevelOffset:GetNumber()
+  Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset = self.ebDangerousNpcSpecialLevelOffset:GetNumber()
+  Safeguard_Settings.Options.EnableDangerousNpcAlertWindow = self.cbEnableDangerousNpcAlertWindow:GetChecked()
+  Safeguard_Settings.Options.EnableDangerousNpcAlertSounds = self.cbEnableDangerousNpcAlertSounds:GetChecked()
   Safeguard_Settings.Options.EnableLowHealthAlerts = self.cbEnableLowHealthAlerts:GetChecked()  
   Safeguard_Settings.Options.ThresholdForLowHealth = self.ebLowHealthThreshold:GetNumber() / 100
   Safeguard_Settings.Options.ThresholdForCriticallyLowHealth = self.ebCriticalHealthThreshold:GetNumber() / 100
@@ -309,9 +407,15 @@ function Safeguard_OptionWindow:SaveOptions()
   Safeguard_Settings.Options.EnableTextNotificationsLossOfControlSelf = self.cbEnableTextNotificationsLossOfControlSelf:GetChecked()
   Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup = self.cbEnableTextNotificationsLossOfControlGroup:GetChecked()
   Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged = self.cbEnableTextNotificationsPvpFlagged:GetChecked()
-
-  local shouldUpdateRaidFrames = Safeguard_Settings.Options.ShowIconsOnRaidFrames ~= self.cbShowIconsOnRaidFrames:GetChecked()
   Safeguard_Settings.Options.ShowIconsOnRaidFrames = self.cbShowIconsOnRaidFrames:GetChecked()
+  
+  if (shouldStartDangerousNpcCheckInterval) then
+    Safeguard_IntervalManager:CheckDangerousEnemiesInterval()
+  end
+  if (shouldUpdateDangerousNpcsWindow) then
+    Safeguard_DangerousNpcsWindow:Update({})
+    Safeguard_IntervalManager.DangerousEnemiesVariables = {}
+  end
   if (shouldUpdateRaidFrames) then Safeguard_RaidFramesManager:UpdateRaidFrames() end
 end
 

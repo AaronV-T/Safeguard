@@ -60,6 +60,11 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
         EnableChatMessagesLossOfControl = true,
         EnableChatMessagesLowHealth = true,
         EnableChatMessagesSpellCasts = true,
+        EnableDangerousNpcAlerts = true,
+        DangerousNpcNormalLevelOffset = 5,
+        DangerousNpcSpecialLevelOffset = -8,
+        EnableDangerousNpcAlertWindow = true,
+        EnableDangerousNpcAlertSounds = true,
         EnableLowHealthAlerts = true,
         EnableLowHealthAlertScreenFlashing = true,
         EnableLowHealthAlertSounds = true,
@@ -92,6 +97,11 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (Safeguard_Settings.Options.ThresholdForCriticallyLowHealth == nil) then Safeguard_Settings.Options.ThresholdForCriticallyLowHealth = 0.30 end
   if (Safeguard_Settings.Options.ThresholdForLowHealth == nil) then Safeguard_Settings.Options.ThresholdForLowHealth = 0.50 end
   if (Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged == nil) then Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged = true end
+  if (Safeguard_Settings.Options.EnableDangerousNpcAlerts == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlerts = true end
+  if (Safeguard_Settings.Options.DangerousNpcNormalLevelOffset == nil) then Safeguard_Settings.Options.DangerousNpcNormalLevelOffset = 5 end
+  if (Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset == nil) then Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset = -8 end
+  if (Safeguard_Settings.Options.EnableDangerousNpcAlertWindow == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlertWindow = true end
+  if (Safeguard_Settings.Options.EnableDangerousNpcAlertSounds == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlertSounds = true end
 
   Safeguard_DangerousNpcsWindow:Initialize()
   Safeguard_OptionWindow:Initialize()

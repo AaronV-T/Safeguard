@@ -59,6 +59,10 @@ function IM:CheckCombatInterval()
 end
 
 function IM:CheckDangerousEnemiesInterval()
+  if (not Safeguard_Settings.Options.EnableDangerousNpcAlerts) then
+    return
+  end
+
   if (IM.DangerousEnemiesVariables.IntervalsSinceLastVariableUpdate == nil or IM.DangerousEnemiesVariables.IntervalsSinceLastVariableUpdate >= 100) then
     IM:UpdateVariablesForCheckingDangerousEnemies()
   end
@@ -75,17 +79,19 @@ function IM:CheckDangerousEnemiesInterval()
 
     IM.DangerousEnemiesVariables.TargetWasForbidden = false
     TargetUnit(npc.name)
+
     if (IM.DangerousEnemiesVariables.TargetWasForbidden) then
-      --print("Dangerous enemy is nearby: " .. npc.name)
       if (not IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name]) then
-        IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name] = true
-        --print("Dangerous enemy came into range: " .. npc.name)
+        IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name] = npc
         Safeguard_DangerousNpcsWindow:Update(IM.DangerousEnemiesVariables.DangerousNpcsNearby)
+
+        if (Safeguard_Settings.Options.EnableDangerousNpcAlertSounds) then
+          Safeguard_EventManager:PlaySound("alert1")
+        end
       end
     else
       if (IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name]) then
-        IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name] = false
-        --print("Dangerous enemy left range: " .. npc.name)
+        IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name] = nil
         Safeguard_DangerousNpcsWindow:Update(IM.DangerousEnemiesVariables.DangerousNpcsNearby)
       end
     end
@@ -147,7 +153,7 @@ function IM:UpdateVariablesForCheckingDangerousEnemies()
             end
 
             if (npcIsUnfriendly and npc.maxlevel and
-                (npc.maxlevel >= IM.DangerousEnemiesVariables.PlayerLevel + 5 or (npc.classification > 0 and npc.maxlevel >= IM.DangerousEnemiesVariables.PlayerLevel - 8))) then
+                (npc.maxlevel >= IM.DangerousEnemiesVariables.PlayerLevel + Safeguard_Settings.Options.DangerousNpcNormalLevelOffset or (npc.classification > 0 and npc.maxlevel >= IM.DangerousEnemiesVariables.PlayerLevel + Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset))) then
               table.insert(IM.DangerousEnemiesVariables.DangerousNpcs, npc)
               --print(npcId .. ": " .. npc.name)
             end
