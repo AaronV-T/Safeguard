@@ -59,7 +59,7 @@ function IM:CheckCombatInterval()
 end
 
 function IM:CheckDangerousEnemiesInterval()
-  if (not Safeguard_Settings.Options.EnableDangerousNpcAlerts) then
+  if (not Safeguard_Settings.Options.EnableDangerousNpcAlerts or not Safeguard_NpcDatabase) then
     return
   end
 
