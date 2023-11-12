@@ -454,6 +454,11 @@ function EM:Test()
   -- print(nameplateMaxDistance)
   -- --SetCVar("nameplateMaxDistance", 40) -- max is 20 in vanilla
 
+  for npcId, npc in pairs(Safeguard_NpcDatabase) do
+    if (npc.maxlevel - npc.minlevel > 5) then
+      print(npcId .. " (" .. npc.name .. "): " .. npc.minlevel .. "-" .. npc.maxlevel)
+    end
+  end
 end
 
 function EM:Debug()

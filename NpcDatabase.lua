@@ -2380,16 +2380,16 @@ Safeguard_NpcDatabase = {
     },
     type = 3
   },
-  [417] = {
-    classification = 0,
-    location = {
-      440,
-      1377,
-      2017
-    },
-    name = "Felhunter",
-    type = 3
-  },
+  -- [417] = {
+  --   classification = 0,
+  --   location = {
+  --     440,
+  --     1377,
+  --     2017
+  --   },
+  --   name = "Felhunter",
+  --   type = 3
+  -- },
   [422] = {
     classification = 0,
     location = {
@@ -17991,29 +17991,29 @@ Safeguard_NpcDatabase = {
     },
     type = 7
   },
-  [1860] = {
-    classification = 0,
-    location = {
-      331
-    },
-    maxlevel = 60,
-    minlevel = 17,
-    name = "Voidwalker",
-    react = {
-      -1,
-      null
-    },
-    type = 3
-  },
-  [1863] = {
-    classification = 0,
-    location = {
-      361,
-      440
-    },
-    name = "Succubus",
-    type = 3
-  },
+  -- [1860] = {
+  --   classification = 0,
+  --   location = {
+  --     331
+  --   },
+  --   maxlevel = 60,
+  --   minlevel = 17,
+  --   name = "Voidwalker",
+  --   react = {
+  --     -1,
+  --     null
+  --   },
+  --   type = 3
+  -- },
+  -- [1863] = {
+  --   classification = 0,
+  --   location = {
+  --     361,
+  --     440
+  --   },
+  --   name = "Succubus",
+  --   type = 3
+  -- },
   [1865] = {
     classification = 0,
     location = {
@@ -26809,17 +26809,17 @@ Safeguard_NpcDatabase = {
     },
     type = 7
   },
-  [2630] = {
-    classification = 0,
-    maxlevel = 60,
-    minlevel = 15,
-    name = "Earthbind Totem",
-    react = {
-      -1,
-      -1
-    },
-    type = 10
-  },
+  -- [2630] = {
+  --   classification = 0,
+  --   maxlevel = 60,
+  --   minlevel = 15,
+  --   name = "Earthbind Totem",
+  --   react = {
+  --     -1,
+  --     -1
+  --   },
+  --   type = 10
+  -- },
   [2634] = {
     classification = 0,
     hasQuests = 1,
@@ -30753,20 +30753,20 @@ Safeguard_NpcDatabase = {
     },
     type = 7
   },
-  [2992] = {
-    classification = 0,
-    location = {
-      491
-    },
-    maxlevel = 38,
-    minlevel = 28,
-    name = "Healing Ward V",
-    react = {
-      -1,
-      -1
-    },
-    type = 10
-  },
+  -- [2992] = {
+  --   classification = 0,
+  --   location = {
+  --     491
+  --   },
+  --   maxlevel = 38,
+  --   minlevel = 28,
+  --   name = "Healing Ward V",
+  --   react = {
+  --     -1,
+  --     -1
+  --   },
+  --   type = 10
+  -- },
   [2993] = {
     classification = 0,
     hasQuests = 1,
@@ -38537,22 +38537,22 @@ Safeguard_NpcDatabase = {
     tag = "Journeyman Blacksmith",
     type = 7
   },
-  [3560] = {
-    classification = 0,
-    location = {
-      148,
-      33,
-      1337
-    },
-    maxlevel = 49,
-    minlevel = 10,
-    name = "Healing Ward",
-    react = {
-      -1,
-      -1
-    },
-    type = 10
-  },
+  -- [3560] = {
+  --   classification = 0,
+  --   location = {
+  --     148,
+  --     33,
+  --     1337
+  --   },
+  --   maxlevel = 49,
+  --   minlevel = 10,
+  --   name = "Healing Ward",
+  --   react = {
+  --     -1,
+  --     -1
+  --   },
+  --   type = 10
+  -- },
   [3561] = {
     classification = 0,
     location = {
@@ -41483,22 +41483,22 @@ Safeguard_NpcDatabase = {
     tag = "The Keymaster",
     type = 7
   },
-  [3844] = {
-    classification = 0,
-    location = {
-      331,
-      17,
-      11
-    },
-    maxlevel = 26,
-    minlevel = 23,
-    name = "Healing Ward IV",
-    react = {
-      -1,
-      -1
-    },
-    type = 10
-  },
+  -- [3844] = {
+  --   classification = 0,
+  --   location = {
+  --     331,
+  --     17,
+  --     11
+  --   },
+  --   maxlevel = 26,
+  --   minlevel = 23,
+  --   name = "Healing Ward IV",
+  --   react = {
+  --     -1,
+  --     -1
+  --   },
+  --   type = 10
+  -- },
   [3845] = {
     classification = 0,
     hasQuests = 1,
@@ -63094,28 +63094,28 @@ Safeguard_NpcDatabase = {
     },
     type = 1
   },
-  [6016] = {
-    classification = 0,
-    maxlevel = 57,
-    minlevel = 29,
-    name = "Elemental Protection Totem",
-    react = {
-      -1,
-      -1
-    },
-    type = 10
-  },
-  [6017] = {
-    classification = 0,
-    maxlevel = 46,
-    minlevel = 28,
-    name = "Lava Spout Totem",
-    react = {
-      -1,
-      -1
-    },
-    type = 10
-  },
+  -- [6016] = {
+  --   classification = 0,
+  --   maxlevel = 57,
+  --   minlevel = 29,
+  --   name = "Elemental Protection Totem",
+  --   react = {
+  --     -1,
+  --     -1
+  --   },
+  --   type = 10
+  -- },
+  -- [6017] = {
+  --   classification = 0,
+  --   maxlevel = 46,
+  --   minlevel = 28,
+  --   name = "Lava Spout Totem",
+  --   react = {
+  --     -1,
+  --     -1
+  --   },
+  --   type = 10
+  -- },
   [6018] = {
     classification = 0,
     hasQuests = 1,
@@ -63307,17 +63307,17 @@ Safeguard_NpcDatabase = {
     },
     type = 4
   },
-  [6066] = {
-    classification = 0,
-    maxlevel = 60,
-    minlevel = 29,
-    name = "Earthgrab Totem",
-    react = {
-      -1,
-      -1
-    },
-    type = 10
-  },
+  -- [6066] = {
+  --   classification = 0,
+  --   maxlevel = 60,
+  --   minlevel = 29,
+  --   name = "Earthgrab Totem",
+  --   react = {
+  --     -1,
+  --     -1
+  --   },
+  --   type = 10
+  -- },
   [6068] = {
     classification = 0,
     location = {
@@ -63374,14 +63374,14 @@ Safeguard_NpcDatabase = {
     },
     type = 3
   },
-  [6072] = {
-    classification = 0,
-    location = {
-      331
-    },
-    name = "Diathorus the Seeker",
-    type = 3
-  },
+  -- [6072] = {
+  --   classification = 0,
+  --   location = {
+  --     331
+  --   },
+  --   name = "Diathorus the Seeker",
+  --   type = 3
+  -- },
   [6073] = {
     classification = 0,
     location = {
@@ -70783,14 +70783,14 @@ Safeguard_NpcDatabase = {
     },
     type = 7
   },
-  [7365] = {
-    classification = 0,
-    location = {
-      4
-    },
-    name = "Flawless Draenethyst Fragment",
-    type = 4
-  },
+  -- [7365] = {
+  --   classification = 0,
+  --   location = {
+  --     4
+  --   },
+  --   name = "Flawless Draenethyst Fragment",
+  --   type = 4
+  -- },
   [7369] = {
     classification = 0,
     location = {
@@ -71025,15 +71025,15 @@ Safeguard_NpcDatabase = {
     name = "Draenei Refugee",
     type = 7
   },
-  [7403] = {
-    classification = 0,
-    name = "Strength of Earth Totem IV",
-    react = {
-      null,
-      1
-    },
-    type = 10
-  },
+  -- [7403] = {
+  --   classification = 0,
+  --   name = "Strength of Earth Totem IV",
+  --   react = {
+  --     null,
+  --     1
+  --   },
+  --   type = 10
+  -- },
   [7404] = {
     classification = 0,
     location = {
@@ -74361,14 +74361,14 @@ Safeguard_NpcDatabase = {
     },
     type = 7
   },
-  [8017] = {
-    classification = 0,
-    location = {
-      14
-    },
-    name = "Sen'jin Guardian",
-    type = 7
-  },
+  -- [8017] = {
+  --   classification = 0,
+  --   location = {
+  --     14
+  --   },
+  --   name = "Sen'jin Guardian",
+  --   type = 7
+  -- },
   [8018] = {
     classification = 1,
     location = {
@@ -75222,20 +75222,20 @@ Safeguard_NpcDatabase = {
     tag = "Alchemy Supplies",
     type = 7
   },
-  [8179] = {
-    classification = 0,
-    location = {
-      1176
-    },
-    maxlevel = 52,
-    minlevel = 43,
-    name = "Greater Healing Ward",
-    react = {
-      -1,
-      -1
-    },
-    type = 10
-  },
+  -- [8179] = {
+  --   classification = 0,
+  --   location = {
+  --     1176
+  --   },
+  --   maxlevel = 52,
+  --   minlevel = 43,
+  --   name = "Greater Healing Ward",
+  --   react = {
+  --     -1,
+  --     -1
+  --   },
+  --   type = 10
+  -- },
   [8196] = {
     classification = 1,
     location = {
@@ -76766,15 +76766,15 @@ Safeguard_NpcDatabase = {
     tag = "The Undermarket",
     type = 7
   },
-  [8443] = {
-    boss = 1,
-    classification = 1,
-    location = {
-      1477
-    },
-    name = "Avatar of Hakkar",
-    type = 10
-  },
+  -- [8443] = {
+  --   boss = 1,
+  --   classification = 1,
+  --   location = {
+  --     1477
+  --   },
+  --   name = "Avatar of Hakkar",
+  --   type = 10
+  -- },
   [8444] = {
     classification = 0,
     location = {
@@ -84850,20 +84850,20 @@ Safeguard_NpcDatabase = {
     },
     type = 10
   },
-  [10218] = {
-    classification = 0,
-    location = {
-      1583
-    },
-    maxlevel = 61,
-    minlevel = 56,
-    name = "Superior Healing Ward",
-    react = {
-      -1,
-      -1
-    },
-    type = 10
-  },
+  -- [10218] = {
+  --   classification = 0,
+  --   location = {
+  --     1583
+  --   },
+  --   maxlevel = 61,
+  --   minlevel = 56,
+  --   name = "Superior Healing Ward",
+  --   react = {
+  --     -1,
+  --     -1
+  --   },
+  --   type = 10
+  -- },
   [10219] = {
     classification = 0,
     hasQuests = 1,
@@ -87906,14 +87906,14 @@ Safeguard_NpcDatabase = {
     },
     type = 1
   },
-  [10719] = {
-    classification = 0,
-    location = {
-      17
-    },
-    name = "Herald of Thrall",
-    type = 7
-  },
+  -- [10719] = {
+  --   classification = 0,
+  --   location = {
+  --     17
+  --   },
+  --   name = "Herald of Thrall",
+  --   type = 7
+  -- },
   [10720] = {
     classification = 0,
     location = {
@@ -88395,15 +88395,15 @@ Safeguard_NpcDatabase = {
     },
     type = 7
   },
-  [10813] = {
-    boss = 1,
-    classification = 1,
-    location = {
-      2017
-    },
-    name = "Balnazzar",
-    type = 3
-  },
+  -- [10813] = {
+  --   boss = 1,
+  --   classification = 1,
+  --   location = {
+  --     2017
+  --   },
+  --   name = "Balnazzar",
+  --   type = 3
+  -- },
   [10814] = {
     classification = 1,
     location = {
@@ -98872,15 +98872,15 @@ Safeguard_NpcDatabase = {
     },
     type = 10
   },
-  [12383] = {
-    classification = 0,
-    location = {
-      1638
-    },
-    name = "Nibbles",
-    tag = "Prairie Dog",
-    type = 8
-  },
+  -- [12383] = {
+  --   classification = 0,
+  --   location = {
+  --     1638
+  --   },
+  --   name = "Nibbles",
+  --   tag = "Prairie Dog",
+  --   type = 8
+  -- },
   [12384] = {
     classification = 0,
     hasQuests = 1,
@@ -102770,22 +102770,22 @@ Safeguard_NpcDatabase = {
     },
     type = 7
   },
-  [13426] = {
-    classification = 0,
-    location = {
-      2597
-    },
-    name = "Champion Mountaineer",
-    type = 7
-  },
-  [13427] = {
-    classification = 0,
-    location = {
-      2597
-    },
-    name = "Champion Sentinel",
-    type = 7
-  },
+  -- [13426] = {
+  --   classification = 0,
+  --   location = {
+  --     2597
+  --   },
+  --   name = "Champion Mountaineer",
+  --   type = 7
+  -- },
+  -- [13427] = {
+  --   classification = 0,
+  --   location = {
+  --     2597
+  --   },
+  --   name = "Champion Sentinel",
+  --   type = 7
+  -- },
   [13428] = {
     classification = 0,
     location = {
@@ -103048,14 +103048,14 @@ Safeguard_NpcDatabase = {
     },
     type = 7
   },
-  [13446] = {
-    classification = 1,
-    location = {
-      2597
-    },
-    name = "Field Marshal Teravaine",
-    type = 7
-  },
+  -- [13446] = {
+  --   classification = 1,
+  --   location = {
+  --     2597
+  --   },
+  --   name = "Field Marshal Teravaine",
+  --   type = 7
+  -- },
   [13447] = {
     classification = 1,
     location = {
@@ -103084,14 +103084,14 @@ Safeguard_NpcDatabase = {
     },
     type = 7
   },
-  [13449] = {
-    classification = 1,
-    location = {
-      2597
-    },
-    name = "Warmaster Garrick",
-    type = 7
-  },
+  -- [13449] = {
+  --   classification = 1,
+  --   location = {
+  --     2597
+  --   },
+  --   name = "Warmaster Garrick",
+  --   type = 7
+  -- },
   [13456] = {
     classification = 0,
     location = {
@@ -103121,62 +103121,62 @@ Safeguard_NpcDatabase = {
     tag = "Potions, Scrolls and Reagents",
     type = 7
   },
-  [13524] = {
-    classification = 1,
-    location = {
-      2597
-    },
-    name = "Stormpike Commando",
-    type = 7
-  },
-  [13525] = {
-    classification = 1,
-    location = {
-      2597
-    },
-    name = "Seasoned Commando",
-    type = 7
-  },
-  [13526] = {
-    classification = 1,
-    location = {
-      2597
-    },
-    name = "Veteran Commando",
-    type = 7
-  },
-  [13527] = {
-    classification = 1,
-    location = {
-      2597
-    },
-    name = "Champion Commando",
-    type = 7
-  },
-  [13529] = {
-    classification = 1,
-    location = {
-      2597
-    },
-    name = "Seasoned Reaver",
-    type = 7
-  },
-  [13530] = {
-    classification = 1,
-    location = {
-      2597
-    },
-    name = "Veteran Reaver",
-    type = 7
-  },
-  [13531] = {
-    classification = 1,
-    location = {
-      2597
-    },
-    name = "Champion Reaver",
-    type = 7
-  },
+  -- [13524] = {
+  --   classification = 1,
+  --   location = {
+  --     2597
+  --   },
+  --   name = "Stormpike Commando",
+  --   type = 7
+  -- },
+  -- [13525] = {
+  --   classification = 1,
+  --   location = {
+  --     2597
+  --   },
+  --   name = "Seasoned Commando",
+  --   type = 7
+  -- },
+  -- [13526] = {
+  --   classification = 1,
+  --   location = {
+  --     2597
+  --   },
+  --   name = "Veteran Commando",
+  --   type = 7
+  -- },
+  -- [13527] = {
+  --   classification = 1,
+  --   location = {
+  --     2597
+  --   },
+  --   name = "Champion Commando",
+  --   type = 7
+  -- },
+  -- [13529] = {
+  --   classification = 1,
+  --   location = {
+  --     2597
+  --   },
+  --   name = "Seasoned Reaver",
+  --   type = 7
+  -- },
+  -- [13530] = {
+  --   classification = 1,
+  --   location = {
+  --     2597
+  --   },
+  --   name = "Veteran Reaver",
+  --   type = 7
+  -- },
+  -- [13531] = {
+  --   classification = 1,
+  --   location = {
+  --     2597
+  --   },
+  --   name = "Champion Reaver",
+  --   type = 7
+  -- },
   [13533] = {
     classification = 1,
     location = {
@@ -107934,14 +107934,14 @@ Safeguard_NpcDatabase = {
     },
     type = 6
   },
-  [14690] = {
-    classification = 1,
-    location = {
-      2557
-    },
-    name = "Revanchion",
-    type = 6
-  },
+  -- [14690] = {
+  --   classification = 1,
+  --   location = {
+  --     2557
+  --   },
+  --   name = "Revanchion",
+  --   type = 6
+  -- },
   [14693] = {
     classification = 1,
     location = {
@@ -109814,20 +109814,20 @@ Safeguard_NpcDatabase = {
     },
     type = 6
   },
-  [14987] = {
-    classification = 0,
-    location = {
-      1977
-    },
-    maxlevel = 60,
-    minlevel = 60,
-    name = "Powerful Healing Ward",
-    react = {
-      -1,
-      -1
-    },
-    type = 10
-  },
+  -- [14987] = {
+  --   classification = 0,
+  --   location = {
+  --     1977
+  --   },
+  --   maxlevel = 60,
+  --   minlevel = 60,
+  --   name = "Powerful Healing Ward",
+  --   react = {
+  --     -1,
+  --     -1
+  --   },
+  --   type = 10
+  -- },
   [14988] = {
     classification = 3,
     location = {
@@ -115230,18 +115230,18 @@ Safeguard_NpcDatabase = {
     tag = "Stable Master",
     type = 7
   },
-  [15723] = {
-    classification = 0,
-    location = {
-      33
-    },
-    name = "Booty Bay Reveler",
-    react = {
-      1,
-      1
-    },
-    type = 7
-  },
+  -- [15723] = {
+  --   classification = 0,
+  --   location = {
+  --     33
+  --   },
+  --   name = "Booty Bay Reveler",
+  --   react = {
+  --     1,
+  --     1
+  --   },
+  --   type = 7
+  -- },
   [15724] = {
     classification = 0,
     location = {
@@ -116014,14 +116014,14 @@ Safeguard_NpcDatabase = {
     },
     type = 10
   },
-  [15815] = {
-    classification = 1,
-    location = {
-      400
-    },
-    name = "Qiraji Captain Ka'ark",
-    type = 10
-  },
+  -- [15815] = {
+  --   classification = 1,
+  --   location = {
+  --     400
+  --   },
+  --   name = "Qiraji Captain Ka'ark",
+  --   type = 10
+  -- },
   [15816] = {
     classification = 1,
     location = {
@@ -116066,55 +116066,55 @@ Safeguard_NpcDatabase = {
     },
     type = 10
   },
-  [15839] = {
-    classification = 0,
-    location = {
-      17
-    },
-    name = "Might of Kalimdor Grunt",
-    type = 7
-  },
-  [15841] = {
-    classification = 0,
-    location = {
-      400,
-      440
-    },
-    name = "Might of Kalimdor Lieutenant",
-    type = 7
-  },
-  [15842] = {
-    classification = 0,
-    location = {
-      400
-    },
-    name = "Might of Kalimdor Mage",
-    type = 7
-  },
-  [15843] = {
-    classification = 0,
-    location = {
-      440
-    },
-    name = "Might of Kalimdor Priest",
-    type = 7
-  },
-  [15844] = {
-    classification = 0,
-    location = {
-      400
-    },
-    name = "Might of Kalimdor Restorer",
-    type = 7
-  },
-  [15846] = {
-    classification = 0,
-    location = {
-      400
-    },
-    name = "Might of Kalimdor Archer",
-    type = 7
-  },
+  -- [15839] = {
+  --   classification = 0,
+  --   location = {
+  --     17
+  --   },
+  --   name = "Might of Kalimdor Grunt",
+  --   type = 7
+  -- },
+  -- [15841] = {
+  --   classification = 0,
+  --   location = {
+  --     400,
+  --     440
+  --   },
+  --   name = "Might of Kalimdor Lieutenant",
+  --   type = 7
+  -- },
+  -- [15842] = {
+  --   classification = 0,
+  --   location = {
+  --     400
+  --   },
+  --   name = "Might of Kalimdor Mage",
+  --   type = 7
+  -- },
+  -- [15843] = {
+  --   classification = 0,
+  --   location = {
+  --     440
+  --   },
+  --   name = "Might of Kalimdor Priest",
+  --   type = 7
+  -- },
+  -- [15844] = {
+  --   classification = 0,
+  --   location = {
+  --     400
+  --   },
+  --   name = "Might of Kalimdor Restorer",
+  --   type = 7
+  -- },
+  -- [15846] = {
+  --   classification = 0,
+  --   location = {
+  --     400
+  --   },
+  --   name = "Might of Kalimdor Archer",
+  --   type = 7
+  -- },
   [15847] = {
     classification = 0,
     location = {
@@ -116144,30 +116144,30 @@ Safeguard_NpcDatabase = {
     },
     type = 7
   },
-  [15849] = {
-    classification = 0,
-    location = {
-      400
-    },
-    name = "Might of Kalimdor Druid",
-    type = 7
-  },
-  [15850] = {
-    classification = 0,
-    location = {
-      400
-    },
-    name = "Might of Kalimdor Skirmisher",
-    type = 7
-  },
-  [15851] = {
-    classification = 0,
-    location = {
-      1377
-    },
-    name = "Might of Kalimdor Marshal",
-    type = 7
-  },
+  -- [15849] = {
+  --   classification = 0,
+  --   location = {
+  --     400
+  --   },
+  --   name = "Might of Kalimdor Druid",
+  --   type = 7
+  -- },
+  -- [15850] = {
+  --   classification = 0,
+  --   location = {
+  --     400
+  --   },
+  --   name = "Might of Kalimdor Skirmisher",
+  --   type = 7
+  -- },
+  -- [15851] = {
+  --   classification = 0,
+  --   location = {
+  --     1377
+  --   },
+  --   name = "Might of Kalimdor Marshal",
+  --   type = 7
+  -- },
   [15852] = {
     classification = 1,
     location = {
@@ -116381,14 +116381,14 @@ Safeguard_NpcDatabase = {
     },
     type = 7
   },
-  [15867] = {
-    classification = 0,
-    location = {
-      1377
-    },
-    name = "Might of Kalimdor Archmage",
-    type = 7
-  },
+  -- [15867] = {
+  --   classification = 0,
+  --   location = {
+  --     1377
+  --   },
+  --   name = "Might of Kalimdor Archmage",
+  --   type = 7
+  -- },
   [15868] = {
     classification = 1,
     location = {
@@ -118862,15 +118862,15 @@ Safeguard_NpcDatabase = {
     },
     type = 6
   },
-  [16254] = {
-    classification = 1,
-    location = {
-      139
-    },
-    name = "Field Marshal Chambers",
-    tag = "The Argent Dawn",
-    type = 7
-  },
+  -- [16254] = {
+  --   classification = 1,
+  --   location = {
+  --     139
+  --   },
+  --   name = "Field Marshal Chambers",
+  --   tag = "The Argent Dawn",
+  --   type = 7
+  -- },
   [16255] = {
     classification = 0,
     hasQuests = 1,
@@ -120066,14 +120066,14 @@ Safeguard_NpcDatabase = {
     },
     type = 6
   },
-  [16982] = {
-    classification = 1,
-    location = {
-      3456
-    },
-    name = "Plagued Construct",
-    type = 6
-  },
+  -- [16982] = {
+  --   classification = 1,
+  --   location = {
+  --     3456
+  --   },
+  --   name = "Plagued Construct",
+  --   type = 6
+  -- },
   [16983] = {
     classification = 1,
     location = {
@@ -120116,78 +120116,78 @@ Safeguard_NpcDatabase = {
     },
     type = 8
   },
-  [17038] = {
-    classification = 0,
-    location = {
-      1519
-    },
-    name = "Stormwind Firebreather",
-    react = {
-      1,
-      null
-    },
-    type = 7
-  },
-  [17041] = {
-    classification = 0,
-    location = {
-      1637
-    },
-    name = "Orgrimmar Fireeater",
-    react = {
-      null,
-      -1
-    },
-    type = 7
-  },
-  [17048] = {
-    classification = 0,
-    location = {
-      1537
-    },
-    name = "Ironforge Firebreather",
-    react = {
-      1,
-      null
-    },
-    type = 7
-  },
-  [17049] = {
-    classification = 0,
-    location = {
-      141
-    },
-    name = "Darnassus Firebreather",
-    react = {
-      1,
-      null
-    },
-    type = 7
-  },
-  [17050] = {
-    classification = 0,
-    location = {
-      1638
-    },
-    name = "Thunder Bluff Fireeater",
-    react = {
-      null,
-      -1
-    },
-    type = 7
-  },
-  [17051] = {
-    classification = 0,
-    location = {
-      1497
-    },
-    name = "Undercity Fireeater",
-    react = {
-      null,
-      -1
-    },
-    type = 7
-  },
+  -- [17038] = {
+  --   classification = 0,
+  --   location = {
+  --     1519
+  --   },
+  --   name = "Stormwind Firebreather",
+  --   react = {
+  --     1,
+  --     null
+  --   },
+  --   type = 7
+  -- },
+  -- [17041] = {
+  --   classification = 0,
+  --   location = {
+  --     1637
+  --   },
+  --   name = "Orgrimmar Fireeater",
+  --   react = {
+  --     null,
+  --     -1
+  --   },
+  --   type = 7
+  -- },
+  -- [17048] = {
+  --   classification = 0,
+  --   location = {
+  --     1537
+  --   },
+  --   name = "Ironforge Firebreather",
+  --   react = {
+  --     1,
+  --     null
+  --   },
+  --   type = 7
+  -- },
+  -- [17049] = {
+  --   classification = 0,
+  --   location = {
+  --     141
+  --   },
+  --   name = "Darnassus Firebreather",
+  --   react = {
+  --     1,
+  --     null
+  --   },
+  --   type = 7
+  -- },
+  -- [17050] = {
+  --   classification = 0,
+  --   location = {
+  --     1638
+  --   },
+  --   name = "Thunder Bluff Fireeater",
+  --   react = {
+  --     null,
+  --     -1
+  --   },
+  --   type = 7
+  -- },
+  -- [17051] = {
+  --   classification = 0,
+  --   location = {
+  --     1497
+  --   },
+  --   name = "Undercity Fireeater",
+  --   react = {
+  --     null,
+  --     -1
+  --   },
+  --   type = 7
+  -- },
   [17055] = {
     classification = 0,
     location = {
@@ -120335,15 +120335,15 @@ Safeguard_NpcDatabase = {
     tag = "Spectral Gryphon Master",
     type = 7
   },
-  [17249] = {
-    classification = 0,
-    location = {
-      33
-    },
-    name = "Landro Longshot",
-    tag = "The Black Flame",
-    type = 7
-  },
+  -- [17249] = {
+  --   classification = 0,
+  --   location = {
+  --     33
+  --   },
+  --   name = "Landro Longshot",
+  --   tag = "The Black Flame",
+  --   type = 7
+  -- },
   [17598] = {
     classification = 0,
     location = {
@@ -120538,20 +120538,20 @@ Safeguard_NpcDatabase = {
     },
     type = 2
   },
-  [185334] = {
-    classification = 0,
-    location = {
-      17
-    },
-    name = "Isaac Pearson",
-    type = 7
-  },
-  [185335] = {
-    classification = 0,
-    location = {
-      1519
-    },
-    name = "Summoned Incubus",
-    type = 3
-  }
+  -- [185334] = {
+  --   classification = 0,
+  --   location = {
+  --     17
+  --   },
+  --   name = "Isaac Pearson",
+  --   type = 7
+  -- },
+  -- [185335] = {
+  --   classification = 0,
+  --   location = {
+  --     1519
+  --   },
+  --   name = "Summoned Incubus",
+  --   type = 3
+  -- }
 }
