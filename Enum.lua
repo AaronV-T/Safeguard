@@ -38,5 +38,6 @@ SgEnum = {
     AuraApplied = 20,
     PvpFlagged = 21,
     PvpUnflagged = 22,
+    ExtraAttacksStored = 23,
   },
 }

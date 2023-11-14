@@ -128,14 +128,28 @@ local SpellsToNotifyOnCastStart = {
   ["Hearthstone"] = true,
 }
 
+local combatLogHostileEvents = { }
+do
+    local hostileEventPrefixes = { "RANGE", "SPELL", "SPELL_BUILDING", "SPELL_PERIODIC", "SWING" }
+    local hostileEventSuffixes = { "DAMAGE", "DRAIN", "INSTAKILL", "LEECH", "MISSED" }
+    for _, prefix in pairs(hostileEventPrefixes) do
+        for _, suffix in pairs(hostileEventSuffixes) do
+          combatLogHostileEvents[prefix .. "_" .. suffix] = true
+        end
+    end
+end
+
+local knownHostileUnits = {} -- <GUID, _>
+local unitsWithExtraAttacksStored = {} -- <GUID, amount>
+
 function EM.EventHandlers.COMBAT_LOG_EVENT_UNFILTERED(self)
   local timestamp, event, hideCaster, sourceGuid, sourceName, sourceFlags, sourceRaidFlags, destGuid, destName, destFlags, destRaidflags = CombatLogGetCurrentEventInfo()
   --print("COMBAT_LOG_EVENT_UNFILTERED. " .. tostring(event))
 
   if (event == "SPELL_AURA_APPLIED") then
-    local amount, auraType = select(12, CombatLogGetCurrentEventInfo())
-    if (AurasToNotify[auraType]) then
-      Safeguard_NotificationManager:ShowNotificationToPlayer(destName, SgEnum.NotificationType.AuraApplied, auraType)
+    local spellId, spellName, spellSchool, auraType = select(12, CombatLogGetCurrentEventInfo())
+    if (AurasToNotify[spellName]) then
+      Safeguard_NotificationManager:ShowNotificationToPlayer(destName, SgEnum.NotificationType.AuraApplied, spellName)
     end
   elseif (event == "SPELL_CAST_FAILED") then
     -- Note: SPELL_CAST_FAILED events are not triggered for other players' failed spell casts.
@@ -155,6 +169,49 @@ function EM.EventHandlers.COMBAT_LOG_EVENT_UNFILTERED(self)
       if (sourceGuid ~= UnitGUID("player") and UnitHelperFunctions.IsUnitGuidInOurPartyOrRaid(sourceGuid)) then
         Safeguard_NotificationManager:ShowNotificationToPlayer(sourceName, SgEnum.NotificationType.SpellCastStarted, spellName)
       end
+    end
+  elseif (event == "SPELL_EXTRA_ATTACKS") then
+    local spellId, spellName, spellSchool, amount = select(12, CombatLogGetCurrentEventInfo())
+
+    if (not unitsWithExtraAttacksStored[sourceGuid]) then
+      unitsWithExtraAttacksStored[sourceGuid] = amount
+    else
+      unitsWithExtraAttacksStored[sourceGuid] = unitsWithExtraAttacksStored[sourceGuid] + amount
+    end
+
+    C_Timer.After(0.25, function() -- This is on a timer because there is no point in notifying the player if the attacks occur immediately after the enemy stores them.
+      if (unitsWithExtraAttacksStored[sourceGuid] > 0) then
+        local shouldNotify = knownHostileUnits[sourceGuid]
+
+        if (not shouldNotify) then
+          local unitId = UnitHelperFunctions.FindUnitIdByUnitGuid(sourceGuid)
+          if (unitId) then
+            local isTanking, status, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation("player", unitId)
+            if (threatpct ~= nil) then
+              shouldNotify = true
+            end
+          end
+        end
+
+        if (shouldNotify) then
+          Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), SgEnum.NotificationType.ExtraAttacksStored, sourceName, unitsWithExtraAttacksStored[sourceGuid])
+        end
+      end
+    end)
+  end
+
+  if (combatLogHostileEvents[event]) then
+    local playerGuid = UnitGUID("player")
+    if (sourceGuid == playerGuid) then
+      knownHostileUnits[destGuid] = true
+    elseif (destGuid == playerGuid) then
+      knownHostileUnits[sourceGuid] = true
+    end
+  end
+
+  if (string.match(event, "SWING")) then
+    if (unitsWithExtraAttacksStored[sourceGuid]) then
+      unitsWithExtraAttacksStored[sourceGuid] = 0
     end
   end
 end

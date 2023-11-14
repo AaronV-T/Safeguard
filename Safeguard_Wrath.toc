@@ -2,7 +2,7 @@
 ## Title: Safeguard
 ## Notes: Help players stay alive.
 ## Author: Tollski
-## Version: 1.1.1
+## Version: 1.1.2
 ## SavedVariables: SAFEGUARD_SETTINGS
 
 DangerousNpcsWindow.lua

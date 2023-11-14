@@ -9,9 +9,8 @@ Alert other players with the addon if disconnecting, logging out, hearthing, or 
 Show group member AFK status (maybe time since their last combat action)
 Low rank combat skill reminders
 Alert when high level mobs are detected, targetted, or targetting player
-Alert if settings/keybinds change.
+Alert if settings/keybinds change. Force settings (e.g. scrolling combat text).
 Fatal falls
-Lava jump timer
 Configurable auras/spells to trigger. https://www.reddit.com/r/classicwow/comments/1720x1w/greatest_mysteries_of_the_world/
 Show how many mobs are in combat with you, with your pet, and with other players. Alert when it is many (e.g. especially for accidental pet pulls).
 Show dangerous quests
@@ -24,7 +23,6 @@ Leash timer.
 mana low
 low ammo
 breath warnings
-Thrash Warning
 
 Auto-accept partner trade
 Notify on follow break
