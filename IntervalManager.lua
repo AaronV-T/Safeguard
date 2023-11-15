@@ -115,7 +115,8 @@ function IM:UpdateVariablesForCheckingDangerousEnemies()
   IM.DangerousEnemiesVariables.IntervalsSinceLastVariableUpdate = 0
 
   local playerUiMapID = C_Map.GetBestMapForUnit("player")
-  if (not Safeguard_ZoneDatabase[playerUiMapID] or (Safeguard_ZoneDatabase[playerUiMapID].MapId ~= 0 and Safeguard_ZoneDatabase[playerUiMapID].MapId ~= 1)) then
+  local name, type, difficultyIndex, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, instanceMapId, lfgID = GetInstanceInfo()
+  if (not Safeguard_ZoneDatabase[playerUiMapID] or type ~= "none") then
     IM.DangerousEnemiesVariables.DangerousNpcs = nil
     IM.DangerousEnemiesVariables.DangerousNpcsNearby = nil
     IM.DangerousEnemiesVariables.PlayerAreaId = nil

@@ -190,9 +190,14 @@ function EM.EventHandlers.COMBAT_LOG_EVENT_UNFILTERED(self)
         if (not shouldNotify) then
           local unitId = UnitHelperFunctions.FindUnitIdByUnitGuid(sourceGuid)
           if (unitId) then
-            local isTanking, status, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation("player", unitId)
-            if (threatpct ~= nil) then
+            local name, type, difficultyIndex, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, instanceMapId, lfgID = GetInstanceInfo()
+            if ((type == "party" or type == "raid") and not UnitIsFriend("player", unitId)) then
               shouldNotify = true
+            else
+              local isTanking, status, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation("player", unitId)
+              if (threatpct ~= nil) then
+                shouldNotify = true
+              end
             end
           end
         end
@@ -246,6 +251,8 @@ function EM.EventHandlers.LOSS_OF_CONTROL_ADDED(self, unitId, effectIndex)
     locType = SgEnum.LossOfControlType.Confuse
   elseif (lossOfControlData.locType == "DISARM") then
     locType = SgEnum.LossOfControlType.Disarm
+  elseif (lossOfControlData.locType == "FEAR_MECHANIC") then
+    locType = SgEnum.LossOfControlType.FearMechanic
   elseif (lossOfControlData.locType == "ROOT") then
     locType = SgEnum.LossOfControlType.Root
   elseif (lossOfControlData.locType == "SCHOOL_INTERRUPT") then
@@ -256,6 +263,8 @@ function EM.EventHandlers.LOSS_OF_CONTROL_ADDED(self, unitId, effectIndex)
     locType = SgEnum.LossOfControlType.Stun
   elseif (lossOfControlData.locType == "STUN_MECHANIC") then
     locType = SgEnum.LossOfControlType.StunMechanic
+  else
+    table.insert(Safeguard_EventManager.DebugLogs, string.format("%d - No LossOfControlType for: %s", time(), lossOfControlData.locType))
   end
 
   local timeRemaining = lossOfControlData.timeRemaining

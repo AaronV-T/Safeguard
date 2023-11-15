@@ -277,6 +277,8 @@ function NM:ConvertLossOfControlTypeToText(lossOfControlType)
     return "confused"
   elseif (lossOfControlType == SgEnum.LossOfControlType.Disarm) then
     return "disarmed"
+  elseif (lossOfControlType == SgEnum.LossOfControlType.FearMechanic) then
+    return "feared"
   elseif (lossOfControlType == SgEnum.LossOfControlType.Root) then
     return "immobilized"
   elseif (lossOfControlType == SgEnum.LossOfControlType.SchoolInterrupt) then

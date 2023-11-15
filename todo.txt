@@ -1,28 +1,26 @@
-Use last timestamp based off any addon message or combat log.
+healer mana low
+breath warnings
+Alert if settings/keybinds change.
 Health notification bug for group members logging in.
+Low rank combat skill reminders
 Alert other players with the addon if disconnecting, logging out, hearthing, or taunt fails, or using threat altering abilities (divine shield, aoe taunt, fd, vanish), or silenced/stunned.
   AoE Taunt
   Taunt Fail/Success
   Defensive Cooldowns
   AFK
   Target Dummy
-Show group member AFK status (maybe time since their last combat action)
-Low rank combat skill reminders
-Alert when high level mobs are detected, targetted, or targetting player
-Alert if settings/keybinds change.
-Fatal falls
-Configurable auras/spells to trigger. https://www.reddit.com/r/classicwow/comments/1720x1w/greatest_mysteries_of_the_world/
-Show how many mobs are in combat with you, with your pet, and with other players. Alert when it is many (e.g. especially for accidental pet pulls).
-Show dangerous quests
-Show warnings when important buffs/items missing (Power Word: Fortitude, Healthstones, seals, auras)
 Alert if AFK (especially if in combat)
+Show group member AFK status (maybe time since their last combat action)
+Use last timestamp based off any addon message or combat log.
+Fatal falls
+Configurable auras/spells to trigger.
+Identify dangerous quests
+Show warnings when important buffs/items missing (Power Word: Fortitude, Healthstones, seals, auras)
 Warn when using dangerous abilities in combat (aspect of the cheetah)
 Copying macros from other characters.
 Show notice and icon when nearby player requests help.
 Leash timer.
-mana low
-low ammo
-breath warnings
+
 
 Auto-accept partner trade
 Notify on follow break

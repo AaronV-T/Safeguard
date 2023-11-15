@@ -22,6 +22,8 @@ SgEnum = {
     Silence = 5,
     Stun = 6,
     StunMechanic = 7,
+    Fear = 8,
+    FearMechanic = 9,
   },
   NotificationType = {
     PlayerDisconnected = 1,
