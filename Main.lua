@@ -83,6 +83,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
         EnableTextNotificationsPvpFlagged = true,
         EnableTextNotificationsSpellcasts = true,
         EnableTextNotificationsExtraAttacksStored = true,
+        ForceFloatingCombatText = true,
         ShowIconsOnRaidFrames = true,
         ThresholdForCriticallyLowHealth = 0.30,
         ThresholdForLowHealth = 0.50,
@@ -104,6 +105,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (Safeguard_Settings.Options.EnableDangerousNpcAlertWindow == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlertWindow = true end
   if (Safeguard_Settings.Options.EnableDangerousNpcAlertSounds == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlertSounds = true end
   if (Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored == nil) then Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored = true end
+  if (Safeguard_Settings.Options.ForceFloatingCombatText == nil) then Safeguard_Settings.Options.ForceFloatingCombatText = true end
 
   Safeguard_DangerousNpcsWindow:Initialize()
   Safeguard_OptionWindow:Initialize()
@@ -279,6 +281,11 @@ function EM.EventHandlers.PLAYER_ENTERING_WORLD(self, isLogin, isReload)
   else
     Safeguard_PlayerStates = {}
     MessageManager:SendHeartbeatMessage()
+  end
+
+  if (Safeguard_Settings.Options.ForceFloatingCombatText and GetCVar("enableFloatingCombatText") ~= "1") then
+    print("[Safeguard] Enabling floating combat text.")
+    SetCVar("enableFloatingCombatText", 1)
   end
 end
 

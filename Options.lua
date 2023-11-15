@@ -329,6 +329,13 @@ function Safeguard_OptionWindow:Initialize()
   self.fsNotificationsAsteriskNote:SetText("*: Requires other player to have Safeguard installed.")
   yPos = yPos - 22
 
+  self.cbForceFloatingCombatText = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
+  self.cbForceFloatingCombatText:SetPoint("LEFT", self, "TOPLEFT", 10, yPos)
+  self.fsForceFloatingCombatText = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsForceFloatingCombatText:SetPoint("LEFT", self, "TOPLEFT", 40, yPos)
+  self.fsForceFloatingCombatText:SetText("Force \"Floating Combat Text\" interface option to be enabled.")
+  yPos = yPos - 22
+
   self.cbShowIconsOnRaidFrames = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
   self.cbShowIconsOnRaidFrames:SetPoint("LEFT", self, "TOPLEFT", 10, yPos)
   self.fsShowIconsOnRaidFrames = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
@@ -368,6 +375,7 @@ function Safeguard_OptionWindow:LoadOptions()
   self.cbEnableTextNotificationsLossOfControlGroup:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup)
   self.cbEnableTextNotificationsPvpFlagged:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged)
   self.cbEnableTextNotificationsExtraAttacksStored:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored)
+  self.cbForceFloatingCombatText:SetChecked(Safeguard_Settings.Options.ForceFloatingCombatText)
   self.cbShowIconsOnRaidFrames:SetChecked(Safeguard_Settings.Options.ShowIconsOnRaidFrames)
 end
 
@@ -420,6 +428,7 @@ function Safeguard_OptionWindow:SaveOptions()
   Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup = self.cbEnableTextNotificationsLossOfControlGroup:GetChecked()
   Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged = self.cbEnableTextNotificationsPvpFlagged:GetChecked()
   Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored = self.cbEnableTextNotificationsExtraAttacksStored:GetChecked()
+  Safeguard_Settings.Options.ForceFloatingCombatText = self.cbForceFloatingCombatText:GetChecked()
   Safeguard_Settings.Options.ShowIconsOnRaidFrames = self.cbShowIconsOnRaidFrames:GetChecked()
   
   if (shouldStartDangerousNpcCheckInterval) then

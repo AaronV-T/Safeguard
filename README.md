@@ -7,6 +7,8 @@ Options to alert the player when dangerous NPCs are nearby by listing them on sc
 
 Options to alert the player when their health is low by flashing the screen and playing a sound.
 
+Option to force the "Floating Combat Text" interface option to be enabled.
+
 Options to notify the player when:  
   * The player or a group member disconnects*.
   * The player or a nearby player is affected by certain threat-altering effects.
