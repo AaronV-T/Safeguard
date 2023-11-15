@@ -377,9 +377,15 @@ function Safeguard_OptionWindow:LoadOptions()
   self.cbEnableTextNotificationsExtraAttacksStored:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored)
   self.cbForceFloatingCombatText:SetChecked(Safeguard_Settings.Options.ForceFloatingCombatText)
   self.cbShowIconsOnRaidFrames:SetChecked(Safeguard_Settings.Options.ShowIconsOnRaidFrames)
+
+  self.OptionsLoaded = true
 end
 
 function Safeguard_OptionWindow:SaveOptions()
+  if (not self.OptionsLoaded) then
+    return
+  end
+
   if (self.ebLowHealthThreshold:GetNumber() < 2) then
     self.ebLowHealthThreshold:SetNumber(2)
   end
