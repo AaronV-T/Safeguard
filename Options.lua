@@ -302,15 +302,26 @@ function Safeguard_OptionWindow:Initialize()
   self.fsEnableTextNotificationsLossOfControlGroup:SetText("Party*")
   yPos = yPos - 22
 
-  self.fsEnableTextNotificationsPvpFlagged = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-  self.fsEnableTextNotificationsPvpFlagged:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
-  self.fsEnableTextNotificationsPvpFlagged:SetText("Flagged for PvP")
+  self.fsEnableTextNotificationsPvpFlaggedTitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsPvpFlaggedTitle:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.fsEnableTextNotificationsPvpFlaggedTitle:SetText("Flagged for PvP")
 
   self.cbEnableTextNotificationsPvpFlagged = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
   self.cbEnableTextNotificationsPvpFlagged:SetPoint("LEFT", self, "TOPLEFT", 280, yPos)
   self.fsEnableTextNotificationsPvpFlagged = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   self.fsEnableTextNotificationsPvpFlagged:SetPoint("LEFT", self, "TOPLEFT", 310, yPos)
   self.fsEnableTextNotificationsPvpFlagged:SetText("You")
+  yPos = yPos - 22
+
+  self.fsEnableTextNotificationsExtraAttacksStoredTitle = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsExtraAttacksStoredTitle:SetPoint("LEFT", self, "TOPLEFT", 34, yPos)
+  self.fsEnableTextNotificationsExtraAttacksStoredTitle:SetText("Extra Attacks Stored")
+
+  self.cbEnableTextNotificationsExtraAttacksStored = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
+  self.cbEnableTextNotificationsExtraAttacksStored:SetPoint("LEFT", self, "TOPLEFT", 280, yPos)
+  self.fsEnableTextNotificationsExtraAttacksStored = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsEnableTextNotificationsExtraAttacksStored:SetPoint("LEFT", self, "TOPLEFT", 310, yPos)
+  self.fsEnableTextNotificationsExtraAttacksStored:SetText("Enemies In Combat")
   yPos = yPos - 22
 
   self.fsNotificationsAsteriskNote = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
@@ -356,6 +367,7 @@ function Safeguard_OptionWindow:LoadOptions()
   self.cbEnableTextNotificationsLossOfControlSelf:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsLossOfControlSelf)
   self.cbEnableTextNotificationsLossOfControlGroup:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup)
   self.cbEnableTextNotificationsPvpFlagged:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged)
+  self.cbEnableTextNotificationsExtraAttacksStored:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored)
   self.cbShowIconsOnRaidFrames:SetChecked(Safeguard_Settings.Options.ShowIconsOnRaidFrames)
 end
 
@@ -407,6 +419,7 @@ function Safeguard_OptionWindow:SaveOptions()
   Safeguard_Settings.Options.EnableTextNotificationsLossOfControlSelf = self.cbEnableTextNotificationsLossOfControlSelf:GetChecked()
   Safeguard_Settings.Options.EnableTextNotificationsLossOfControlGroup = self.cbEnableTextNotificationsLossOfControlGroup:GetChecked()
   Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged = self.cbEnableTextNotificationsPvpFlagged:GetChecked()
+  Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored = self.cbEnableTextNotificationsExtraAttacksStored:GetChecked()
   Safeguard_Settings.Options.ShowIconsOnRaidFrames = self.cbShowIconsOnRaidFrames:GetChecked()
   
   if (shouldStartDangerousNpcCheckInterval) then

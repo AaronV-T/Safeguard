@@ -17,11 +17,12 @@ Options to notify the player when:
   * A group member is crowd controlled (e.g. stunned, silenced)*.
   * A group member is logging out*.
   * A group member goes offline.
+  * An enemy stores extra attacks (e.g. Thrash).
   
 \* Requires group member to have Safeguard installed
 
 Options to automatically send chat messages to the player's group when:
   * The player has critically low health.
   * The player casts certain spells (e.g. Hearthstone).
-  * The player is crowd controlled (e.g. stunned, silenced)
+  * The player is crowd controlled (e.g. stunned, silenced).
   * The player is logging out.

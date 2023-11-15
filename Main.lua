@@ -82,6 +82,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
         EnableTextNotificationsLowHealthGroup = true,
         EnableTextNotificationsPvpFlagged = true,
         EnableTextNotificationsSpellcasts = true,
+        EnableTextNotificationsExtraAttacksStored = true,
         ShowIconsOnRaidFrames = true,
         ThresholdForCriticallyLowHealth = 0.30,
         ThresholdForLowHealth = 0.50,
@@ -102,6 +103,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset == nil) then Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset = -8 end
   if (Safeguard_Settings.Options.EnableDangerousNpcAlertWindow == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlertWindow = true end
   if (Safeguard_Settings.Options.EnableDangerousNpcAlertSounds == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlertSounds = true end
+  if (Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored == nil) then Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored = true end
 
   Safeguard_DangerousNpcsWindow:Initialize()
   Safeguard_OptionWindow:Initialize()
@@ -511,10 +513,9 @@ function EM:Test()
   -- print(nameplateMaxDistance)
   -- --SetCVar("nameplateMaxDistance", 40) -- max is 20 in vanilla
 
-  for npcId, npc in pairs(Safeguard_NpcDatabase) do
-    if (npc.maxlevel - npc.minlevel > 5) then
-      print(npcId .. " (" .. npc.name .. "): " .. npc.minlevel .. "-" .. npc.maxlevel)
-    end
+  local targetFrame = _G["TargetFrame"]
+  for a,b in pairs(targetFrame) do
+    print(tostring(a) .. ", " .. tostring(b))
   end
 end
 

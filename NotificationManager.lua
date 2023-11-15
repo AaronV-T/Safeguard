@@ -228,6 +228,14 @@ function NM:GetNotification(playerWhoNotified, notificationType, arg1, arg2)
     return string.format("You are no longer pvp-flagged.")
   end
 
+  if (notificationType == SgEnum.NotificationType.ExtraAttacksStored) then
+    if (not Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored) then
+      return nil
+    end
+    
+    return string.format("%s has %d extra attacks stored.", arg1, arg2)
+  end
+
   print("[Safeguard] No notification for notification type " .. tostring(notificationType))
   return nil
 end
