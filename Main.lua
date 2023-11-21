@@ -343,7 +343,9 @@ function EM.EventHandlers.UNIT_HEALTH(self, unitId)
   local healthPercentage = health / maxHealth
 
   local newHealthStatus = nil
-  if (healthPercentage <= Safeguard_Settings.Options.ThresholdForCriticallyLowHealth) then
+  if (health == 0) then
+    newHealthStatus = 0
+  elseif (healthPercentage <= Safeguard_Settings.Options.ThresholdForCriticallyLowHealth) then
     newHealthStatus = 1
   elseif (healthPercentage <= Safeguard_Settings.Options.ThresholdForLowHealth) then
     newHealthStatus = 2
@@ -354,7 +356,7 @@ function EM.EventHandlers.UNIT_HEALTH(self, unitId)
   local oldHealthStatus = healthStatus[unitId]
   if (newHealthStatus == oldHealthStatus) then return end
 
-  if (newHealthStatus == 1 and health > 0) then
+  if (newHealthStatus == 1) then
     Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName(unitId), SgEnum.NotificationType.HealthCriticallyLow, math.floor(healthPercentage * 100))
 
     if (updateIsForPlayer) then
