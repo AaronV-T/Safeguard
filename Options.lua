@@ -2,10 +2,10 @@ Safeguard_OptionWindow = CreateFrame("Frame", "Safeguard Options", UIParent)
 
 function Safeguard_OptionWindow:Initialize()
   self.Header = self:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-  self.Header:SetPoint("TOPLEFT", 10, -10)
+  self.Header:SetPoint("TOPLEFT", 10, 0)
   self.Header:SetText("Safeguard Options")
   
-  local yPos = -50
+  local yPos = -35
 
   self.cbEnableChatMessages = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
   self.cbEnableChatMessages:SetPoint("LEFT", self, "TOPLEFT", 10, yPos)
@@ -333,7 +333,7 @@ function Safeguard_OptionWindow:Initialize()
   self.cbForceFloatingCombatText:SetPoint("LEFT", self, "TOPLEFT", 10, yPos)
   self.fsForceFloatingCombatText = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   self.fsForceFloatingCombatText:SetPoint("LEFT", self, "TOPLEFT", 40, yPos)
-  self.fsForceFloatingCombatText:SetText("Force \"Floating Combat Text\" interface option to be enabled.")
+  self.fsForceFloatingCombatText:SetText("Force Enable \"Floating Combat Text\" Interface Option")
   yPos = yPos - 22
 
   self.cbShowIconsOnRaidFrames = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
@@ -341,6 +341,13 @@ function Safeguard_OptionWindow:Initialize()
   self.fsShowIconsOnRaidFrames = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   self.fsShowIconsOnRaidFrames:SetPoint("LEFT", self, "TOPLEFT", 40, yPos)
   self.fsShowIconsOnRaidFrames:SetText("Show Icons on Raid Frames")
+  yPos = yPos - 22
+
+  self.cbShowPvpFlagTimerWindow = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
+  self.cbShowPvpFlagTimerWindow:SetPoint("LEFT", self, "TOPLEFT", 10, yPos)
+  self.fsShowPvpFlagTimerWindow = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsShowPvpFlagTimerWindow:SetPoint("LEFT", self, "TOPLEFT", 40, yPos)
+  self.fsShowPvpFlagTimerWindow:SetText("Show PvP Flag Timer")
   yPos = yPos - 22
 end
 
@@ -377,6 +384,7 @@ function Safeguard_OptionWindow:LoadOptions()
   self.cbEnableTextNotificationsExtraAttacksStored:SetChecked(Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored)
   self.cbForceFloatingCombatText:SetChecked(Safeguard_Settings.Options.ForceFloatingCombatText)
   self.cbShowIconsOnRaidFrames:SetChecked(Safeguard_Settings.Options.ShowIconsOnRaidFrames)
+  self.cbShowPvpFlagTimerWindow:SetChecked(Safeguard_Settings.Options.ShowPvpFlagTimerWindow)
 
   self.OptionsLoaded = true
 end
@@ -403,6 +411,7 @@ function Safeguard_OptionWindow:SaveOptions()
     Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset ~= self.ebDangerousNpcSpecialLevelOffset:GetNumber() or
     Safeguard_Settings.Options.EnableDangerousNpcAlertWindow ~= self.cbEnableDangerousNpcAlertWindow:GetChecked()
   local shouldUpdateRaidFrames = Safeguard_Settings.Options.ShowIconsOnRaidFrames ~= self.cbShowIconsOnRaidFrames:GetChecked()
+  local shouldUpdatePvpFlagTimerWindow = not Safeguard_Settings.Options.ShowPvpFlagTimerWindow and self.cbShowPvpFlagTimerWindow:GetChecked()
   
   Safeguard_Settings.Options.EnableChatMessages = self.cbEnableChatMessages:GetChecked()
   Safeguard_Settings.Options.EnableChatMessagesLogout = self.cbEnableChatMessagesLogout:GetChecked()
@@ -436,6 +445,7 @@ function Safeguard_OptionWindow:SaveOptions()
   Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored = self.cbEnableTextNotificationsExtraAttacksStored:GetChecked()
   Safeguard_Settings.Options.ForceFloatingCombatText = self.cbForceFloatingCombatText:GetChecked()
   Safeguard_Settings.Options.ShowIconsOnRaidFrames = self.cbShowIconsOnRaidFrames:GetChecked()
+  Safeguard_Settings.Options.ShowPvpFlagTimerWindow = self.cbShowPvpFlagTimerWindow:GetChecked()
   
   if (shouldStartDangerousNpcCheckInterval) then
     Safeguard_IntervalManager:CheckDangerousEnemiesInterval()
@@ -445,6 +455,7 @@ function Safeguard_OptionWindow:SaveOptions()
     Safeguard_IntervalManager.DangerousEnemiesVariables = {}
   end
   if (shouldUpdateRaidFrames) then Safeguard_RaidFramesManager:UpdateRaidFrames() end
+  if (shouldUpdatePvpFlagTimerWindow) then Safeguard_PvpFlagTimerWindow:Update() end
 end
 
 Safeguard_OptionWindow:SetScript("OnShow", function(self)

@@ -2,7 +2,7 @@
 ## Title: Safeguard
 ## Notes: Help players stay alive.
 ## Author: Tollski
-## Version: 1.1.2
+## Version: 1.1.3
 ## SavedVariables: SAFEGUARD_SETTINGS
 
 DangerousNpcsWindow.lua
@@ -15,6 +15,7 @@ NotificationManager.lua
 NpcDatabase.lua
 Options.lua
 PlayerStates.lua
+PvpFlagTimerWindow.lua
 RaidFramesManager.lua
 UnitHelperFunctions.lua
 ZoneDatabase.lua

@@ -19,7 +19,7 @@ function DNW:Initialize()
   
   DNW.HeaderFs = DNW:CreateFontString(nil, "OVERLAY", "GameFontNormal")
   DNW.HeaderFs:SetPoint("TOP", DNW, "TOP", 0, -5)
-  DNW.HeaderFs:SetText("Dangerous NPCs Nearby:")
+  DNW.HeaderFs:SetText("Safeguard - Deadly NPCs Nearby")
 
   DNW.FontStringsPool = {
     Allocated = {},
@@ -86,7 +86,7 @@ function DNW:Update(dangerousNpcsNearby)
   if (count == 0) then
     DNW:Hide()
   else
-    DNW:SetSize(200, 30 + (15 * count))
+    DNW:SetSize(210, 30 + (15 * count))
     DNW:Show()
   end
 end

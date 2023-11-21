@@ -85,6 +85,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
         EnableTextNotificationsExtraAttacksStored = true,
         ForceFloatingCombatText = true,
         ShowIconsOnRaidFrames = true,
+        ShowPvpFlagTimerWindow = false,
         ThresholdForCriticallyLowHealth = 0.30,
         ThresholdForLowHealth = 0.50,
       },
@@ -106,9 +107,11 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (Safeguard_Settings.Options.EnableDangerousNpcAlertSounds == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlertSounds = true end
   if (Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored == nil) then Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored = true end
   if (Safeguard_Settings.Options.ForceFloatingCombatText == nil) then Safeguard_Settings.Options.ForceFloatingCombatText = false end
+  if (Safeguard_Settings.Options.ShowPvpFlagTimerWindow == nil) then Safeguard_Settings.Options.ShowPvpFlagTimerWindow = false end
 
   Safeguard_DangerousNpcsWindow:Initialize()
   Safeguard_OptionWindow:Initialize()
+  Safeguard_PvpFlagTimerWindow:Initialize()
 end
 
 function EM.EventHandlers.CHAT_MSG_ADDON(self, prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID)
@@ -308,8 +311,6 @@ function EM.EventHandlers.PLAYER_FLAGS_CHANGED(self, unitId)
   local notificationType = SgEnum.NotificationType.PvpFlagged
   if (not self.PlayerFlags.Pvp) then notificationType = SgEnum.NotificationType.PvpUnflagged end
   Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), notificationType)
-  
-  --print(GetPVPTimer())
 end
 
 function EM.EventHandlers.PLAYER_LEAVING_WORLD(self)
@@ -529,10 +530,7 @@ function EM:Test()
   -- print(nameplateMaxDistance)
   -- --SetCVar("nameplateMaxDistance", 40) -- max is 20 in vanilla
 
-  local targetFrame = _G["TargetFrame"]
-  for a,b in pairs(targetFrame) do
-    print(tostring(a) .. ", " .. tostring(b))
-  end
+  
 end
 
 function EM:Debug()
