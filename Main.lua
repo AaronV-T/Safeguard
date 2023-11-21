@@ -52,6 +52,8 @@ end
 function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (addonName ~= "Safeguard") then return end
 
+  local floatingCombatTextIsEnabled = GetCVar("enableFloatingCombatText") == "1"
+
   if (type(_G["SAFEGUARD_SETTINGS"]) ~= "table") then
 		_G["SAFEGUARD_SETTINGS"] = {
       Options = {
@@ -83,7 +85,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
         EnableTextNotificationsPvpFlagged = true,
         EnableTextNotificationsSpellcasts = true,
         EnableTextNotificationsExtraAttacksStored = true,
-        ForceFloatingCombatText = true,
+        ForceFloatingCombatText = floatingCombatTextIsEnabled,
         ShowIconsOnRaidFrames = true,
         ShowPvpFlagTimerWindow = false,
         ThresholdForCriticallyLowHealth = 0.30,
@@ -106,7 +108,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (Safeguard_Settings.Options.EnableDangerousNpcAlertWindow == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlertWindow = true end
   if (Safeguard_Settings.Options.EnableDangerousNpcAlertSounds == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlertSounds = true end
   if (Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored == nil) then Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored = true end
-  if (Safeguard_Settings.Options.ForceFloatingCombatText == nil) then Safeguard_Settings.Options.ForceFloatingCombatText = false end
+  if (Safeguard_Settings.Options.ForceFloatingCombatText == nil) then Safeguard_Settings.Options.ForceFloatingCombatText = floatingCombatTextIsEnabled end
   if (Safeguard_Settings.Options.ShowPvpFlagTimerWindow == nil) then Safeguard_Settings.Options.ShowPvpFlagTimerWindow = false end
 
   Safeguard_DangerousNpcsWindow:Initialize()

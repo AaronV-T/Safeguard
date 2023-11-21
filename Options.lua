@@ -446,13 +446,17 @@ function Safeguard_OptionWindow:SaveOptions()
   Safeguard_Settings.Options.ForceFloatingCombatText = self.cbForceFloatingCombatText:GetChecked()
   Safeguard_Settings.Options.ShowIconsOnRaidFrames = self.cbShowIconsOnRaidFrames:GetChecked()
   Safeguard_Settings.Options.ShowPvpFlagTimerWindow = self.cbShowPvpFlagTimerWindow:GetChecked()
-  
+
   if (shouldStartDangerousNpcCheckInterval) then
     Safeguard_IntervalManager:CheckDangerousEnemiesInterval()
   end
   if (shouldUpdateDangerousNpcsWindow) then
     Safeguard_DangerousNpcsWindow:Update({})
     Safeguard_IntervalManager.DangerousEnemiesVariables = {}
+  end
+  if (Safeguard_Settings.Options.ForceFloatingCombatText and GetCVar("enableFloatingCombatText") ~= "1") then
+    print("[Safeguard] Enabling floating combat text.")
+    SetCVar("enableFloatingCombatText", 1)
   end
   if (shouldUpdateRaidFrames) then Safeguard_RaidFramesManager:UpdateRaidFrames() end
   if (shouldUpdatePvpFlagTimerWindow) then Safeguard_PvpFlagTimerWindow:Update() end
