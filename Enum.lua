@@ -12,6 +12,7 @@ SgEnum = {
     SpellCastStarted = 17,
     SpellCastInterrupted = 18,
     LossOfControl = 19,
+    ExtraAttacksStored = 20
   },
   LossOfControlType = {
     Unknown = 0,

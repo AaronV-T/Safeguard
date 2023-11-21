@@ -9,7 +9,7 @@ Options to alert the player when their health is low by flashing the screen and 
 
 Option to force the "Floating Combat Text" interface option to be enabled.
 
-Option to show a timer for when the player will be unflagged from PvP.
+Option to show a timer to track when the player will be unflagged from PvP.
 
 Options to notify the player when:  
   * The player or a group member disconnects.
@@ -28,3 +28,4 @@ Options to automatically send chat messages to the player's group when:
   * The player casts certain spells (e.g. Hearthstone).
   * The player is crowd controlled (e.g. stunned, silenced).
   * The player is logging out.
+  * A deadly enemy targetting the player stores extra attacks.

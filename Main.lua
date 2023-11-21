@@ -62,6 +62,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
         EnableChatMessagesLossOfControl = true,
         EnableChatMessagesLowHealth = true,
         EnableChatMessagesSpellCasts = true,
+        EnableChatMessagesExtraAttacksStored = true,
         EnableDangerousNpcAlerts = true,
         DangerousNpcNormalLevelOffset = 5,
         DangerousNpcSpecialLevelOffset = -8,
@@ -110,6 +111,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored == nil) then Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored = true end
   if (Safeguard_Settings.Options.ForceFloatingCombatText == nil) then Safeguard_Settings.Options.ForceFloatingCombatText = floatingCombatTextIsEnabled end
   if (Safeguard_Settings.Options.ShowPvpFlagTimerWindow == nil) then Safeguard_Settings.Options.ShowPvpFlagTimerWindow = false end
+  if (Safeguard_Settings.Options.EnableChatMessagesExtraAttacksStored == nil) then Safeguard_Settings.Options.EnableChatMessagesExtraAttacksStored = true end
 
   Safeguard_DangerousNpcsWindow:Initialize()
   Safeguard_OptionWindow:Initialize()
@@ -188,30 +190,13 @@ function EM.EventHandlers.COMBAT_LOG_EVENT_UNFILTERED(self)
       unitsWithExtraAttacksStored[sourceGuid] = unitsWithExtraAttacksStored[sourceGuid] + amount
     end
 
-    C_Timer.After(0.25, function() -- This is on a timer because there is no point in notifying the player if the attacks occur immediately after the enemy stores them.
-      if (unitsWithExtraAttacksStored[sourceGuid] > 0) then
-        local shouldNotify = knownHostileUnits[sourceGuid]
-
-        if (not shouldNotify) then
-          local unitId = UnitHelperFunctions.FindUnitIdByUnitGuid(sourceGuid)
-          if (unitId) then
-            local name, type, difficultyIndex, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, instanceMapId, lfgID = GetInstanceInfo()
-            if ((type == "party" or type == "raid") and not UnitIsFriend("player", unitId)) then
-              shouldNotify = true
-            else
-              local isTanking, status, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation("player", unitId)
-              if (threatpct ~= nil) then
-                shouldNotify = true
-              end
-            end
-          end
-        end
-
-        if (shouldNotify) then
-          Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), SgEnum.NotificationType.ExtraAttacksStored, sourceName, unitsWithExtraAttacksStored[sourceGuid])
-        end
-      end
-    end)
+    if (unitsWithExtraAttacksStored[sourceGuid] > 4) then
+      unitsWithExtraAttacksStored[sourceGuid] = 4
+    else
+      C_Timer.After(0.25, function() -- This is on a timer because there is no point in notifying the player if the attacks occur immediately after the enemy stores them.
+        EM:CheckToNotifyForExtraAttacks(sourceGuid, sourceName)
+      end)
+    end
   end
 
   if (combatLogHostileEvents[event]) then
@@ -457,6 +442,51 @@ EM.Frame:SetScript("OnEvent", function(_, event, ...) EM:OnEvent(_, event, ...) 
 --   return SgEnum.PlayerRelationshipType.None
 -- end
 
+function EM:CheckToNotifyForExtraAttacks(sourceGuid, sourceName)
+  if (unitsWithExtraAttacksStored[sourceGuid] > 0) then
+    local shouldNotify = knownHostileUnits[sourceGuid]
+
+    local unitId = nil
+    local isTankingEnemy = nil
+    if (not shouldNotify) then
+      unitId = UnitHelperFunctions.FindUnitIdByUnitGuid(sourceGuid)
+      if (unitId) then
+        local name, type, difficultyIndex, difficultyName, maxPlayers, dynamicDifficulty, isDynamic, instanceMapId, lfgID = GetInstanceInfo()
+        if ((type == "party" or type == "raid") and not UnitIsFriend("player", unitId)) then
+          shouldNotify = true
+        else
+          local isTanking, status, threatpct, rawthreatpct, threatvalue = UnitDetailedThreatSituation("player", unitId)
+          isTankingEnemy = isTanking
+
+          if (threatpct ~= nil) then
+            shouldNotify = true
+          end
+        end
+      end
+    end
+
+    if (shouldNotify) then
+      Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), SgEnum.NotificationType.ExtraAttacksStored, sourceName, unitsWithExtraAttacksStored[sourceGuid])
+
+      if (isTankingEnemy ~= false) then
+        if (not unitId) then unitId = UnitHelperFunctions.FindUnitIdByUnitGuid(sourceGuid) end
+        if (unitId) then
+          local classification = UnitClassification(unitId)
+          if (classification == "worldboss" or classification == "rareelite" or classification == "elite") then
+            if (isTankingEnemy == nil) then
+              isTankingEnemy = UnitDetailedThreatSituation("player", unitId)
+            end
+
+            if (isTankingEnemy) then
+              MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.ExtraAttacksStored, sourceName, unitsWithExtraAttacksStored[sourceGuid])
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
 function EM:PlaySound(soundFile)
   local normalEnableDialog = GetCVar("Sound_EnableDialog")
   local normalDialogVolume = GetCVar("Sound_DialogVolume")
@@ -532,7 +562,7 @@ function EM:Test()
   -- print(nameplateMaxDistance)
   -- --SetCVar("nameplateMaxDistance", 40) -- max is 20 in vanilla
 
-  
+  print(UnitClassification("target"))
 end
 
 function EM:Debug()

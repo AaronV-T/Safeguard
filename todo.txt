@@ -1,5 +1,3 @@
-floating combat text initial option based off user setting
-send chat message if boss with aggro has thrash stacks
 health warning bug when dead
 fix pvp flag notification bug when going afk after flying to western plaguelands (i was pvp flagged in IF before flying)
 healer mana low

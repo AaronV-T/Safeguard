@@ -105,7 +105,8 @@ function MM:SendMessageToGroup(addonMessageType, arg1, arg2)
   end
 
   if (addonMessageType == SgEnum.AddonMessageType.HealthCriticallyLow or
-      addonMessageType == SgEnum.AddonMessageType.HealthLow) then
+      addonMessageType == SgEnum.AddonMessageType.HealthLow or
+      addonMessageType == SgEnum.AddonMessageType.ExtraAttacksStored) then
     -- Other players with the addon can detect these events independently.
     return
   end
@@ -152,6 +153,10 @@ function MM:ConvertAddonMessageToChatMessage(addonMessageType, arg1, arg2)
 
   if (addonMessageType == SgEnum.AddonMessageType.SpellCastInterrupted and Safeguard_Settings.Options.EnableChatMessagesSpellCasts) then
     return string.format("My %s cast has been stopped.", arg1)
+  end
+
+  if (addonMessageType == SgEnum.AddonMessageType.ExtraAttacksStored and Safeguard_Settings.Options.EnableChatMessagesExtraAttacksStored) then
+    return string.format("%s has %d extra attacks stored.", arg1, arg2)
   end
 
   return nil
