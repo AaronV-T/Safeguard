@@ -1,5 +1,9 @@
-health warning bug when dead
+health bug while dead, resurrected
+floating combat text check interval
+bug: dangerous mob window not going away (after leveling, after hearthing)
+separate settings for normal realms vs hardcore realms
 fix pvp flag notification bug when going afk after flying to western plaguelands (i was pvp flagged in IF before flying)
+ignore disarm notification for classes that don't use melee weapons
 healer mana low
 breath warnings
 Alert if settings/keybinds change.

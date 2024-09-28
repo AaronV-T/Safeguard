@@ -1,5 +1,6 @@
 Safeguard_IntervalManager = {
   DangerousEnemiesVariables = {
+    DangerousNpcAlertsAreBroken = nil,
     DangerousNpcs = nil,
     DangerousNpcsNearby = nil,
     IntervalsSinceLastVariableUpdate = nil,
@@ -70,7 +71,27 @@ function IM:CheckDangerousEnemiesInterval()
   if (not IM.DangerousEnemiesVariables.PlayerOnTaxi and IM.DangerousEnemiesVariables.DangerousNpcs and #IM.DangerousEnemiesVariables.DangerousNpcs > 0) then
     local indexToCheck
     if (IM.DangerousEnemiesVariables.LastNpcIndexChecked == nil or IM.DangerousEnemiesVariables.LastNpcIndexChecked >= #IM.DangerousEnemiesVariables.DangerousNpcs) then
-      indexToCheck = 1
+      if (IM.DangerousEnemiesVariables.DangerousNpcAlertsAreBroken) then
+        indexToCheck = 1
+      else
+        local target = GetUnitName("target")
+        if (target) then
+          IM.DangerousEnemiesVariables.TargetWasForbidden = false
+          TargetUnit(target)
+          if (not IM.DangerousEnemiesVariables.TargetWasForbidden) then
+            IM.DangerousEnemiesVariables.DangerousNpcAlertsAreBroken = true
+            print("\124cFFFF0000[Safeguard] Dangerous NPC alerts are not working. Another addon may be blocking this functionality.")
+          end
+        end
+
+        IM.DangerousEnemiesVariables.LastNpcIndexChecked = 0
+
+        C_Timer.After(0.05, function()
+          IM:CheckDangerousEnemiesInterval()
+        end)
+
+        return
+      end
     else
       indexToCheck = IM.DangerousEnemiesVariables.LastNpcIndexChecked + 1
     end
@@ -81,6 +102,8 @@ function IM:CheckDangerousEnemiesInterval()
     TargetUnit(npc.name)
 
     if (IM.DangerousEnemiesVariables.TargetWasForbidden) then
+      IM.DangerousEnemiesVariables.DangerousNpcAlertsAreBroken = false
+      
       if (not IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name]) then
         IM.DangerousEnemiesVariables.DangerousNpcsNearby[npc.name] = npc
         Safeguard_DangerousNpcsWindow:Update(IM.DangerousEnemiesVariables.DangerousNpcsNearby)
@@ -101,7 +124,7 @@ function IM:CheckDangerousEnemiesInterval()
 
   IM.DangerousEnemiesVariables.IntervalsSinceLastVariableUpdate = IM.DangerousEnemiesVariables.IntervalsSinceLastVariableUpdate + 1
 
-  C_Timer.After(0.02, function()
+  C_Timer.After(0.05, function()
     IM:CheckDangerousEnemiesInterval()
   end)
 end

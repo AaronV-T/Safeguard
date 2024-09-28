@@ -1,8 +1,8 @@
-## Interface: 11500
+## Interface: 11504
 ## Title: Safeguard
 ## Notes: Help players stay alive.
 ## Author: Tollski
-## Version: 1.1.3
+## Version: 1.1.4
 ## SavedVariables: SAFEGUARD_SETTINGS
 
 DangerousNpcsWindow.lua

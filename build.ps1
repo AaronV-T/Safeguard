@@ -1,12 +1,3 @@
-$addonVersionLineVanilla = Select-String -Pattern "## Version" -Path ".\Safeguard_Vanilla.toc"
-$addonVersionVanilla = $addonVersionLineVanilla.ToString().Substring($addonVersionLineVanilla.ToString().LastIndexOf(" ") + 1)
-$addonVersionLineWotlk = Select-String -Pattern "## Version" -Path ".\Safeguard_Wrath.toc"
-$addonVersionWotlk = $addonVersionLineWotlk.ToString().Substring($addonVersionLineWotlk.ToString().LastIndexOf(" ") + 1)
-
-if ($addonVersionVanilla -ne $addonVersionWotlk) {
-  throw "Versions don't match in TOC files."
-}
-
 $outputDirectoryPath = ".\Deploys"
 $outputFileName = "Safeguard_$addonVersionVanilla"
 if ((git branch).IndexOf("* main") -lt 0 -or (git status --porcelain).length -ne 0) {

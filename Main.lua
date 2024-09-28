@@ -17,7 +17,7 @@ local MessageManager = Safeguard_MessageManager
 
 SLASH_SAFEGUARD1, SLASH_SAFEGUARD2 = "/safeguard", "/sg"
 function SlashCmdList.SAFEGUARD()
-  InterfaceOptionsFrame_OpenToCategory(Safeguard_OptionWindow)
+  Settings.OpenToCategory(Safeguard_OptionWindow.name)
 end
 
 SLASH_SAFEGUARDDEBUG1, SLASH_SAFEGUARDDEBUG2 = "/sasfeguarddebug", "/sgdebug"

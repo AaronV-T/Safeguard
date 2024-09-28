@@ -28,4 +28,4 @@ Options to automatically send chat messages to the player's group when:
   * The player casts certain spells (e.g. Hearthstone).
   * The player is crowd controlled (e.g. stunned, silenced).
   * The player is logging out.
-  * A deadly enemy targetting the player stores extra attacks.
+  * A deadly enemy targeting the player stores extra attacks.

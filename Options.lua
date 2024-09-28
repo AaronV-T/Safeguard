@@ -480,7 +480,9 @@ Safeguard_OptionWindow:SetScript("OnShow", function(self)
 end)    
 
 Safeguard_OptionWindow.name = "Safeguard"
-Safeguard_OptionWindow.cancel = function() Safeguard_OptionWindow:LoadOptions() end
-Safeguard_OptionWindow.default = function() print("[Safeguard] Not implemented.") end
-Safeguard_OptionWindow.okay = function() Safeguard_OptionWindow:SaveOptions() end
-InterfaceOptions_AddCategory(Safeguard_OptionWindow)
+Safeguard_OptionWindow.OnCommit = function() Safeguard_OptionWindow:SaveOptions() end
+Safeguard_OptionWindow.OnRefresh = function() Safeguard_OptionWindow:LoadOptions() end
+
+local safeguardOptionsCategory = Settings.RegisterCanvasLayoutCategory(Safeguard_OptionWindow, Safeguard_OptionWindow.name)
+safeguardOptionsCategory.ID = Safeguard_OptionWindow.name
+Settings.RegisterAddOnCategory(safeguardOptionsCategory)
