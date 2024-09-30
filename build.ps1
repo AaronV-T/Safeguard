@@ -1,3 +1,6 @@
+$addonVersionLineVanilla = Select-String -Pattern "## Version" -Path ".\Safeguard_Vanilla.toc"
+$addonVersionVanilla = $addonVersionLineVanilla.ToString().Substring($addonVersionLineVanilla.ToString().LastIndexOf(" ") + 1)
+
 $outputDirectoryPath = ".\Deploys"
 $outputFileName = "Safeguard_$addonVersionVanilla"
 if ((git branch).IndexOf("* main") -lt 0 -or (git status --porcelain).length -ne 0) {
