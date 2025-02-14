@@ -360,6 +360,13 @@ function Safeguard_OptionWindow:Initialize()
   self.fsShowPvpFlagTimerWindow:SetPoint("LEFT", self, "TOPLEFT", 40, yPos)
   self.fsShowPvpFlagTimerWindow:SetText("Show PvP Flag Timer")
   yPos = yPos - 22
+
+  self.cbInterceptErrors = CreateFrame("CheckButton", nil, self, "UICheckButtonTemplate") 
+  self.cbInterceptErrors:SetPoint("LEFT", self, "TOPLEFT", 10, yPos)
+  self.fsInterceptErrors = self:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  self.fsInterceptErrors:SetPoint("LEFT", self, "TOPLEFT", 40, yPos)
+  self.fsInterceptErrors:SetText("Intercept Safeguard Errors (Print Errors to Chat, Prevent Error Popups)")
+  yPos = yPos - 22
 end
 
 function Safeguard_OptionWindow:LoadOptions()
@@ -397,6 +404,7 @@ function Safeguard_OptionWindow:LoadOptions()
   self.cbForceFloatingCombatText:SetChecked(Safeguard_Settings.Options.ForceFloatingCombatText)
   self.cbShowIconsOnRaidFrames:SetChecked(Safeguard_Settings.Options.ShowIconsOnRaidFrames)
   self.cbShowPvpFlagTimerWindow:SetChecked(Safeguard_Settings.Options.ShowPvpFlagTimerWindow)
+  self.cbInterceptErrors:SetChecked(Safeguard_Settings.Options.InterceptErrors)
 
   self.OptionsLoaded = true
 end
@@ -459,6 +467,7 @@ function Safeguard_OptionWindow:SaveOptions()
   Safeguard_Settings.Options.ForceFloatingCombatText = self.cbForceFloatingCombatText:GetChecked()
   Safeguard_Settings.Options.ShowIconsOnRaidFrames = self.cbShowIconsOnRaidFrames:GetChecked()
   Safeguard_Settings.Options.ShowPvpFlagTimerWindow = self.cbShowPvpFlagTimerWindow:GetChecked()
+  Safeguard_Settings.Options.InterceptErrors = self.cbInterceptErrors:GetChecked()
 
   if (shouldStartDangerousNpcCheckInterval) then
     Safeguard_IntervalManager:CheckDangerousEnemiesInterval()

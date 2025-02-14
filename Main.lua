@@ -34,6 +34,18 @@ end
 
 -- *** Event Handlers ***
 
+local existingErrorHandler = geterrorhandler()
+seterrorhandler(function(message)
+  -- Note: This seems to only handle Lua errors, not the ADDON_ACTION_FORBIDDEN event.
+
+  if (Safeguard_Settings.Options.InterceptErrors and message:find("/Safeguard/")) then
+    print("\124cFFFF0000[Safeguard] Intercepted error, please report this to the addon developer:\n" .. message);
+    return
+  end
+
+  existingErrorHandler(message)
+end)
+
 function EM:OnEvent(_, event, ...)
   if self.EventHandlers[event] then
 		self.EventHandlers[event](self, ...)
@@ -44,9 +56,8 @@ function EM.EventHandlers.ADDON_ACTION_FORBIDDEN(self, addonName, functionCalled
   --print("ADDON_ACTION_FORBIDDEN. " .. addonName .. ", " .. functionCalled)
   if (addonName ~= "Safeguard") then return end
 
-  if (functionCalled == "TargetUnit()") then
-    IntervalManager.DangerousEnemiesVariables.TargetWasForbidden = true
-  end
+  --Note: We can't rely on checking if `functionCalled == "TargetUnit()"` because some other addons (e.g. Healbot) cause it to equal "UNKNOWN()" for some reason.
+  IntervalManager.DangerousEnemiesVariables.TargetWasForbidden = true
 end
 
 function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
@@ -112,6 +123,7 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (Safeguard_Settings.Options.ForceFloatingCombatText == nil) then Safeguard_Settings.Options.ForceFloatingCombatText = floatingCombatTextIsEnabled end
   if (Safeguard_Settings.Options.ShowPvpFlagTimerWindow == nil) then Safeguard_Settings.Options.ShowPvpFlagTimerWindow = false end
   if (Safeguard_Settings.Options.EnableChatMessagesExtraAttacksStored == nil) then Safeguard_Settings.Options.EnableChatMessagesExtraAttacksStored = true end
+  if (Safeguard_Settings.Options.InterceptErrors == nil) then Safeguard_Settings.Options.InterceptErrors = true end
 
   Safeguard_DangerousNpcsWindow:Initialize()
   Safeguard_OptionWindow:Initialize()
