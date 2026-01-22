@@ -52,14 +52,6 @@ function EM:OnEvent(_, event, ...)
 	end
 end
 
-function EM.EventHandlers.ADDON_ACTION_FORBIDDEN(self, addonName, functionCalled)
-  --print("ADDON_ACTION_FORBIDDEN. " .. addonName .. ", " .. functionCalled)
-  if (addonName ~= "Safeguard") then return end
-
-  --Note: We can't rely on checking if `functionCalled == "TargetUnit()"` because some other addons (e.g. Healbot) cause it to equal "UNKNOWN()" for some reason.
-  IntervalManager.DangerousEnemiesVariables.TargetWasForbidden = true
-end
-
 function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (addonName ~= "Safeguard") then return end
 
@@ -74,11 +66,6 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
         EnableChatMessagesLowHealth = true,
         EnableChatMessagesSpellCasts = true,
         EnableChatMessagesExtraAttacksStored = true,
-        EnableDangerousNpcAlerts = true,
-        DangerousNpcNormalLevelOffset = 5,
-        DangerousNpcSpecialLevelOffset = -8,
-        EnableDangerousNpcAlertWindow = true,
-        EnableDangerousNpcAlertSounds = true,
         EnableLowHealthAlerts = true,
         EnableLowHealthAlertScreenFlashing = true,
         EnableLowHealthAlertSounds = true,
@@ -114,18 +101,12 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   if (Safeguard_Settings.Options.ThresholdForCriticallyLowHealth == nil) then Safeguard_Settings.Options.ThresholdForCriticallyLowHealth = 0.30 end
   if (Safeguard_Settings.Options.ThresholdForLowHealth == nil) then Safeguard_Settings.Options.ThresholdForLowHealth = 0.50 end
   if (Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged == nil) then Safeguard_Settings.Options.EnableTextNotificationsPvpFlagged = true end
-  if (Safeguard_Settings.Options.EnableDangerousNpcAlerts == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlerts = true end
-  if (Safeguard_Settings.Options.DangerousNpcNormalLevelOffset == nil) then Safeguard_Settings.Options.DangerousNpcNormalLevelOffset = 5 end
-  if (Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset == nil) then Safeguard_Settings.Options.DangerousNpcSpecialLevelOffset = -8 end
-  if (Safeguard_Settings.Options.EnableDangerousNpcAlertWindow == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlertWindow = true end
-  if (Safeguard_Settings.Options.EnableDangerousNpcAlertSounds == nil) then Safeguard_Settings.Options.EnableDangerousNpcAlertSounds = true end
   if (Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored == nil) then Safeguard_Settings.Options.EnableTextNotificationsExtraAttacksStored = true end
   if (Safeguard_Settings.Options.ForceFloatingCombatText == nil) then Safeguard_Settings.Options.ForceFloatingCombatText = floatingCombatTextIsEnabled end
   if (Safeguard_Settings.Options.ShowPvpFlagTimerWindow == nil) then Safeguard_Settings.Options.ShowPvpFlagTimerWindow = false end
   if (Safeguard_Settings.Options.EnableChatMessagesExtraAttacksStored == nil) then Safeguard_Settings.Options.EnableChatMessagesExtraAttacksStored = true end
   if (Safeguard_Settings.Options.InterceptErrors == nil) then Safeguard_Settings.Options.InterceptErrors = true end
 
-  Safeguard_DangerousNpcsWindow:Initialize()
   Safeguard_OptionWindow:Initialize()
   Safeguard_PvpFlagTimerWindow:Initialize()
 end
@@ -286,7 +267,6 @@ function EM.EventHandlers.PLAYER_ENTERING_WORLD(self, isLogin, isReload)
     C_ChatInfo.RegisterAddonMessagePrefix(MessageManager.AddonMessagePrefix)
   
     IntervalManager:CheckCombatInterval()
-    IntervalManager:CheckDangerousEnemiesInterval()
     IntervalManager:CheckGroupConnectionsInterval()
     IntervalManager:SendHeartbeatInterval()
   else

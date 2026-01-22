@@ -3,8 +3,6 @@ This is a World of Warcaraft Classic addon to help players stay alive.
 
 ## Features
 
-Options to alert the player when dangerous NPCs are nearby by listing them on screen and playing a sound.
-
 Options to alert the player when their health is low by flashing the screen and playing a sound.
 
 Option to force the "Floating Combat Text" interface option to be enabled.
