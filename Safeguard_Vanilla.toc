@@ -1,8 +1,8 @@
-## Interface: 11506
+## Interface: 11508
 ## Title: Safeguard
 ## Notes: Help players stay alive.
 ## Author: Tollski
-## Version: 1.1.5
+## Version: 1.2.0
 ## SavedVariables: SAFEGUARD_SETTINGS
 
 Enum.lua
