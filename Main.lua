@@ -215,7 +215,7 @@ function EM.EventHandlers.GROUP_ROSTER_UPDATE(self)
 
   local playerIsInParty = UnitInParty("player")
   if (playerIsInParty and playerIsInParty ~= playerWasInParty) then
-    MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.AddonInfo, GetAddOnMetadata("Safeguard", "Version"))
+    MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.AddonInfo,  C_AddOns.GetAddOnMetadata("Safeguard", "Version"))
   end
 
   playerWasInParty = playerIsInParty
@@ -556,7 +556,8 @@ function EM:Test()
   -- print(nameplateMaxDistance)
   -- --SetCVar("nameplateMaxDistance", 40) -- max is 20 in vanilla
 
-  print(UnitClassification("target"))
+  MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.AddonInfo,  C_AddOns.GetAddOnMetadata("Safeguard", "Version"))
+  print(C_AddOns.GetAddOnMetadata("Safeguard", "Version"))
 end
 
 function EM:Debug()
