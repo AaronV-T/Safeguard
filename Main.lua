@@ -17,7 +17,7 @@ local MessageManager = Safeguard_MessageManager
 
 SLASH_SAFEGUARD1, SLASH_SAFEGUARD2 = "/safeguard", "/sg"
 function SlashCmdList.SAFEGUARD()
-  Settings.OpenToCategory(Safeguard_OptionWindow.name)
+  Settings.OpenToCategory(Safeguard_OptionWindow.categoryID)
 end
 
 SLASH_SAFEGUARDDEBUG1, SLASH_SAFEGUARDDEBUG2 = "/sasfeguarddebug", "/sgdebug"
@@ -335,7 +335,7 @@ function EM.EventHandlers.UNIT_HEALTH(self, unitId)
   local healthPercentage = health / maxHealth
 
   local newHealthStatus = nil
-  if (health == 0) then
+  if (health == 0 or UnitIsDeadOrGhost(unitId)) then
     newHealthStatus = 0
   elseif (healthPercentage <= Safeguard_Settings.Options.ThresholdForCriticallyLowHealth) then
     newHealthStatus = 1

@@ -1,5 +1,11 @@
 $addonVersionLineVanilla = Select-String -Pattern "## Version" -Path ".\Safeguard_Vanilla.toc"
 $addonVersionVanilla = $addonVersionLineVanilla.ToString().Substring($addonVersionLineVanilla.ToString().LastIndexOf(" ") + 1)
+$addonVersionLineTbc = Select-String -Pattern "## Version" -Path ".\Safeguard_TBC.toc"
+$addonVersionTbc = $addonVersionLineTbc.ToString().Substring($addonVersionLineTbc.ToString().LastIndexOf(" ") + 1)
+
+if ($addonVersionVanilla -ne $addonVersionTbc) {
+  throw "Versions don't match in TOC files."
+}
 
 $outputDirectoryPath = ".\Deploys"
 $outputFileName = "Safeguard_$addonVersionVanilla"

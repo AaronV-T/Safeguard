@@ -23,11 +23,7 @@ function RFM:UpdateRaidFrames()
   self.ARaidFrameUpdateIsQueued = false
   self.LastRaidFramesUpdateTimestamp = now
 
-  -- CompactRaidFrameContainer:ApplyToFrames("normal",
-  --   function(frame)
-  --     print(frame)
-  --   end)
-  CompactRaidFrameContainer_ApplyToFrames(CompactRaidFrameContainer, "normal", function(frame) RFM:UpdateRaidFrame(frame) end)
+  CompactRaidFrameContainer:ApplyToFrames("normal", function(frame) RFM:UpdateRaidFrame(frame) end)
 end
 
 function RFM:UpdateRaidFrame(frame)

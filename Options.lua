@@ -390,5 +390,5 @@ Safeguard_OptionWindow.OnCommit = function() Safeguard_OptionWindow:SaveOptions(
 Safeguard_OptionWindow.OnRefresh = function() Safeguard_OptionWindow:LoadOptions() end
 
 local safeguardOptionsCategory = Settings.RegisterCanvasLayoutCategory(Safeguard_OptionWindow, Safeguard_OptionWindow.name)
-safeguardOptionsCategory.ID = Safeguard_OptionWindow.name
+Safeguard_OptionWindow.categoryID = safeguardOptionsCategory:GetID()
 Settings.RegisterAddOnCategory(safeguardOptionsCategory)
