@@ -12,12 +12,18 @@ local EM = Safeguard_EventManager
 
 local IntervalManager = Safeguard_IntervalManager
 local MessageManager = Safeguard_MessageManager
+local supportsCombatLogEvents = type(CombatLogGetCurrentEventInfo) == "function"
+local isSecretValue = issecretvalue
 
 -- Slash Commands
 
 SLASH_SAFEGUARD1, SLASH_SAFEGUARD2 = "/safeguard", "/sg"
 function SlashCmdList.SAFEGUARD()
-  Settings.OpenToCategory(Safeguard_OptionWindow.categoryID)
+  if (Safeguard_OptionWindow.categoryID) then
+    Settings.OpenToCategory(Safeguard_OptionWindow.categoryID)
+  else
+    print("[Safeguard] Settings are not available yet.")
+  end
 end
 
 SLASH_SAFEGUARDDEBUG1, SLASH_SAFEGUARDDEBUG2 = "/sasfeguarddebug", "/sgdebug"
@@ -38,7 +44,7 @@ local existingErrorHandler = geterrorhandler()
 seterrorhandler(function(message)
   -- Note: This seems to only handle Lua errors, not the ADDON_ACTION_FORBIDDEN event.
 
-  if (Safeguard_Settings.Options.InterceptErrors and message:find("/Safeguard/")) then
+  if (Safeguard_Settings and Safeguard_Settings.Options and Safeguard_Settings.Options.InterceptErrors and message:find("/Safeguard/")) then
     print("\124cFFFF0000[Safeguard] Intercepted error, please report this to the addon developer:\n" .. message);
     return
   end
@@ -111,6 +117,10 @@ function EM.EventHandlers.ADDON_LOADED(self, addonName, ...)
   Safeguard_PvpFlagTimerWindow:Initialize()
 end
 
+function EM.EventHandlers.PLAYER_LOGIN(self)
+  Safeguard_OptionWindow:RegisterSettingsCategory()
+end
+
 function EM.EventHandlers.CHAT_MSG_ADDON(self, prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID)
   MessageManager:OnChatMessageAddonEvent(prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID)
 end
@@ -147,6 +157,8 @@ local knownHostileUnits = {} -- <GUID, _>
 local unitsWithExtraAttacksStored = {} -- <GUID, amount>
 
 function EM.EventHandlers.COMBAT_LOG_EVENT_UNFILTERED(self)
+  if (not supportsCombatLogEvents) then return end
+
   local timestamp, event, hideCaster, sourceGuid, sourceName, sourceFlags, sourceRaidFlags, destGuid, destName, destFlags, destRaidflags = CombatLogGetCurrentEventInfo()
   --print("COMBAT_LOG_EVENT_UNFILTERED. " .. tostring(event))
 
@@ -225,8 +237,10 @@ function EM.EventHandlers.LOSS_OF_CONTROL_ADDED(self, unitId, effectIndex)
   --print("LOSS_OF_CONTROL_ADDED." .. tostring(unitId) .. "," .. tostring(effectIndex))
 
   if (unitId ~= "player") then return end -- From what I've seen, this event only fires for the player anyway.
+  if (not C_LossOfControl or not C_LossOfControl.GetActiveLossOfControlDataByUnit) then return end
 
   local lossOfControlData = C_LossOfControl.GetActiveLossOfControlDataByUnit(unitId, effectIndex)
+  if (not lossOfControlData) then return end
   --Safeguard_HelperFunctions.PrintKeysAndValuesFromTable(lossOfControlData)
 
   local locType = SgEnum.LossOfControlType.Unknown
@@ -327,15 +341,25 @@ function EM.EventHandlers.UNIT_HEALTH(self, unitId)
   local updateIsForParty = unitId:match("party")
   if (not updateIsForPlayer and not updateIsForParty) then return end
 
+  if (UnitIsDeadOrGhost(unitId)) then
+    healthStatus[unitId] = 0
+    if (updateIsForPlayer) then Safeguard_FlashFrame:StopAnimation() end
+    return
+  end
+
   local health = UnitHealth(unitId)
   local maxHealth = UnitHealthMax(unitId)
+
+  -- WoW Forever may return opaque Secret Values for health in combat. Addons can
+  -- display those values, but cannot use them in arithmetic or threshold logic.
+  if (isSecretValue and (isSecretValue(health) or isSecretValue(maxHealth))) then return end
   
   if (maxHealth == 0) then return end
 
   local healthPercentage = health / maxHealth
 
   local newHealthStatus = nil
-  if (health == 0 or UnitIsDeadOrGhost(unitId)) then
+  if (health == 0) then
     newHealthStatus = 0
   elseif (healthPercentage <= Safeguard_Settings.Options.ThresholdForCriticallyLowHealth) then
     newHealthStatus = 1
@@ -410,14 +434,12 @@ hooksecurefunc("Quit", function()
   MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.LoggingOut)
 end)
 
-GameTooltip:HookScript("OnTooltipSetUnit", function(self)
-	
-end)
-
 -- Register each event for which we have an event handler.
 EM.Frame = CreateFrame("Frame")
 for eventName,_ in pairs(EM.EventHandlers) do
-	  EM.Frame:RegisterEvent(eventName)
+	  if (eventName ~= "COMBAT_LOG_EVENT_UNFILTERED" or supportsCombatLogEvents) then
+      EM.Frame:RegisterEvent(eventName)
+    end
 end
 EM.Frame:SetScript("OnEvent", function(_, event, ...) EM:OnEvent(_, event, ...) end)
 

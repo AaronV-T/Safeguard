@@ -6,7 +6,8 @@ Safeguard_RaidFramesManager = {
 local RFM = Safeguard_RaidFramesManager
 
 function RFM:UpdateRaidFrames()
-  if (not CompactRaidFrameContainer:IsShown()) then return end
+  local compactRaidFrameContainer = CompactRaidFrameContainer
+  if (not compactRaidFrameContainer or not compactRaidFrameContainer:IsShown() or type(compactRaidFrameContainer.ApplyToFrames) ~= "function") then return end
 
   local now = GetTime()
   if (self.LastRaidFramesUpdateTimestamp and now - self.LastRaidFramesUpdateTimestamp < 1) then
@@ -23,7 +24,7 @@ function RFM:UpdateRaidFrames()
   self.ARaidFrameUpdateIsQueued = false
   self.LastRaidFramesUpdateTimestamp = now
 
-  CompactRaidFrameContainer:ApplyToFrames("normal", function(frame) RFM:UpdateRaidFrame(frame) end)
+  compactRaidFrameContainer:ApplyToFrames("normal", function(frame) RFM:UpdateRaidFrame(frame) end)
 end
 
 function RFM:UpdateRaidFrame(frame)

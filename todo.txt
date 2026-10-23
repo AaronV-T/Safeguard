@@ -1,8 +1,14 @@
 low mana alerts + healer mana low announcements.
+separate settings per character, with configurable defaults for normal realms vs hardcore realms
+Show notice and icon when nearby player requests help.
+  Keep history of players assisted this way, and players who have assisted you.
+Tooltip show enemy attack speed and move speed.
+
+
+
 "No player named 'Charname-OldServer" is currently playing."
 Allow messages to raid.
 floating combat text check interval
-separate settings per character, with configurable defaults for normal realms vs hardcore realms
 fix pvp flag notification bug when going afk after flying to western plaguelands (i was pvp flagged in IF before flying)
 ignore disarm notification for classes that don't use melee weapons
 breath warnings
@@ -24,7 +30,6 @@ Identify dangerous quests
 Show warnings when important buffs/items missing (Power Word: Fortitude, Healthstones, seals, auras)
 Warn when using dangerous abilities in combat (aspect of the cheetah)
 Copying macros from other characters.
-Show notice and icon when nearby player requests help.
 Leash timer.
 
 

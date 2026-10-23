@@ -36,6 +36,11 @@ function PFTW:Update()
     return
   end
 
+  if (type(GetPVPTimer) ~= "function") then
+    PFTW:Hide()
+    return
+  end
+
   local pvpTimer = GetPVPTimer()
   if (pvpTimer >= 300000 or pvpTimer < 0) then
     if (PFTW:IsShown()) then

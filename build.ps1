@@ -2,8 +2,10 @@ $addonVersionLineVanilla = Select-String -Pattern "## Version" -Path ".\Safeguar
 $addonVersionVanilla = $addonVersionLineVanilla.ToString().Substring($addonVersionLineVanilla.ToString().LastIndexOf(" ") + 1)
 $addonVersionLineTbc = Select-String -Pattern "## Version" -Path ".\Safeguard_TBC.toc"
 $addonVersionTbc = $addonVersionLineTbc.ToString().Substring($addonVersionLineTbc.ToString().LastIndexOf(" ") + 1)
+$addonVersionLineForever = Select-String -Pattern "## Version" -Path ".\Safeguard_Forever.toc"
+$addonVersionForever = $addonVersionLineForever.ToString().Substring($addonVersionLineForever.ToString().LastIndexOf(" ") + 1)
 
-if ($addonVersionVanilla -ne $addonVersionTbc) {
+if ($addonVersionVanilla -ne $addonVersionTbc -or $addonVersionTbc -ne $addonVersionForever) {
   throw "Versions don't match in TOC files."
 }
 

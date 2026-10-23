@@ -389,6 +389,10 @@ Safeguard_OptionWindow.name = "Safeguard"
 Safeguard_OptionWindow.OnCommit = function() Safeguard_OptionWindow:SaveOptions() end
 Safeguard_OptionWindow.OnRefresh = function() Safeguard_OptionWindow:LoadOptions() end
 
-local safeguardOptionsCategory = Settings.RegisterCanvasLayoutCategory(Safeguard_OptionWindow, Safeguard_OptionWindow.name)
-Safeguard_OptionWindow.categoryID = safeguardOptionsCategory:GetID()
-Settings.RegisterAddOnCategory(safeguardOptionsCategory)
+function Safeguard_OptionWindow:RegisterSettingsCategory()
+  if (self.categoryID or not Settings or not Settings.RegisterCanvasLayoutCategory) then return end
+
+  local safeguardOptionsCategory = Settings.RegisterCanvasLayoutCategory(self, self.name)
+  self.categoryID = safeguardOptionsCategory.GetID and safeguardOptionsCategory:GetID() or safeguardOptionsCategory.ID
+  if (Settings.RegisterAddOnCategory) then Settings.RegisterAddOnCategory(safeguardOptionsCategory) end
+end

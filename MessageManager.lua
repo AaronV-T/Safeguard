@@ -5,6 +5,24 @@ Safeguard_MessageManager = {
 
 local MM = Safeguard_MessageManager
 
+function MM:GetPlayerFullName()
+  local playerName, playerRealm
+  if (UnitFullName) then
+    playerName, playerRealm = UnitFullName("player")
+  else
+    playerName, playerRealm = UnitName("player")
+  end
+
+  if (playerRealm and playerRealm ~= "") then return playerName .. "-" .. playerRealm end
+  return playerName
+end
+
+function MM:GetSenderPlayerName(sender)
+  local senderPlayer = strsplit("-", sender, 2)
+  if (senderPlayer == sender) then senderPlayer = strsplit(" ", sender, 2) end
+  return senderPlayer
+end
+
 function MM:OnChatMessageAddonEvent(prefix, text, channel, sender, target, zoneChannelID, localID, name, instanceID)
   if (prefix ~= self.AddonMessagePrefix) then return end
   --print("OnChatMessageAddonEvent. " .. tostring(prefix) ..  ", " .. tostring(text) ..  ", " .. tostring(channel) ..  ", " .. tostring(sender) ..  ", " .. tostring(target) ..  ", " .. tostring(zoneChannelID) ..  ", " .. tostring(localID) ..  ", " .. tostring(name) ..  ", " .. tostring(instanceID) ..  ".")
@@ -13,7 +31,7 @@ function MM:OnChatMessageAddonEvent(prefix, text, channel, sender, target, zoneC
 
   if (channel ~= "WHISPER" and channel ~= "PARTY" and channel ~= "RAID") then return end
 
-  local senderPlayer, senderRealm = strsplit("-", sender, 2)
+  local senderPlayer = self:GetSenderPlayerName(sender)
   local senderUnitId, senderGuid = UnitHelperFunctions.FindUnitIdAndGuidByUnitName(senderPlayer)
 
   if (not senderUnitId or not senderGuid) then
@@ -112,7 +130,7 @@ function MM:SendMessageToGroup(addonMessageType, arg1, arg2)
   end
 
   local target = nil
-  if (addonMessageChatType == "WHISPER") then target = UnitName("player") end
+  if (addonMessageChatType == "WHISPER") then target = self:GetPlayerFullName() end
 
   --print(string.format("%d - SendMessage: %s", time(), addonMessage))
   table.insert(Safeguard_EventManager.DebugLogs, string.format("%d - SendMessage: %s", time(), addonMessage))
