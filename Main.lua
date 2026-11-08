@@ -240,32 +240,43 @@ function EM.EventHandlers.LOSS_OF_CONTROL_ADDED(self, unitId, effectIndex)
   if (not C_LossOfControl or not C_LossOfControl.GetActiveLossOfControlDataByUnit) then return end
 
   local lossOfControlData = C_LossOfControl.GetActiveLossOfControlDataByUnit(unitId, effectIndex)
-  if (not lossOfControlData) then return end
+  if (isSecretValue and isSecretValue(lossOfControlData)) then return end
+  if (type(lossOfControlData) ~= "table") then return end
   --Safeguard_HelperFunctions.PrintKeysAndValuesFromTable(lossOfControlData)
 
+  -- Restricted effects may hide their type and duration independently. Keep a
+  -- generic crowd-control warning without comparing or sending secret values.
+  local effectType = lossOfControlData.locType
+  if (isSecretValue and isSecretValue(effectType)) then effectType = nil end
+
   local locType = SgEnum.LossOfControlType.Unknown
-  if (lossOfControlData.locType == "CONFUSE") then
+  if (effectType == "CONFUSE") then
     locType = SgEnum.LossOfControlType.Confuse
-  elseif (lossOfControlData.locType == "DISARM") then
+  elseif (effectType == "DISARM") then
     locType = SgEnum.LossOfControlType.Disarm
-  elseif (lossOfControlData.locType == "FEAR_MECHANIC") then
+  elseif (effectType == "FEAR_MECHANIC") then
     locType = SgEnum.LossOfControlType.FearMechanic
-  elseif (lossOfControlData.locType == "ROOT") then
+  elseif (effectType == "ROOT") then
     locType = SgEnum.LossOfControlType.Root
-  elseif (lossOfControlData.locType == "SCHOOL_INTERRUPT") then
+  elseif (effectType == "SCHOOL_INTERRUPT") then
     locType = SgEnum.LossOfControlType.SchoolInterrupt
-  elseif (lossOfControlData.locType == "SILENCE") then
+  elseif (effectType == "SILENCE") then
     locType = SgEnum.LossOfControlType.Silence
-  elseif (lossOfControlData.locType == "STUN") then
+  elseif (effectType == "STUN") then
     locType = SgEnum.LossOfControlType.Stun
-  elseif (lossOfControlData.locType == "STUN_MECHANIC") then
+  elseif (effectType == "STUN_MECHANIC") then
     locType = SgEnum.LossOfControlType.StunMechanic
-  else
-    table.insert(Safeguard_EventManager.DebugLogs, string.format("%d - No LossOfControlType for: %s", time(), lossOfControlData.locType))
+  elseif (type(effectType) == "string") then
+    table.insert(Safeguard_EventManager.DebugLogs, string.format("%d - No LossOfControlType for: %s", time(), effectType))
   end
 
   local timeRemaining = lossOfControlData.timeRemaining
-  if (timeRemaining ~= nil) then timeRemaining = math.floor(timeRemaining + 0.5) end
+  if (isSecretValue and isSecretValue(timeRemaining)) then timeRemaining = nil end
+  if (type(timeRemaining) == "number") then
+    timeRemaining = math.floor(timeRemaining + 0.5)
+  else
+    timeRemaining = nil
+  end
 
   Safeguard_NotificationManager:ShowNotificationToPlayer(UnitName("player"), SgEnum.NotificationType.LossOfControl, locType, timeRemaining)
   MessageManager:SendMessageToGroup(SgEnum.AddonMessageType.LossOfControl, locType, timeRemaining)
