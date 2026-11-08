@@ -2,6 +2,14 @@ UnitHelperFunctions = {}
 
 local UHF = UnitHelperFunctions
 
+local isSecretValue = issecretvalue
+
+local function IsReadableIdentity(value)
+  -- Dungeon units can have secret names/GUIDs. Check before comparing or
+  -- returning them to callers that use identities as table keys.
+  return not (isSecretValue and isSecretValue(value)) and type(value) == "string"
+end
+
 local validUnitIds = { "focus", "focuspet", "mouseover", "mouseoverpet", "pet", "player", "target", "targetpet" }
 for i = 1, 40 do
   if i <= 4 then
@@ -19,27 +27,37 @@ for i = 1, #validUnitIds do
 end
 
 function UHF.FindUnitIdAndGuidByUnitName(unitName)
+  if (not IsReadableIdentity(unitName)) then return nil, nil end
+
   for i = 1, #validUnitIds do
-    if (UnitName(validUnitIds[i]) == unitName) then
-	    return validUnitIds[i], UnitGUID(validUnitIds[i])
-	  end
+    local name = UnitName(validUnitIds[i])
+    if (IsReadableIdentity(name) and name == unitName) then
+      local guid = UnitGUID(validUnitIds[i])
+      if (IsReadableIdentity(guid)) then return validUnitIds[i], guid end
+    end
   end
 
   return nil, nil
 end
 
 function UHF.FindUnitIdByUnitGuid(unitGuid)
+  if (not IsReadableIdentity(unitGuid)) then return nil end
+
   for i = 1, #validUnitIds do
-    if UnitGUID(validUnitIds[i]) == unitGuid then return validUnitIds[i] end
+    local guid = UnitGUID(validUnitIds[i])
+    if (IsReadableIdentity(guid) and guid == unitGuid) then return validUnitIds[i] end
   end
 
   return nil
 end 
 
 function UHF.IsUnitGuidInOurPartyOrRaid(unitGuid)
+  if (not IsReadableIdentity(unitGuid)) then return false end
+
   for i = 1, #validUnitIds do
     if ((string.match(validUnitIds[i], "party") or string.match(validUnitIds[i], "raid")) and not string.match(validUnitIds[i], "target")) then
-      if (UnitGUID(validUnitIds[i]) == unitGuid) then return true end
+      local guid = UnitGUID(validUnitIds[i])
+      if (IsReadableIdentity(guid) and guid == unitGuid) then return true end
     end
   end
 
@@ -54,7 +72,11 @@ end
 
 function UHF.FindUnitNameByUnitGuid(unitGuid)
   local unitId = UHF.FindUnitIdByUnitGuid(unitGuid)
-  return UnitName(unitId)
+  if (not unitId) then return nil end
+
+  local name = UnitName(unitId)
+  if (IsReadableIdentity(name)) then return name end
+  return nil
 end
 
 function UHF.GetPossibleEnemyUnitIds()
